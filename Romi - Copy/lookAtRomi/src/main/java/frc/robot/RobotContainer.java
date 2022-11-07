@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
+import frc.robot.commands.SetArmPos;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.RomiArm;
 import frc.robot.subsystems.OnBoardIO;
 import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -28,10 +30,15 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static final Drivetrain m_drivetrain = new Drivetrain();
+  private static final RomiArm raise_arm = new RomiArm();
   private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
 
   // Assumes a gamepad plugged into channnel 0
   public static Joystick m_controller = new Joystick(0);
+
+
+
+
 
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -52,6 +59,11 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+  }
+
+  public static RomiArm getRaiseArmSub() 
+  {
+    return raise_arm;
   }
 
   /**
@@ -93,6 +105,11 @@ public class RobotContainer {
    */
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(m_drivetrain);
+  }
+
+  public Command getSetArmPosCommand()
+  {
+    return new SetArmPos(raise_arm);
   }
 
   public static Drivetrain getDriveTrainSub(){
