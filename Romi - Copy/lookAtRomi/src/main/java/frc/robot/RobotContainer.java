@@ -7,19 +7,20 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.Drive;
+import frc.robot.commands.ToggleDriveMethod;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
 import frc.robot.commands.SetArmPos;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.RomiArm;
-import frc.robot.subsystems.OnBoardIO;
-import frc.robot.subsystems.OnBoardIO.ChannelMode;
+// import frc.robot.subsystems.OnBoardIO;
+// import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,12 +32,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static final Drivetrain m_drivetrain = new Drivetrain();
   private static final RomiArm raise_arm = new RomiArm();
-  private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
+  // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
 
   // Assumes a gamepad plugged into channnel 0
-  public static Joystick m_controller = new Joystick(0);
+  public static Joystick m_lcontroller = new Joystick(0);
+  public static Joystick m_rcontroller = new Joystick(1);
+  public static JoystickButton button8 = new JoystickButton(m_lcontroller, 8);
+  public static JoystickButton button9 = new JoystickButton(m_lcontroller, 9);
 
-
+  public static boolean driveMode = false; 
 
 
 
@@ -58,7 +62,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    m_drivetrain.setDefaultCommand(new Drive(m_drivetrain));
+    
   }
 
   public static RomiArm getRaiseArmSub() 
@@ -78,16 +83,15 @@ public class RobotContainer {
     
 
     // Example of how to use the onboard IO
-    Button onboardButtonA = new Button(m_onboardIO::getButtonAPressed);
-    onboardButtonA
-        .whenActive(new PrintCommand("Button A Pressed"))
-        .whenInactive(new PrintCommand("Button A Released"));
+    button8
+     .whenPressed(new ToggleDriveMethod());
 
     // Setup SmartDashboard options
     m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
     SmartDashboard.putData(m_chooser);
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -103,9 +107,15 @@ public class RobotContainer {
    *
    * @return the command to run in teleop
    */
-  public Command getArcadeDriveCommand() {
-    return new ArcadeDrive(m_drivetrain);
+  public Command getDriveCommand() {
+    return new Drive(m_drivetrain);
   }
+
+  // public Command getTankDriveCommand()
+  // {
+  //   return new TankDrive(m_drivetrain);
+  // }
+
 
   public Command getSetArmPosCommand()
   {

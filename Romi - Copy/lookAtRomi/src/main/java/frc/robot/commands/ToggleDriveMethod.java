@@ -3,16 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
 
-public class ArcadeDrive extends CommandBase {
-  private final Drivetrain m_drivetrain;
-  private double m_xaxisSpeed;
-  private double m_zaxisRotate;
+public class ToggleDriveMethod extends CommandBase {
   //private final Supplier<Double> m_xaxisSpeedSupplier;
   //private final Supplier<Double> m_zaxisRotateSupplier;
 
@@ -24,21 +19,20 @@ public class ArcadeDrive extends CommandBase {
    * @param xaxisSpeedSupplier Lambda supplier of forward/backward speed
    * @param zaxisRotateSupplier Lambda supplier of rotational speed
    */
-  public ArcadeDrive(Drivetrain drivetrain) {
-    m_drivetrain = drivetrain;
-    m_xaxisSpeed = RobotContainer.m_controller.getRawAxis(0);
-    m_zaxisRotate = RobotContainer.m_controller.getRawAxis(1);
-    addRequirements(drivetrain);
+  public ToggleDriveMethod() {
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.arcadeDrive(-m_zaxisRotate,-m_xaxisSpeed);
+    Constants.DRIVETYPE = !Constants.DRIVETYPE;
+    System.out.println("Drivetype togged");
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +42,6 @@ public class ArcadeDrive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

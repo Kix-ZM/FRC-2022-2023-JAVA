@@ -14,7 +14,7 @@ public class SetArmPos extends CommandBase {
 
   /** Creates a new RaiseArm. */
   public SetArmPos(RomiArm arm) {
-    m_rollerAxis = RobotContainer.m_controller.getRawAxis(2);
+    m_rollerAxis = RobotContainer.m_lcontroller.getRawAxis(2);
     m_arm = arm;
     addRequirements(m_arm);
 

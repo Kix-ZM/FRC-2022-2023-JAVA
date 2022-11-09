@@ -14,4 +14,5 @@ package frc.robot;
  */
 public final class Constants {
     public static final int ARM = 2;
+    public static boolean DRIVETYPE = false;
 }
