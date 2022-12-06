@@ -4,11 +4,15 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.sensors.RomiGyro;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+// import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
@@ -17,8 +21,16 @@ public class Drivetrain extends SubsystemBase {
 
   // The Romi has the left and right motors set to
   // PWM channels 0 and 1 respectively
-  private final Spark m_leftMotor = new Spark(0);
-  private final Spark m_rightMotor = new Spark(1);
+  // private final Spark m_leftMotor = new Spark(0);
+  //private final Spark m_rightMotor = new Spark(1);
+
+  private final CANSparkMax m_flMotor = new CANSparkMax(4, MotorType.kBrushless);
+  private final CANSparkMax m_blMotor = new CANSparkMax(3, MotorType.kBrushless);
+  MotorControllerGroup m_left = new MotorControllerGroup(m_flMotor, m_blMotor);
+  
+  private final CANSparkMax m_frMotor = new CANSparkMax(2, MotorType.kBrushless);
+  private final CANSparkMax m_brMotor = new CANSparkMax(1, MotorType.kBrushless);
+  MotorControllerGroup m_right = new MotorControllerGroup(m_frMotor, m_brMotor);
 
   // The Romi has onboard encoders that are hardcoded
   // to use DIO pins 4/5 and 6/7 for the left and right
@@ -26,7 +38,7 @@ public class Drivetrain extends SubsystemBase {
   private final Encoder m_rightEncoder = new Encoder(6, 7);
 
   // Set up the differential drive controller
-  private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_leftMotor, m_rightMotor);
+  private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
 
   // Set up the RomiGyro
   private final RomiGyro m_gyro = new RomiGyro();
@@ -39,7 +51,8 @@ public class Drivetrain extends SubsystemBase {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
-    m_rightMotor.setInverted(true);
+    m_brMotor.setInverted(true);
+    m_frMotor.setInverted(true);
 
     // Use inches as unit for encoder distances
     m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);

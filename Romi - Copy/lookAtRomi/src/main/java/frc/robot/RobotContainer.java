@@ -29,7 +29,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static final Drivetrain m_drivetrain = new Drivetrain();
   private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
-
   // Assumes a gamepad plugged into channnel 0
   public static Joystick m_controller = new Joystick(0);
 
