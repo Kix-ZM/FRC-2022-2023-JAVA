@@ -11,7 +11,7 @@ import frc.robot.commands.Drive;
 import frc.robot.commands.ToggleDriveMethod;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
-import frc.robot.commands.SetArmPos;
+import frc.robot.commands.SetAllArmPos;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.RomiArm;
 // import frc.robot.subsystems.OnBoardIO;
@@ -119,7 +119,7 @@ public class RobotContainer {
 
   public Command getSetArmPosCommand()
   {
-    return new SetArmPos(raise_arm);
+    return new SetAllArmPos(raise_arm);
   }
 
   public static Drivetrain getDriveTrainSub(){

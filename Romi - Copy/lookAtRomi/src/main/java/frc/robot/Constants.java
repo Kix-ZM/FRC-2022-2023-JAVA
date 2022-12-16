@@ -13,6 +13,9 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final int ARM = 2;
+    public static final int RAISE_ID = 2;
+    public static final int PIVOT_ID = 3;
+    public static final int GRAB_ID = 4;
     public static boolean DRIVETYPE = false;
+    public static double DRIVESCALAR = .5;
 }

@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     m_robotContainer.getDriveCommand().schedule();
-    // m_robotContainer.getSetArmPosCommand().schedule();
+    m_robotContainer.getSetArmPosCommand().schedule();
 
   }
 

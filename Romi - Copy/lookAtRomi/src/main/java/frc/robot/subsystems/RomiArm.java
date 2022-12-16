@@ -10,31 +10,45 @@ import frc.robot.Constants;
 
 public class RomiArm extends SubsystemBase {
 
-  private final Servo m_arm = new Servo(Constants.ARM);
-  private double m_liftPos;
+  private final Servo raise_arm = new Servo(Constants.RAISE_ID);
+  private final Servo pivot_arm = new Servo(Constants.PIVOT_ID);
+  private final Servo grab_arm = new Servo(Constants.GRAB_ID);
+  private double raise_pos;
+  private double pivot_pos;
+  private double grab_pos;
+
 
   /** Creates a new RomiArm. */
   public RomiArm() {
-    m_arm.setBounds(1900, 1700, 1450, 1200, 1000);
+    raise_arm.setBounds(1900, 1700, 1450, 1200, 1000);
+    pivot_arm.setBounds(1900, 1700, 1450, 1200, 1200);
+    grab_arm.setBounds(2400, 1700, 1450, 1200, 500);
+
+
+    
     reset();
   }
 
   public void reset() {
-    m_liftPos = 0.5;
+    raise_pos = 0.25;
+    pivot_pos = 0.25;
+    grab_pos = 0.25;
 
-    m_arm.set(m_liftPos);
+    raise_arm.set(raise_pos);
+    pivot_arm.set(raise_pos);
+    grab_arm.set(1);
   }
 
   public void incrementArm(double delta) {
     /* Spec: https://www.pololu.com/docs/0J76/4
      * Range should be 1000 (raised) - 1900 (lowered) us 
      */
-    m_liftPos = saturateLimit(m_liftPos + delta, 0 ,.45); 
-    m_arm.set(m_liftPos);
+    raise_pos = saturateLimit(raise_pos + delta, 0 ,.45); 
+    raise_arm.set(raise_pos);
   }
 
   public double get_armPos() {
-    return m_liftPos;
+    return raise_pos;
   }
 
   public double saturateLimit(double val, double l_limit, double u_limit) {
@@ -48,12 +62,25 @@ public class RomiArm extends SubsystemBase {
   }
 
   public double getArmAngle(){
-    return m_arm.getAngle();
+    return raise_arm.getAngle();
   }
   
-public void set_armPos(double pos)
+public void set_raise_armPos(double pos)
 {
-    m_arm.set(0.3);
+  raise_pos = pos;
+  raise_arm.set(pos);
+}
+
+public void set_pivot_armPos(double pos)
+{
+  pivot_pos = pos;
+  pivot_arm.set(pos);
+}
+
+public void set_grab_armPos(double pos)
+{
+  grab_pos = pos;
+  grab_arm.set(pos);
 }
 
   @Override

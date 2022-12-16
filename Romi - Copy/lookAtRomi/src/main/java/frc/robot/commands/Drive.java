@@ -46,10 +46,10 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     if (Constants.DRIVETYPE){    
-      m_drivetrain.arcadeDrive(-axis1,-axis2);
+      m_drivetrain.arcadeDrive(-Constants.DRIVESCALAR*axis1,-Constants.DRIVESCALAR*axis2);
     }
     else{
-      m_drivetrain.tankDrive(-axis1,-axis2);
+      m_drivetrain.tankDrive(-Constants.DRIVESCALAR*axis1,-Constants.DRIVESCALAR*axis2);
     }
   }
 
