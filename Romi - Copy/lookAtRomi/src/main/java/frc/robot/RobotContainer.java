@@ -12,6 +12,7 @@ import frc.robot.commands.ToggleDriveMethod;
 import frc.robot.commands.AutonomousDistance;
 import frc.robot.commands.AutonomousTime;
 import frc.robot.commands.SetAllArmPos;
+import frc.robot.commands.ToggleClaw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.RomiArm;
 // import frc.robot.subsystems.OnBoardIO;
@@ -31,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static final Drivetrain m_drivetrain = new Drivetrain();
-  private static final RomiArm raise_arm = new RomiArm();
+  private static final RomiArm arm_sub = new RomiArm();
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
 
   // Assumes a gamepad plugged into channnel 0
@@ -68,7 +69,7 @@ public class RobotContainer {
 
   public static RomiArm getRaiseArmSub() 
   {
-    return raise_arm;
+    return arm_sub;
   }
 
   /**
@@ -85,6 +86,9 @@ public class RobotContainer {
     // Example of how to use the onboard IO
     button8
      .whenPressed(new ToggleDriveMethod());
+
+    button9
+      .whenPressed(new ToggleClaw(arm_sub));
 
     // Setup SmartDashboard options
     m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
@@ -119,7 +123,7 @@ public class RobotContainer {
 
   public Command getSetArmPosCommand()
   {
-    return new SetAllArmPos(raise_arm);
+    return new SetAllArmPos(arm_sub);
   }
 
   public static Drivetrain getDriveTrainSub(){
