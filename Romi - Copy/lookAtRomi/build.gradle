@@ -34,10 +34,10 @@ wpi.sim.addDriverstation()
 
 //Sets the websocket client remote host.
 //wireless
-wpi.sim.envVar("HALSIMWS_HOST", "10.0.0.2")
+// wpi.sim.envVar("HALSIMWS_HOST", "10.0.0.2")
 
 //wired
-// wpi.sim.envVar("HALSIMWS_HOST", "192.168.0.2")
+wpi.sim.envVar("HALSIMWS_HOST", "192.168.0.2")
 
 wpi.sim.addWebsocketsServer().defaultEnabled = true
 wpi.sim.addWebsocketsClient().defaultEnabled = true

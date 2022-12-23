@@ -40,6 +40,7 @@ public class RobotContainer {
   public static Joystick m_rcontroller = new Joystick(1);
   public static JoystickButton button8 = new JoystickButton(m_lcontroller, 8);
   public static JoystickButton button9 = new JoystickButton(m_lcontroller, 9);
+  public static JoystickButton rTrigger = new JoystickButton(m_rcontroller, 1);
 
   public static boolean driveMode = false; 
 
@@ -87,7 +88,7 @@ public class RobotContainer {
     button8
      .whenPressed(new ToggleDriveMethod());
 
-    button9
+    rTrigger
       .whenPressed(new ToggleClaw(arm_sub));
 
     // Setup SmartDashboard options

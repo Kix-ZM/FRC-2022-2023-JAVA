@@ -31,7 +31,7 @@ public class SetAllArmPos extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {    
-    arm_sub.set_raise_armPos((l_rollerAxis+1)/4);
+    arm_sub.set_raise_armPos((l_rollerAxis+1)/4+.25);
     arm_sub.set_pivot_armPos((r_rollerAxis+1)/4+.5);
 
   }
