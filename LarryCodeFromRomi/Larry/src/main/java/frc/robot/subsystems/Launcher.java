@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import frc.robot.Constants;
+//import frc.robot.Constants;
 
 //import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 //import edu.wpi.first.wpilibj.Encoder;
@@ -30,8 +30,8 @@ public class Launcher {
         launcher.set(0);
     }
 
-    public void launch() {
-        launcher.set(Constants.SPEED);
+    public void launch(double speed) {
+        launcher.set(speed);
     }
 
     public void end(boolean interrupted) {

@@ -38,7 +38,7 @@ public class LauncherCMD extends CommandBase {
   @Override
   public void execute() {
     if(RobotContainer.m_fireButton.get())
-      m_launcher.launch();
+      m_launcher.launch(RobotContainer.m_controller.getZ());
   }
 
   // Called once the command ends or is interrupted.
