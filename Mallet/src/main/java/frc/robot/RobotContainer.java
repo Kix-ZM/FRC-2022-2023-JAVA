@@ -35,7 +35,10 @@ public class RobotContainer {
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
   // Assumes a gamepad plugged into channnel 0
   public static Joystick m_controller = new Joystick(0);
+  public static Joystick m_controllerOther = new Joystick(1);
   public static JoystickButton m_fireButton = new JoystickButton(m_controller, 1);
+  public static JoystickButton m_forwardButton = new JoystickButton(m_controllerOther, 2);
+  public static JoystickButton m_backButton = new JoystickButton(m_controllerOther, 3);
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 

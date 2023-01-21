@@ -16,4 +16,5 @@ public final class Constants {
     public static final double SPEED = 0.25;
     public static final double kCountsPerRevolution = 4096.0;
     public static final double kWheelDiameterInch = 6; // 70 mm
+    public static final double tSpeed = 0.25;
 }
