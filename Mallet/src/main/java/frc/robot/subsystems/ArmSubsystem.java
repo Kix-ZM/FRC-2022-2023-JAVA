@@ -10,7 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
-import edu.wpi.first.wpilibj.DigitalInput;
+// import edu.wpi.first.wpilibj.DigitalInput;
 // import edu.wpi.first.wpilibj.Encoder;
 // import frc.robot.sensors.RomiGyro;
 // import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -25,9 +25,9 @@ public class ArmSubsystem extends SubsystemBase {
   // private final Spark m_leftMotor = new Spark(0);
   //private final Spark m_rightMotor = new Spark(1);
 
-  private final CANSparkMax CAMMotor = new CANSparkMax(6, MotorType.kBrushed);
-  private final CANSparkMax armMotor = new CANSparkMax(5, MotorType.kBrushed);
-  private DigitalInput limit = new DigitalInput(0);
+  // private final CANSparkMax CAMMotor = new CANSparkMax(6, MotorType.kBrushless);
+  private final CANSparkMax armMotor = new CANSparkMax(5, MotorType.kBrushless);
+  // private DigitalInput limit = new DigitalInput(0);
 
   /** Creates a new Drivetrain. */
   public ArmSubsystem() {
@@ -45,20 +45,27 @@ public class ArmSubsystem extends SubsystemBase {
 
   // turns arm
   public void turnArm(boolean fBtn, boolean bBtn) {
-    if(fBtn!=bBtn&&(fBtn||bBtn))
-      armMotor.set(Constants.tSpeed);
+    if(fBtn!=bBtn&&(fBtn||bBtn)){
+      if(fBtn)
+        armMotor.set(-Constants.tSpeed);
+      else
+        armMotor.set(Constants.tSpeed);
+    }
+    else{
+      armMotor.set(0.0);
+    }
   }
 
   // shifts arm up and down
-  public void shiftArm(double shiftSpeed, boolean tgrCheck) {
+  /*public void shiftArm(double shiftSpeed, boolean tgrCheck) {
     if(!limit.get()&&tgrCheck){CAMMotor.set(shiftSpeed);}
     else if(limit.get()){CAMMotor.set(Math.abs(shiftSpeed));}
-  }
+  }*/
 
   // FOr when the time calls for it, run this
   public void stopMotors(){
     armMotor.set(0);
-    CAMMotor.set(0);
+    // CAMMotor.set(0);
   }
 
   @Override

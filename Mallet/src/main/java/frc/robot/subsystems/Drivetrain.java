@@ -26,12 +26,12 @@ public class Drivetrain extends SubsystemBase {
   // private final Spark m_leftMotor = new Spark(0);
   //private final Spark m_rightMotor = new Spark(1);
 
-  private final CANSparkMax m_flMotor = new CANSparkMax(4, MotorType.kBrushless);
-  private final CANSparkMax m_blMotor = new CANSparkMax(3, MotorType.kBrushless);
+  private final CANSparkMax m_flMotor = new CANSparkMax(3, MotorType.kBrushless);
+  private final CANSparkMax m_blMotor = new CANSparkMax(4, MotorType.kBrushless);
   MotorControllerGroup m_left = new MotorControllerGroup(m_flMotor, m_blMotor);
   
-  private final CANSparkMax m_frMotor = new CANSparkMax(2, MotorType.kBrushless);
-  private final CANSparkMax m_brMotor = new CANSparkMax(1, MotorType.kBrushless);
+  private final CANSparkMax m_frMotor = new CANSparkMax(1, MotorType.kBrushless);
+  private final CANSparkMax m_brMotor = new CANSparkMax(2, MotorType.kBrushless);
   MotorControllerGroup m_right = new MotorControllerGroup(m_frMotor, m_brMotor);
   
   // The Romi has onboard encoders that are hardcoded

@@ -15,8 +15,8 @@ public class ArmCommand extends CommandBase {
   private final ArmSubsystem m_armSub;
   private boolean m_backwardArm;
   private boolean m_forwardArm;
-  private double  m_CAMSpeed;
-  private boolean m_triggerCheck;
+  // private double  m_CAMSpeed;
+  // private boolean m_triggerCheck;
   //private final Supplier<Double> m_xaxisSpeedSupplier;
   //private final Supplier<Double> m_zaxisRotateSupplier;
 
@@ -32,8 +32,8 @@ public class ArmCommand extends CommandBase {
     m_armSub = armSub;
     m_forwardArm = RobotContainer.m_controllerOther.getRawButton(2);
     m_backwardArm = RobotContainer.m_controllerOther.getRawButton(3);
-    m_CAMSpeed = RobotContainer.m_controllerOther.getRawAxis(0);
-    m_triggerCheck = RobotContainer.m_controllerOther.getTrigger();
+    // m_CAMSpeed = RobotContainer.m_controllerOther.getRawAxis(0);
+    // m_triggerCheck = RobotContainer.m_controllerOther.getTrigger();
     addRequirements(armSub);
   }
 
@@ -47,7 +47,7 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
     m_armSub.turnArm(m_forwardArm,m_backwardArm);
-    m_armSub.shiftArm(m_CAMSpeed, m_triggerCheck);
+    //m_armSub.shiftArm(m_CAMSpeed, m_triggerCheck);
     //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
   }
 
