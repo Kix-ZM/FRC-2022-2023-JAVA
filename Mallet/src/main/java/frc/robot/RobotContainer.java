@@ -8,13 +8,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.ArmCommand;
-import frc.robot.commands.LauncherCMD;
-import frc.robot.subsystems.ArmSubsystem;
+// import frc.robot.commands.LauncherCMD;
 // import frc.robot.commands.AutonomousDistance;
 // import frc.robot.commands.AutonomousTime;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Launcher;
+// import frc.robot.subsystems.Launcher;
 // import frc.robot.subsystems.OnBoardIO;
 // import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -23,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.PrintCommand;
 // import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -33,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static final Drivetrain m_drivetrain = new Drivetrain();
-  private static final Launcher m_launcher = new Launcher();
+  // private static final Launcher m_launcher = new Launcher();
   private static final ArmSubsystem m_armSub = new ArmSubsystem();
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
   // Assumes a gamepad plugged into channnel 0
@@ -103,9 +103,7 @@ public class RobotContainer {
     return new ArcadeDrive(m_drivetrain);
   }
 
-  public Command getLauncherCMD(){
-    return new LauncherCMD(m_launcher);
-  }
+  
 
   public Command getArmCommand(){
     return new ArmCommand(m_armSub);
