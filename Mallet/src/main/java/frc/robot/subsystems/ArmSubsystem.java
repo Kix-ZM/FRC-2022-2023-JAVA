@@ -25,8 +25,8 @@ public class ArmSubsystem extends SubsystemBase {
   // private final Spark m_leftMotor = new Spark(0);
   //private final Spark m_rightMotor = new Spark(1);
 
-  private final CANSparkMax CAMMotor = new CANSparkMax(5, MotorType.kBrushed);
-  private final CANSparkMax armMotor = new CANSparkMax(6, MotorType.kBrushed);
+  private final CANSparkMax CAMMotor = new CANSparkMax(6, MotorType.kBrushed);
+  private final CANSparkMax armMotor = new CANSparkMax(5, MotorType.kBrushed);
   private DigitalInput limit = new DigitalInput(0);
 
   /** Creates a new Drivetrain. */
