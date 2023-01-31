@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArcadeDrive;
 // import frc.robot.commands.LauncherCMD;
 // import frc.robot.commands.AutonomousDistance;
 // import frc.robot.commands.AutonomousTime;
@@ -33,10 +32,12 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static final Drivetrain m_drivetrain = new Drivetrain();
+  private static final CameraSub m_camSub = new CameraSub();
   // private static final Launcher m_launcher = new Launcher();
   private static final ArmSubsystem m_armSub = new ArmSubsystem();
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
   // Assumes a gamepad plugged into channnel 0
+
   public static Joystick m_controller = new Joystick(0);
   public static Joystick m_controllerOther = new Joystick(1);
   public static JoystickButton m_fireButton = new JoystickButton(m_controller, 1);
@@ -103,7 +104,9 @@ public class RobotContainer {
     return new ArcadeDrive(m_drivetrain);
   }
 
-  
+  public Command getCameraCommand(){
+    return new CameraCMD(m_camSub);
+  }
 
   public Command getArmCommand(){
     return new ArmCommand(m_armSub);
