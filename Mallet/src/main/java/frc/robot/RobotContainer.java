@@ -111,10 +111,6 @@ public class RobotContainer {
     return new ArmCommand(m_armSub);
   }
 
-  public Command getGyroCommand(){
-    return new GyroCommand(m_gyro);
-  }
-
   public static Drivetrain getDriveTrainSub(){
     return m_drivetrain;
   }
