@@ -37,8 +37,10 @@ public class LauncherCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(RobotContainer.m_fireButton.getAsBoolean())
+    if(RobotContainer.m_controller.getTrigger())
       m_launcher.launch(RobotContainer.m_controller.getZ());
+    else
+      m_launcher.stop();
   }
 
   // Called once the command ends or is interrupted.

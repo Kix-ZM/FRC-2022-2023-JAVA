@@ -43,7 +43,7 @@ public class Drivetrain extends SubsystemBase {
 
   // Set up the differential drive controller
   // private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
-  private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_brMotor, m_frMotor);
+  private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
 
 
   // Set up the RomiGyro
@@ -60,7 +60,7 @@ public class Drivetrain extends SubsystemBase {
     m_brMotor.setInverted(true);
     m_frMotor.setInverted(true);
 
-    m_brMotor.restoreFactoryDefaults();
+    // m_brMotor.restoreFactoryDefaults();
 
     // Use inches as unit for encoder distances
     // m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
@@ -70,7 +70,7 @@ public class Drivetrain extends SubsystemBase {
     m_leftBackEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
     m_rightBackEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
     
-    resetEncoders();
+    // resetEncoders();
   }
 
   //testing single motor
@@ -79,7 +79,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-    m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
+    m_diffDrive.arcadeDrive(-xaxisSpeed,-zaxisRotate);
   }
 
   public void resetEncoders() {
