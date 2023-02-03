@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 //import frc.robot.Constants;
 
+import frc.robot.Constants;
+
 //import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 //import edu.wpi.first.wpilibj.Encoder;
 //import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -30,8 +32,8 @@ public class Launcher {
         launcher.set(0);
     }
 
-    public void launch(double speed) {
-        launcher.set(speed);
+    public void launch() {
+        launcher.set(Constants.FIRE_SPEED);
     }
 
     public void end(boolean interrupted) {

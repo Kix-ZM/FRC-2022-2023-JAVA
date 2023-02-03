@@ -14,6 +14,7 @@ package frc.robot;
  */
 public final class Constants {
     public static final double SPEED = 0.25;
+    public static final double FIRE_SPEED = 0.7; 
     public static final double kCountsPerRevolution = 4096.0;
     public static final double kWheelDiameterInch = 6; // 70 mm
 }
