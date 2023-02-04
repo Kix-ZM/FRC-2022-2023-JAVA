@@ -44,8 +44,7 @@ public class RobotContainer {
   public static JoystickButton m_fireButton = new JoystickButton(m_controller, 1);
   public static JoystickButton m_forwardButton = new JoystickButton(m_controllerOther, 2);
   public static JoystickButton m_backButton = new JoystickButton(m_controllerOther, 3);
-  public static JoystickButton m_resetEncoderButton = new JoystickButton(m_controllerOther, 11);
-  public static Trigger m_resetEncoderTrigger = new Trigger(m_resetEncoderButton);
+  public static Trigger m_resetEncoderTrigger = new JoystickButton(m_controllerOther, 11);
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -64,7 +63,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    // m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
   }
 
   /**
