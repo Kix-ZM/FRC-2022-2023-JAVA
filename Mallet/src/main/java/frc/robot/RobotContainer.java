@@ -63,6 +63,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    m_gyro.calibrate();
   }
 
   /**
