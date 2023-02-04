@@ -16,7 +16,7 @@ public class AutoDrive extends CommandBase{
     public void initialize(){}
     public void execute(){
         if(m_Drivetrain.getAverageDistanceInch()< m_distance){
-            m_Drivetrain.arcadeDrive(Constants.SPEED, 0);
+            m_Drivetrain.arcadeDrive(0.1, 0);
         }else{
             finishStatus = true;
         }

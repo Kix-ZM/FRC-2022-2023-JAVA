@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArcadeDrive;
 // import frc.robot.commands.LauncherCMD;
 // import frc.robot.commands.AutonomousDistance;
 // import frc.robot.commands.AutonomousTime;
@@ -22,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.PrintCommand;
 // import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -44,6 +44,8 @@ public class RobotContainer {
   public static JoystickButton m_fireButton = new JoystickButton(m_controller, 1);
   public static JoystickButton m_forwardButton = new JoystickButton(m_controllerOther, 2);
   public static JoystickButton m_backButton = new JoystickButton(m_controllerOther, 3);
+  public static JoystickButton m_resetEncoderButton = new JoystickButton(m_controllerOther, 11);
+  public static Trigger m_resetEncoderTrigger = new Trigger(m_resetEncoderButton);
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -72,6 +74,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    m_resetEncoderTrigger.onTrue(getResetEncodersCommand());
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
     
@@ -105,7 +108,13 @@ public class RobotContainer {
     return new ArcadeDrive(m_drivetrain);
   }
 
+  public Command getResetEncodersCommand(){
+    return new ResetEncoders(getDriveTrainSub());
+  }
   
+  public Command getAutoDriveCommand(){
+    return new AutoDrive(getDriveTrainSub(), 3*Constants.ticksPerMeter);
+  }
 
   public Command getArmCommand(){
     return new ArmCommand(m_armSub);
