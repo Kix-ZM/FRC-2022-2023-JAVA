@@ -16,7 +16,7 @@ import frc.robot.subsystems.Drivetrain;
 // import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.PrintCommand;
 // import edu.wpi.first.wpilibj2.command.button.Button;
@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -36,7 +37,7 @@ public class RobotContainer {
   private static final Drivetrain m_drivetrain = new Drivetrain();
   // private static final Launcher m_launcher = new Launcher();
   private static final ArmSubsystem m_armSub = new ArmSubsystem();
-  private static final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+ // private static final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
   // Assumes a gamepad plugged into channnel 0
   public static Joystick m_controller = new Joystick(0);
@@ -108,11 +109,11 @@ public class RobotContainer {
   }
 
   public Command getResetEncodersCommand(){
-    return new ResetEncoders(getDriveTrainSub());
+    return new ResetEncoders(m_drivetrain);
   }
   
   public Command getAutoDriveCommand(){
-    return new AutoDrive(getDriveTrainSub(), 3*Constants.ticksPerMeter);
+    return new AutoDrive(m_drivetrain);
   }
 
   public Command getArmCommand(){

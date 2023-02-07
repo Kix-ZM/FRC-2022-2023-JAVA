@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AutoDrive extends CommandBase{
     private boolean finishStatus = false;
     private Drivetrain m_Drivetrain;
-    private double m_distance;
     double forward =  Constants.forward_feet;
     double backward = Constants.backward_feet;
     private boolean isForwards = true;
