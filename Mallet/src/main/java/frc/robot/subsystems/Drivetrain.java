@@ -60,8 +60,6 @@ public class Drivetrain extends SubsystemBase {
     m_brMotor.setInverted(true);
     m_frMotor.setInverted(true);
 
-    m_brMotor.restoreFactoryDefaults();
-
     // Use inches as unit for encoder distances
     // m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
     // m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
@@ -130,11 +128,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftAverageDistanceInch(){
-    return (getLeftDistanceInch() + getLeftBackDistanceInch()) / 2.0;
+    return (Math.abs(getLeftDistanceInch()) + Math.abs(getLeftBackDistanceInch())) / 2.0;
   }
 
   public double getRightAverageDistanceInch(){
-    return (getRightDistanceInch() + getRightBackDistanceInch()) / 2.0;
+    return (Math.abs(getRightDistanceInch()) + Math.abs(getRightBackDistanceInch())) / 2.0;
   }
 
   public double getAverageDistanceInch() {

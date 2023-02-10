@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArcadeDrive;
 // import frc.robot.commands.LauncherCMD;
 // import frc.robot.commands.AutonomousDistance;
 // import frc.robot.commands.AutonomousTime;
@@ -17,13 +16,15 @@ import frc.robot.subsystems.Drivetrain;
 // import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.PrintCommand;
 // import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -36,7 +37,7 @@ public class RobotContainer {
   private static final Drivetrain m_drivetrain = new Drivetrain();
   // private static final Launcher m_launcher = new Launcher();
   private static final ArmSubsystem m_armSub = new ArmSubsystem();
-  private static final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
+ // private static final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
   // Assumes a gamepad plugged into channnel 0
   public static Joystick m_controller = new Joystick(0);
@@ -44,6 +45,7 @@ public class RobotContainer {
   public static JoystickButton m_fireButton = new JoystickButton(m_controller, 1);
   public static JoystickButton m_forwardButton = new JoystickButton(m_controllerOther, 2);
   public static JoystickButton m_backButton = new JoystickButton(m_controllerOther, 3);
+  public static Trigger m_resetEncoderTrigger = new JoystickButton(m_controllerOther, 11);
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -62,8 +64,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
-    m_gyro.calibrate();
+    // m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
   }
 
   /**
@@ -73,6 +74,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    m_resetEncoderTrigger.onTrue(getResetEncodersCommand());
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
     
@@ -106,7 +108,13 @@ public class RobotContainer {
     return new ArcadeDrive(m_drivetrain);
   }
 
+  public Command getResetEncodersCommand(){
+    return new ResetEncoders(m_drivetrain);
+  }
   
+  public Command getAutoDriveCommand(){
+    return new AutoDrive(m_drivetrain);
+  }
 
   public Command getArmCommand(){
     return new ArmCommand(m_armSub);
