@@ -19,6 +19,7 @@ public final class Constants {
     public static final double tSpeed = 0.20;
     public static final double ticksPerMeter = 133.285034;
     public static final double ticksPerFeet = 40.964489;
-    public static final double forward_feet = 17.666666;
-    public static final double backward_feet = 6.572500;
+    public static final double forward_feet = 17 * ticksPerFeet;//17.666666
+    public static final double backward_feet = 6 * ticksPerFeet;//6.572500
+    public static boolean isAutoRun = true;
 }

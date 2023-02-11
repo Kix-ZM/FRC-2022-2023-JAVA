@@ -57,17 +57,17 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     // Get selected routine from the SmartDashboard
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_robotContainer.getAutoDriveCommand().schedule();
-      // m_autonomousCommand.schedule();
+      m_autonomousCommand.schedule();
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    m_robotContainer.getAutoDriveCommand().schedule();
   }
 
   @Override

@@ -42,8 +42,9 @@ public class Drivetrain extends SubsystemBase {
   private final RelativeEncoder m_rightBackEncoder = m_brMotor.getEncoder();
 
   // Set up the differential drive controller
-  // private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
-  private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_brMotor, m_frMotor);
+  private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
+ // private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_brMotor, m_frMotor);
+  
 
 
   // Set up the RomiGyro
