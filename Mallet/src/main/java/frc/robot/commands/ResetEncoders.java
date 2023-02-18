@@ -12,6 +12,7 @@ public class ResetEncoders extends CommandBase{
     }
     public void initialize(){
         m_Drivetrain.resetEncoders();
+        System.out.println(Double.toString(m_Drivetrain.getAverageDistanceInch()) + "Reset Encoders to 0 via command");
         SmartDashboard.putString("ResetEncoders", "Reset Encoders to 0");
     }
     public void execute(){}

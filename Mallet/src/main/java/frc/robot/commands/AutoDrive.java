@@ -20,7 +20,9 @@ public class AutoDrive extends CommandBase{
         m_Drivetrain  = drivetrain;
     }
     
-    public void initialize(){}
+    public void initialize(){
+        System.out.println("AutoDrive Initialized"); //Debug
+    }
     public void execute(){
         if(isMovingForwards) //if moving forward
             moveForward();
