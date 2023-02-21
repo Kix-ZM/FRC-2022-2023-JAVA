@@ -15,6 +15,7 @@ import frc.robot.subsystems.Drivetrain;
 // import frc.robot.subsystems.OnBoardIO;
 // import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -49,6 +50,8 @@ public class RobotContainer {
   public static Trigger m_resetEncoderTrigger = new JoystickButton(m_controllerOther, 11);
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
+
 
   // NOTE: The I/O pin functionality of the 5 exposed I/O pins depends on the hardware "overlay"
   // that is specified when launching the wpilib-ws server on the Romi raspberry pi.
@@ -63,6 +66,10 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_autoChooser.setDefaultOption("Default", getAutoDrive_Default());
+    m_autoChooser.addOption("Forwards", getAutoDrive_Forwards());
+    m_autoChooser.addOption("Backwards", getAutoDrive_Backwards());
+    SmartDashboard.putData("Selected AutoData", m_autoChooser);
     // Configure the button bindings
     configureButtonBindings();
     // m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
@@ -98,7 +105,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //return m_chooser.getSelected();
-    return new AutoDrive(m_drivetrain);
+    // return new AutoDrive(m_drivetrain);
+    return null;
   }
 
   /**
@@ -115,15 +123,21 @@ public class RobotContainer {
   }
   
   public Command getAutoDriveCommand(){
-    return new AutoDrive(m_drivetrain);
+    return m_autoChooser.getSelected();
   }
 
   public Command getArmCommand(){
     return new ArmCommand(m_armSub);
   }
 
-  public SequentialCommandGroup getAuto(){
-    return new Auto(m_drivetrain);
+  public SequentialCommandGroup getAutoDrive_Default(){
+    return new AutoDrive_Default(m_drivetrain);
+  }
+  public SequentialCommandGroup getAutoDrive_Forwards(){
+    return new AutoDrive_Forwards(m_drivetrain);
+  }
+  public SequentialCommandGroup getAutoDrive_Backwards(){
+    return new AutoDrive_Backwards(m_drivetrain);
   }
 
   public static Drivetrain getDriveTrainSub(){

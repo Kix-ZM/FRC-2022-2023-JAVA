@@ -129,11 +129,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftAverageDistanceInch(){
-    return (Math.abs(getLeftDistanceInch()) + Math.abs(getLeftBackDistanceInch())) / 2.0;
+    return ((getLeftDistanceInch()) + (getLeftBackDistanceInch())) / 2.0;
   }
 
   public double getRightAverageDistanceInch(){
-    return (Math.abs(getRightDistanceInch()) + Math.abs(getRightBackDistanceInch())) / 2.0;
+    return ((getRightDistanceInch()) + (getRightBackDistanceInch())) / 2.0;
   }
 
   public double getAverageDistanceInch() {
