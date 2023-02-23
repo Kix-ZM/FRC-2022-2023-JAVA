@@ -4,30 +4,25 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
+import java.util.concurrent.CancellationException;
 
+//import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-
-// import edu.wpi.first.wpilibj.DigitalInput;
-// import edu.wpi.first.wpilibj.Encoder;
-// import frc.robot.sensors.RomiGyro;
-// import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-// import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
-  
 
-  // The Romi has the left and right motors set to
-  // PWM channels 0 and 1 respectively
-  // private final Spark m_leftMotor = new Spark(0);
-  //private final Spark m_rightMotor = new Spark(1);
+  private final CANSparkMax m_Claw = new CANSparkMax(1, MotorType.kBrushless);
+  private final CANSparkMax m_Extension = new CANSparkMax(2, MotorType.kBrushless);
+  private final CANSparkMax m_leftPivot = new CANSparkMax(3, MotorType.kBrushless);
+  private final CANSparkMax m_rightPivot = new CANSparkMax(4, MotorType.kBrushless);
+  private final DigitalInput m_clawLimitSwitch = new DigitalInput(0); 
 
-  // private final CANSparkMax CAMMotor = new CANSparkMax(6, MotorType.kBrushless);
-  private final CANSparkMax armMotor = new CANSparkMax(5, MotorType.kBrushless);
-  // private DigitalInput limit = new DigitalInput(0);
+  MotorControllerGroup m_pivot = new MotorControllerGroup(m_leftPivot, m_rightPivot);
 
   /** Creates a new Drivetrain. */
   public ArmSubsystem() {
@@ -35,37 +30,30 @@ public class ArmSubsystem extends SubsystemBase {
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
     
-
-    // Use inches as unit for encoder distances
-    // m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    // m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    
-    
+    m_pivot.setInverted(true);
   }
 
-  // turns arm
-  public void turnArm(boolean fBtn, boolean bBtn) {
-    if(fBtn!=bBtn&&(fBtn||bBtn)){
-      if(fBtn)
-        armMotor.set(-Constants.tSpeed);
-      else
-        armMotor.set(Constants.tSpeed);
-    }
-    else{
-      armMotor.set(0.0);
-    }
+  public void pivotArm(double yAxis){
+    m_pivot.set(yAxis);
   }
 
-  // shifts arm up and down
-  /*public void shiftArm(double shiftSpeed, boolean tgrCheck) {
-    if(!limit.get()&&tgrCheck){CAMMotor.set(shiftSpeed);}
-    else if(limit.get()){CAMMotor.set(Math.abs(shiftSpeed));}
-  }*/
+  public void extendArm(boolean triggerHeld, double yAxis){
+    if(triggerHeld)
+      m_Extension.set(yAxis);
+  }
 
-  // FOr when the time calls for it, run this
-  public void stopMotors(){
-    armMotor.set(0);
-    // CAMMotor.set(0);
+  public void grabCone(){
+    m_Claw.set(0.25);
+  }
+
+  public void grabCube(){
+    m_Claw.set(0.1);
+  }
+
+  public void retractClaw(){
+    if(m_clawLimitSwitch.get()){
+      
+    }
   }
 
   @Override
