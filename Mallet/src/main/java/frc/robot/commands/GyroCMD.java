@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+import com.kauailabs.navx.frc.AHRS;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -54,8 +55,8 @@ public class GyroCMD extends CommandBase {
     double xAxisRate = RobotContainer.m_controller.getX();
     double yAxisRate = RobotContainer.m_controller.getY();
 
-    double pitchAngleDegrees = AHRS.getPitch();
-    double rollAngleDegrees = AHRS.getRoll();
+    double pitchAngleDegrees = m_gyro.getAngleX();
+    double rollAngleDegrees = m_gyro.getAngleY();
 
     if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
         autoBalanceXMode = true;
