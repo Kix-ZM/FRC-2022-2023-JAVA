@@ -25,7 +25,7 @@ public class Drivetrain extends SubsystemBase {
   // PWM channels 0 and 1 respectively
   // private final Spark m_leftMotor = new Spark(0);
   //private final Spark m_rightMotor = new Spark(1);
-
+// 1 motor claw, 1 motor extnsion, 2 motors pivot
   private final CANSparkMax m_flMotor = new CANSparkMax(3, MotorType.kBrushless);
   private final CANSparkMax m_blMotor = new CANSparkMax(4, MotorType.kBrushless);
   MotorControllerGroup m_left = new MotorControllerGroup(m_flMotor, m_blMotor);

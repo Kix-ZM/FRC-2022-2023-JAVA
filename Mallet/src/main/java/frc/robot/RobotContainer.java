@@ -76,9 +76,9 @@ public class RobotContainer {
     m_autoChooser.addOption("Backwards", getAutoDrive_Backwards());
     SmartDashboard.putData("Selected AutoData", m_autoChooser);
     // Configure the button bindings
-    configureButtonBindings();
     */
     // m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    configureButtonBindings();
     String[] autoList = {"Drive Forwards", "Drive Backwards", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
 
@@ -151,6 +151,7 @@ public class RobotContainer {
   
   public Command getAutoDriveCommand(){
     //return m_autoChooser.getSelected();
+    checkAutoInput();
     return m_autoGroup;
   }
 
