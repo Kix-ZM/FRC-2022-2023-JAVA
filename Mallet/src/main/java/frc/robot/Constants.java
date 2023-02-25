@@ -17,4 +17,9 @@ public final class Constants {
     public static final double kCountsPerRevolution = 4096.0;
     public static final double kWheelDiameterInch = 6; // 70 mm
     public static final double tSpeed = 0.20;
+    public static final long xMIN = 70;
+    public static final long xMAX = 90;
+    public static final long yMIN = 130;
+    public static final long yMAX = 170;
+    public static final double degLimit = 2.5;
 }

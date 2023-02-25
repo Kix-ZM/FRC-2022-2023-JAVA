@@ -4,13 +4,15 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 // import frc.robot.RobotContainer;
-import frc.robot.subsystems.CameraSub;
+import frc.robot.subsystems.GyroScope;
+// import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
 
-public class CameraCMD extends CommandBase {
-  private final CameraSub m_camSub;
+public class GyroCMD extends CommandBase {
+  private final GyroScope m_gyro;
   //private final Supplier<Double> m_xaxisSpeedSupplier;
   //private final Supplier<Double> m_zaxisRotateSupplier;
 
@@ -22,26 +24,27 @@ public class CameraCMD extends CommandBase {
    * @param xaxisSpeedSupplier Lambda supplier of forward/backward speed
    * @param zaxisRotateSupplier Lambda supplier of rotational speed
    */
-  public CameraCMD(CameraSub camSub) {
-    m_camSub = camSub;
-    addRequirements(m_camSub);
+  public GyroCMD(GyroScope t_gyro) {
+    m_gyro = t_gyro;
+    addRequirements(t_gyro);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // m_camSub.startUp();
-    // m_camSub.changeCamera();
-    m_camSub.periodic();
+    
+    //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
   }
 
-
+  public boolean degCheck(){
+    return (m_gyro.getAngleX() > Constants.degLimit || m_gyro.getAngleX() < -1*Constants.degLimit)? false: true;
+  }
 
   // Called once the command ends or is interrupted.
   @Override
