@@ -47,6 +47,8 @@ public class CameraCMD extends CommandBase {
   @Override
   public void end(boolean interrupted) {}
 
+  public CameraSub getCamSub(){return m_camSub;}
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

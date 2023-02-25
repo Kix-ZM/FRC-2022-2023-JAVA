@@ -22,4 +22,28 @@ public final class Constants {
     public static final long yMIN = 130;
     public static final long yMAX = 170;
     public static final double degLimit = 2.5;
+    public static final double kLimelightMountAngleDegrees = 25.0; // LIMELIGHT ANGLE FROM VERTACLE! NOT ANGLE OF ATTACK!
+    public static final double kLimelightLensHeightInches = 20.0; // HEIGHT FROM FLOOR OF LIMELIGHT
+    public static final double kGoalHeightInches = 60.0;
+    public static final double kTapeTop = 41.125; // From floor to base of the tape, this is the higher one
+    public static final double kTapeBtm = 22.125; // From floor to base of the tape, this is the lower one
+    public static final double kAprilTagTop = 24.375; // Higher AprilTag, measured from floor to base of black squares
+    public static final double kAprilTagBtm = 15.25;  // Lower AprilTag, measured from floor to base of black squares
+    public static final double onFloor = 0; // Height of the Cube and Cone initially.
 }
+
+/*
+Tape
+Top - 41.125
+Btm - 22.125
+
+AprilTag
+Top - 24.375
+Btm - 15.25
+
+Cone
+floor - 0
+
+Cube
+floor - 0
+ */

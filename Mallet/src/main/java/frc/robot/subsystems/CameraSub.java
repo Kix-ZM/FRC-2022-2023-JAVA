@@ -12,6 +12,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.networktables.IntegerSubscriber;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -33,6 +34,9 @@ public class CameraSub extends SubsystemBase {
   
   IntegerSubscriber xSub;
   IntegerSubscriber ySub;
+  NetworkTableInstance inst;
+  NetworkTable table;
+  NetworkTable tabLime;
 
 
   // Thread m_visionThread;
@@ -43,12 +47,15 @@ public class CameraSub extends SubsystemBase {
 
   public CameraSub(){
 
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    NetworkTable table = inst.getTable("vision");
+    inst = NetworkTableInstance.getDefault();
+    table = inst.getTable("vision");
+    tabLime = inst.getTable("limelight");
 
     xSub = table.getIntegerTopic("target_x").subscribe(-1);
     ySub = table.getIntegerTopic("target_y").subscribe(-1);
     
+    
+
     // camera_ori.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     // camera_new.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     // m_visionThread =
@@ -123,10 +130,20 @@ public class CameraSub extends SubsystemBase {
     else if(temp<Constants.yMIN){return -1;}
     else return 0;
   }
+
+  public double getDistance(double param){
+    double angleToGoalDegrees = Constants.kLimelightMountAngleDegrees + tabLime.getEntry("ty").getDouble(0.0);
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+    return (param - Constants.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
+  }
   
   @Override
   public void periodic() {
-    System.out.print("X: "+xSub.get()+", Y: "+ySub.get());
-    System.out.println(", xAllign: "+getXCheckAllign()+", yAllign: "+getYCheckAllign());
+    SmartDashboard.putNumber("TapeTopDistance", getDistance(Constants.kTapeTop));
+    SmartDashboard.putNumber("TapeBtmDistance", getDistance(Constants.kTapeBtm));
+    SmartDashboard.putNumber("AprilTagTopDistance", getDistance(Constants.kAprilTagTop));
+    SmartDashboard.putNumber("AprilTagBtmDistance", getDistance(Constants.kAprilTagBtm));
+    // System.out.print("X: "+xSub.get()+", Y: "+ySub.get());
+    // System.out.println(", xAllign: "+getXCheckAllign()+", yAllign: "+getYCheckAllign());
   }
 }
