@@ -54,8 +54,8 @@ public class GyroCMD extends CommandBase {
     double xAxisRate = RobotContainer.m_controller.getX();
     double yAxisRate = RobotContainer.m_controller.getY();
 
-    //double pitchAngleDegrees = AHRS.getPitch();
-    //double rollAngleDegrees = AHRS.getRoll();
+    double pitchAngleDegrees = AHRS.getPitch();
+    double rollAngleDegrees = AHRS.getRoll();
 
     if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
         autoBalanceXMode = true;
