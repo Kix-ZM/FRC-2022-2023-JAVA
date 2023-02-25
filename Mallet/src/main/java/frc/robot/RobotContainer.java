@@ -76,18 +76,24 @@ public class RobotContainer {
     configureButtonBindings();
     */
     // m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
-    String[] autoList = {"Drive Forwards", "Drive Backwards", "Shoot"};
+    String[] autoList = {"Drive Forwards", "Drive Backwards", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
 
     // At the beginning of auto
     String autoName = SmartDashboard.getString("Auto Selector", "Drive Forwards"); // This would make "Drive Forwards the default auto
+    System.out.println("Cal");
     switch(autoName) {
       case "Drive Forwards":
         m_autoGroup = getAutoDrive_Forwards();
+        break;
       case "Drive Backwards":
         m_autoGroup = getAutoDrive_Backwards();
+        break;
       case "Default":
         m_autoGroup = getAutoDrive_Default();
+        break;
+      default:
+        break;
     }
   }
 
