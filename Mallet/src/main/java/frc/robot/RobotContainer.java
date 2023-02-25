@@ -25,6 +25,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+import frc.robot.commands.AutoSequentialGroup.AutoDrive_Backwards;
+import frc.robot.commands.AutoSequentialGroup.AutoDrive_Default;
+import frc.robot.commands.AutoSequentialGroup.AutoDrive_Forwards;
 import frc.robot.subsystems.*;
 
 

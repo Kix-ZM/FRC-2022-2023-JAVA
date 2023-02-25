@@ -1,8 +1,9 @@
-package frc.robot.commands;
+package frc.robot.commands.AutoSequentialGroup;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants;
-
+import frc.robot.commands.MoveDistance;
+import frc.robot.commands.ResetEncoders;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutoDrive_Forwards extends SequentialCommandGroup {

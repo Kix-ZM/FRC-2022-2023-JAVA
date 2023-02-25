@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Debug;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DebugCommand extends CommandBase{
