@@ -3,17 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import com.kauailabs.navx.frc.AHRS;
-
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 // import frc.robot.RobotContainer;
 import frc.robot.subsystems.GyroScope;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.subsystems.Drivetrain;
+//import edu.wpi.first.wpilibj.Joystick;
 // import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+//import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class GyroCMD extends CommandBase {
   private final GyroScope m_gyro;
@@ -47,14 +46,18 @@ public class GyroCMD extends CommandBase {
   }
   static final double kOffBalanceAngleThresholdDegrees = 2.5;
   static final double kOonBalanceAngleThresholdDegrees = 5;
+  boolean autoBalanceXMode=false;
+  boolean autoBalanceYMode=false;
+  Drivetrain m_Drivetrain;
+  private double m_xaxisSpeed;
+  private double m_zaxisRotate;
 
   public void autoBalance()
   {
-    boolean autoBalanceXMode;
-    boolean autoBalanceYMode;
     double xAxisRate = RobotContainer.m_controller.getX();
     double yAxisRate = RobotContainer.m_controller.getY();
-
+    m_xaxisSpeed = RobotContainer.m_controller.getRawAxis(0);
+    m_zaxisRotate = RobotContainer.m_controller.getRawAxis(1);
     double pitchAngleDegrees = m_gyro.getAngleX();
     double rollAngleDegrees = m_gyro.getAngleY();
 
@@ -80,6 +83,12 @@ public class GyroCMD extends CommandBase {
     if (autoBalanceYMode) {
         double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
         yAxisRate = Math.sin(rollAngleRadians) * -1;
+    }
+
+    try {
+      m_Drivetrain.arcadeDrive(-m_zaxisRotate,-m_xaxisSpeed);
+    } catch (RuntimeException ex) {
+           System.out.println("Drive system error: " + ex.getMessage() );
     }
 
   }
