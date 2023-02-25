@@ -28,6 +28,8 @@ import frc.robot.commands.*;
 import frc.robot.commands.AutoSequentialGroup.AutoDrive_Backwards;
 import frc.robot.commands.AutoSequentialGroup.AutoDrive_Default;
 import frc.robot.commands.AutoSequentialGroup.AutoDrive_Forwards;
+import frc.robot.commands.Debug.DebugCommand;
+import frc.robot.commands.Debug.DebugSequentialCommand;
 import frc.robot.subsystems.*;
 
 
@@ -42,6 +44,7 @@ public class RobotContainer {
   private static final Drivetrain m_drivetrain = new Drivetrain();
   // private static final Launcher m_launcher = new Launcher();
   private static final ArmSubsystem m_armSub = new ArmSubsystem();
+  private static final GyroScope m_gryo = new GyroScope();
  // private static final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
   // Assumes a gamepad plugged into channnel 0
@@ -51,6 +54,8 @@ public class RobotContainer {
   public static JoystickButton m_forwardButton = new JoystickButton(m_controllerOther, 2);
   public static JoystickButton m_backButton = new JoystickButton(m_controllerOther, 3);
   public static Trigger m_resetEncoderTrigger = new JoystickButton(m_controllerOther, 11);
+  public static Trigger m_debugTrigger = new JoystickButton(m_controllerOther, 7);
+  public static Trigger m_debugSeqTrigger = new JoystickButton(m_controllerOther, 6);
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
@@ -110,6 +115,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     m_resetEncoderTrigger.onTrue(getResetEncodersCommand());
+    m_debugTrigger.onTrue(getDebugCommand());
+    m_debugSeqTrigger.onTrue(getDebugSequentialCommand());
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
     
@@ -153,6 +160,13 @@ public class RobotContainer {
     //return m_autoChooser.getSelected();
     checkAutoInput();
     return m_autoGroup;
+  }
+
+  public Command getDebugCommand(){
+    return new DebugCommand();
+  }
+  public Command getDebugSequentialCommand(){
+    return new DebugSequentialCommand(m_drivetrain, m_gryo);
   }
 
   public Command getArmCommand(){

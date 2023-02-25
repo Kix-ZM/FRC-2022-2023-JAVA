@@ -12,14 +12,22 @@ public class TurnAngle extends CommandBase{
     private int direction;
     private float errorRange = 2.0f;
     private boolean status;
-    public TurnAngle(Drivetrain drivetrain, GyroScope gyro, float turnAmount){
+    /*drivetrain - the drivetrain being used
+    gyro - the gyro being used
+    turnAmount - the amount in degrees being turned
+    isTurnningBy - wether or not the turnAmount is a destination, or we the amount we are adding to
+    our current angle*/
+    public TurnAngle(Drivetrain drivetrain, GyroScope gyro, float turnAmount, boolean isTurnningBy){
         m_drivetrain = drivetrain;
         m_gyro = gyro;
         status = false;
         addRequirements(m_drivetrain);
         addRequirements(m_gyro);
         // Getting what the angle should be at the end
-        turnDestination = m_gyro.getAngleX() + turnAmount;
+        turnDestination = m_gyro.getAngleX();
+        if(isTurnningBy){
+             turnDestination += turnAmount;
+        }
     }
 
     // Called when the command is initially scheduled.
