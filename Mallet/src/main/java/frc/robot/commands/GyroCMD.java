@@ -5,11 +5,14 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 // import frc.robot.RobotContainer;
 import frc.robot.subsystems.GyroScope;
+import edu.wpi.first.wpilibj.Joystick;
 // import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class GyroCMD extends CommandBase {
   private final GyroScope m_gyro;
@@ -40,6 +43,44 @@ public class GyroCMD extends CommandBase {
   public void execute() {
     
     //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
+  }
+  static final double kOffBalanceAngleThresholdDegrees = 2.5;
+  static final double kOonBalanceAngleThresholdDegrees = 5;
+
+  public void autoBalance()
+  {
+    boolean autoBalanceXMode;
+    boolean autoBalanceYMode;
+    double xAxisRate = RobotContainer.m_controller.getX();
+    double yAxisRate = RobotContainer.m_controller.getY();
+
+    double pitchAngleDegrees = AHRS.getPitch();
+    double rollAngleDegrees = AHRS.getRoll();
+
+    if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
+        autoBalanceXMode = true;
+    } else if (autoBalanceXMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
+        autoBalanceXMode = false;
+    }
+    if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
+        autoBalanceYMode = true;
+    } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
+        autoBalanceYMode = false;
+    }
+
+    // Control drive system automatically,
+    // driving in reverse direction of pitch/roll angle,
+    // with a magnitude based upon the angle
+
+    if (autoBalanceXMode) {
+        double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
+        xAxisRate = Math.sin(pitchAngleRadians) * -1;
+    }
+    if (autoBalanceYMode) {
+        double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
+        yAxisRate = Math.sin(rollAngleRadians) * -1;
+    }
+
   }
 
   public boolean degCheck(){
