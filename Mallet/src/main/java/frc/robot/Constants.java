@@ -21,4 +21,10 @@ public final class Constants {
     public static final double ticksPerFeet = 40.964489;
     public static final double forward_feet = 17 * ticksPerFeet;//17.666666
     public static final double backward_feet = 6 * ticksPerFeet;//6.572500
+    
+    public static final long xMIN = 70;
+    public static final long xMAX = 90;
+    public static final long yMIN = 130;
+    public static final long yMAX = 170;
+    public static final double degLimit = 2.5;
 }
