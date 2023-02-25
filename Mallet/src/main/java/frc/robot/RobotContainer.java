@@ -79,6 +79,9 @@ public class RobotContainer {
     String[] autoList = {"Drive Forwards", "Drive Backwards", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
 
+    
+  }
+  public void checkAutoInput(){
     // At the beginning of auto
     String autoName = SmartDashboard.getString("Auto Selector", "Drive Forwards"); // This would make "Drive Forwards the default auto
     System.out.println("Cal");
@@ -96,7 +99,6 @@ public class RobotContainer {
         break;
     }
   }
-
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link

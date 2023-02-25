@@ -12,7 +12,6 @@ public class AutoDrive_Backwards extends SequentialCommandGroup {
         //Adding a drivetrain
         m_Drivetrain = drivetrain;
         //Adding Order of commands
-        System.out.println("Bac");
         addCommands(
             new ResetEncoders(this.m_Drivetrain),
             new MoveDistance(m_Drivetrain, Constants.backward_feet, true)

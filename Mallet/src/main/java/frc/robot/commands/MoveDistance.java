@@ -23,6 +23,7 @@ public class MoveDistance extends CommandBase{
         m_Drivetrain  = drivetrain;
         distance = newDistance;
         isBackwards = backwards;
+        addRequirements(drivetrain);
     }
     
     public void initialize(){
