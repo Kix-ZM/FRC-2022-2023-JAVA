@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.PrintCommand;
 // import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -42,6 +43,7 @@ public class RobotContainer {
   public static JoystickButton m_fireButton = new JoystickButton(m_controller, 1);
   public static JoystickButton m_forwardButton = new JoystickButton(m_controllerOther, 2);
   public static JoystickButton m_backButton = new JoystickButton(m_controllerOther, 3);
+  public static Trigger m_resetArmTrigger = new JoystickButton(m_controllerOther, 10);
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -70,6 +72,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    m_resetArmTrigger.onTrue(getResetArm(false));
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
     
@@ -107,6 +110,10 @@ public class RobotContainer {
 
   public Command getArmCommand(){
     return new ArmCommand(m_armSub);
+  }
+
+  public Command getResetArm(boolean isHoldingCube){
+    return new ResetArm(m_armSub, isHoldingCube);
   }
 
   public static Drivetrain getDriveTrainSub(){

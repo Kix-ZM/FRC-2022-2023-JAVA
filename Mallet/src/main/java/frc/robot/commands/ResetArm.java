@@ -4,7 +4,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ResetClaw extends CommandBase{
+public class ResetArm extends CommandBase{
     //Comment : MIGHT BE A BIT BUGGY, CHECK WHEN RUNNNING TO SEE IF IT GOES CORRECT DIRECTION
     private ArmSubsystem m_armSubsystem;
     private boolean status;
@@ -16,7 +16,7 @@ public class ResetClaw extends CommandBase{
     private double clawEndPos;
     private double pivotEndPos = 10.5;
     private double errorRange = 0.0;
-    public ResetClaw(ArmSubsystem armSubsystem, boolean isHoldingCube){
+    public ResetArm(ArmSubsystem armSubsystem, boolean isHoldingCube){
         m_armSubsystem = armSubsystem;
         status = false;
         clawPhase = 0;
