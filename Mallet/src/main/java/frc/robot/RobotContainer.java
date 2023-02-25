@@ -51,6 +51,7 @@ public class RobotContainer {
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
+  SequentialCommandGroup m_autoGroup = new SequentialCommandGroup();
 
 
   // NOTE: The I/O pin functionality of the 5 exposed I/O pins depends on the hardware "overlay"
@@ -66,13 +67,28 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    /*
     m_autoChooser.setDefaultOption("Default", getAutoDrive_Default());
     m_autoChooser.addOption("Forwards", getAutoDrive_Forwards());
     m_autoChooser.addOption("Backwards", getAutoDrive_Backwards());
     SmartDashboard.putData("Selected AutoData", m_autoChooser);
     // Configure the button bindings
     configureButtonBindings();
+    */
     // m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    String[] autoList = {"Drive Forwards", "Drive Backwards", "Shoot"};
+    SmartDashboard.putStringArray("Auto List", autoList);
+
+    // At the beginning of auto
+    String autoName = SmartDashboard.getString("Auto Selector", "Drive Forwards"); // This would make "Drive Forwards the default auto
+    switch(autoName) {
+      case "Drive Forwards":
+        m_autoGroup = getAutoDrive_Forwards();
+      case "Drive Backwards":
+        m_autoGroup = getAutoDrive_Backwards();
+      case "Default":
+        m_autoGroup = getAutoDrive_Default();
+    }
   }
 
   /**
@@ -123,7 +139,8 @@ public class RobotContainer {
   }
   
   public Command getAutoDriveCommand(){
-    return m_autoChooser.getSelected();
+    //return m_autoChooser.getSelected();
+    return m_autoGroup;
   }
 
   public Command getArmCommand(){
