@@ -53,6 +53,10 @@ public class GyroScope extends SubsystemBase {
   public float getAngleY(){return gScope.getRoll();}
   public float getAngleZ(){return gScope.getYaw();}
 
+  //Returns the current status of the gyro
+  public boolean isCalibrating(){return gScope.isCalibrating();}
+  public boolean isConnected(){return gScope.isConnected();}
+
   // to be used to basically calibrate the bot
   // WARNING DO NOT TOUCH GYRO FOR THE NEXT 30-60 SECONDS AFTER
   //         RESETTING THE GYRO, THIS IS TO ENSURE THERE IS NO
