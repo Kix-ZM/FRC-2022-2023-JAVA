@@ -9,10 +9,12 @@ import java.util.concurrent.CancellationException;
 //import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -20,7 +22,15 @@ public class ArmSubsystem extends SubsystemBase {
   private final CANSparkMax m_Extension = new CANSparkMax(2, MotorType.kBrushless);
   private final CANSparkMax m_leftPivot = new CANSparkMax(3, MotorType.kBrushless);
   private final CANSparkMax m_rightPivot = new CANSparkMax(4, MotorType.kBrushless);
-  private final DigitalInput m_clawLimitSwitch = new DigitalInput(0); 
+
+  private final DigitalInput m_clawLimitSwitch = new DigitalInput(0);
+  private final DigitalInput m_extensionSwitch = new DigitalInput(1);
+  private final DigitalInput m_pivotSwitch = new DigitalInput(2); 
+
+  private final RelativeEncoder m_ClawEncoder = m_Claw.getEncoder();
+  private final RelativeEncoder m_ExtensionEncoder = m_Extension.getEncoder();
+  private final RelativeEncoder m_leftPivotEncoder = m_leftPivot.getEncoder();
+  private final RelativeEncoder m_rightPivotEncoder = m_rightPivot.getEncoder();
 
   MotorControllerGroup m_pivot = new MotorControllerGroup(m_leftPivot, m_rightPivot);
 
@@ -29,31 +39,107 @@ public class ArmSubsystem extends SubsystemBase {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
-    
     m_pivot.setInverted(true);
+    resetAllEncoders();
   }
 
   public void pivotArm(double yAxis){
-    m_pivot.set(yAxis);
+    if(!isPivotAtLimit() && getPivotEncoder()>0 && getPivotEncoder() < Constants.maxPivot)
+      m_pivot.set(yAxis);
+    else
+      m_pivot.set(0.0);
   }
 
-  public void extendArm(boolean triggerHeld, double yAxis){
-    if(triggerHeld)
+  public void extendArm(double yAxis){
+    if(!isExtensionAtLimit() && getExtensionEncoder() < Constants.maxExtension)
       m_Extension.set(yAxis);
+    else
+      m_Extension.set(0.0);
   }
 
   public void grabCone(){
-    m_Claw.set(0.25);
+    if(getClawEncoder()< Constants.encoder_cone)
+      m_Claw.set(0.25);
+    else
+      m_Claw.set(0.0);
+  }
+  public void moveClaw(double speed){
+    
+    if(!isClawAtLimit() && getClawEncoder()< Constants.maxClaw)
+      m_Claw.set(speed);
+    else
+      m_Claw.set(0.0);
   }
 
   public void grabCube(){
-    m_Claw.set(0.1);
+    if(getClawEncoder()< Constants.encoder_cube)
+      m_Claw.set(0.25);
+    else
+      m_Claw.set(0.0);
   }
 
   public void retractClaw(){
-    if(m_clawLimitSwitch.get()){
-      
+    if(!m_clawLimitSwitch.get()){
+      m_Claw.set(-0.2);
     }
+  }
+
+  public void stopClaw(){
+    m_Claw.set(0.0);
+  }
+
+  public void stopPivot(){
+    m_pivot.set(0.0);
+  }
+
+  public void stopExtension(){
+    m_Extension.set(0.0);
+  }
+
+  public boolean isClawAtLimit(){
+    return m_clawLimitSwitch.get();
+  }
+
+  public boolean isPivotAtLimit(){
+    return m_pivotSwitch.get();
+  }
+
+  public boolean isExtensionAtLimit(){
+    return m_extensionSwitch.get();
+  }
+
+
+  //Reset Encoders
+  public void resetClawEncoders(){
+    m_ClawEncoder.setPosition(0);
+  }
+
+  public void resetExtensionEncoders(){
+    m_ExtensionEncoder.setPosition(0);
+  }
+
+  public void resetPivots(){
+    m_leftPivotEncoder.setPosition(0);
+    m_rightPivotEncoder.setPosition(0);
+  }
+
+  public void resetAllEncoders(){
+    resetClawEncoders();
+    resetClawEncoders();
+    resetExtensionEncoders();
+    resetPivots();
+  }
+
+  public double getClawEncoder(){
+    return m_ClawEncoder.getPosition();
+  }
+
+  public double getPivotEncoder(){
+    return m_rightPivotEncoder.getPosition() + m_leftPivotEncoder.getPosition();
+  }
+
+  public double getExtensionEncoder(){
+    return m_ExtensionEncoder.getPosition();
   }
 
   @Override

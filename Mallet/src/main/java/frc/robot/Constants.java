@@ -17,4 +17,13 @@ public final class Constants {
     public static final double kCountsPerRevolution = 4096.0;
     public static final double kWheelDiameterInch = 6; // 70 mm
     public static final double tSpeed = 0.20;
+
+    public static final double encoders_550Motors = 42;
+
+    public static final double encoder_cube = 20;
+    public static final double encoder_cone = 30;
+
+    public static final double maxPivot = encoders_550Motors/180;
+    public static final double maxExtension = 2*encoders_550Motors; //Num revolutions
+    public static final double maxClaw = 3*encoders_550Motors;
 }
