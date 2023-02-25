@@ -83,16 +83,13 @@ public class RobotContainer {
     String autoName = SmartDashboard.getString("Auto Selector", "Drive Forwards"); // This would make "Drive Forwards the default auto
     System.out.println("Cal");
     switch(autoName) {
-      case "Drive Forwards":    
-        System.out.println("FFF");
+      case "Drive Forwards":
         m_autoGroup = getAutoDrive_Forwards();
         break;
       case "Drive Backwards":
-        System.out.println("BBB");
         m_autoGroup = getAutoDrive_Backwards();
         break;
       case "Default":
-        System.out.println("DDD");
         m_autoGroup = getAutoDrive_Default();
         break;
       default:
