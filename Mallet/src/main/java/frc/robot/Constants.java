@@ -26,4 +26,6 @@ public final class Constants {
     public static final double maxPivot = encoders_550Motors/180;
     public static final double maxExtension = 2*encoders_550Motors; //Num revolutions
     public static final double maxClaw = 3*encoders_550Motors;
+
+    public static final double pivotStartPos = encoders_550Motors/90;
 }

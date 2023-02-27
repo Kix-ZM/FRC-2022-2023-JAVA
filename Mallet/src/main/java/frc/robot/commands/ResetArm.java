@@ -2,31 +2,37 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ResetArm extends CommandBase{
     //Comment : MIGHT BE A BIT BUGGY, CHECK WHEN RUNNNING TO SEE IF IT GOES CORRECT DIRECTION
     private ArmSubsystem m_armSubsystem;
     private boolean status;
-    private int clawPhase;
-    private int pivotPhase;
-    private int extensionPhase;
-    private boolean readyPositionStatus;
+    //Tell whether the claw is in use or not
+    private boolean isClawMoving;
+    private boolean isPivotMoving;
+    private boolean isExtensionMoving;
+    //A boolean to tell whether the arm is currently resetting it's encoders or getting into position
+    private boolean isResetting;
 
-    private double clawEndPos;
-    private double pivotEndPos = 10.5;
-    private double errorRange = 0.0;
+    //The values on what the starting position for the arm should be
+    private double clawStartPos;
+    private double pivotStartPos = Constants.pivotStartPos;
+
     public ResetArm(ArmSubsystem armSubsystem, boolean isHoldingCube){
         m_armSubsystem = armSubsystem;
         status = false;
-        clawPhase = 0;
-        pivotPhase = 0;
-        extensionPhase = 0;
-        readyPositionStatus = false;
+        isResetting = true;
+
+        isClawMoving = true;
+        isPivotMoving = true;
+        isExtensionMoving = true;
+        
         if(isHoldingCube){
-            clawEndPos = Constants.encoder_cube;
+            clawStartPos = Constants.encoder_cube;
         }else{
-            clawEndPos = Constants.encoder_cone;
+            clawStartPos = Constants.encoder_cone;
         }
     }
 
@@ -38,70 +44,76 @@ public class ResetArm extends CommandBase{
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!readyPositionStatus){
+    if(isResetting){
         resetPhase();
     }else{
         readyConfigPhase();
     }
   }
 
-  //Sets the motors to the right angle
+  //Sets the motors to the right angle by first grabbing the game piece and then pivoting
   public void readyConfigPhase(){
-    if(clawPhase == 1){
-        if(m_armSubsystem.getClawEncoder()>clawEndPos){
+    if(isClawMoving){
+        //Makes the claw grab the game piece
+        if(m_armSubsystem.getClawEncoder()>clawStartPos){
             m_armSubsystem.moveClaw(-0.2);
-        }else if(m_armSubsystem.getClawEncoder()<clawEndPos){
+        }else if(m_armSubsystem.getClawEncoder()<clawStartPos){
             m_armSubsystem.moveClaw(0.2);
         }else{
-            pivotPhase = 2;
+            isClawMoving = false;
         } 
     }
-    if(pivotPhase == 1&&clawPhase != 1){
-        if(m_armSubsystem.getPivotEncoder()>pivotEndPos){
+    if(isPivotMoving && !isClawMoving){
+        //Pivots the pivot to the correct angle
+        if(m_armSubsystem.getPivotEncoder()>pivotStartPos){
             m_armSubsystem.pivotArm(-0.2);
-        }else if(m_armSubsystem.getPivotEncoder()<pivotEndPos){
+        }else if(m_armSubsystem.getPivotEncoder()<pivotStartPos){
             m_armSubsystem.pivotArm(0.2);
         }else{
-            pivotPhase = 2;
+            isPivotMoving = false;
         }
     }
-    if(clawPhase ==2 && pivotPhase ==2){
+    if(!isPivotMoving && !isClawMoving){
         status = true;
     }
   }
 
+  //Gets the arm pieces to their limit and then set those as the limit, claw should go last because it might be holding something
   public void resetPhase(){
-    if(extensionPhase==0){
+    if(isExtensionMoving){
+        //Makes sure encoder value 0 is the max the extension can retract
         if(!m_armSubsystem.isExtensionAtLimit()){
             m_armSubsystem.extendArm(-0.2);
         }else{
             m_armSubsystem.stopExtension();
-            extensionPhase = 1;
+            isExtensionMoving = false;
         }
     }
-    if(pivotPhase==0){
+    if(isPivotMoving){
+        //Makes sure encoder value 0 is the max the pivot can pivot
         if(!m_armSubsystem.isPivotAtLimit()){
             m_armSubsystem.pivotArm(-0.2);
         }else{
             m_armSubsystem.stopPivot();
-            pivotPhase = 1;
+            isPivotMoving = false;
         }
     }
-    if(clawPhase == 0){
+    //Ensures all the other arm compoenents are done
+    if(isClawMoving && !isExtensionMoving && !isPivotMoving){
+        //Makes sure the encoder value 0 is the max the claw can open
         if(!m_armSubsystem.isClawAtLimit()){
             m_armSubsystem.retractClaw();
         }else{
             m_armSubsystem.stopClaw();
-            clawPhase = 1;
+            isClawMoving = false;
         }
     }
-    if(extensionPhase==0 && extensionPhase==0 && clawPhase==0 && !readyPositionStatus){
+    //Logic to move onto the next step : moving into ready position
+    if(!isClawMoving && !isExtensionMoving && isPivotMoving){
         m_armSubsystem.resetAllEncoders();
-        readyPositionStatus = true;
+        isResetting = false;
     }
   }
-
-
 
   // Called once the command ends or is interrupted.
   @Override

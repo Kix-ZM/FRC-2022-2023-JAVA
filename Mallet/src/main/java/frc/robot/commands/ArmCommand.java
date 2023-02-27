@@ -47,6 +47,14 @@ public class ArmCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    /*Arm Controls : 
+    Z - Axis controls pivot
+    Z - Axis w/ Trigger pressed controls extension
+    Buton 3, 4, 5 controls arm
+    #3 is for retracting claw to max
+    #4 is for grabbing a cone
+    #5 is for grabbing a cube
+    */
     if(m_trigger){
       m_armSub.extendArm(m_zAxis);
     }else{

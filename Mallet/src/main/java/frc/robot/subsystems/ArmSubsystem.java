@@ -43,6 +43,7 @@ public class ArmSubsystem extends SubsystemBase {
     resetAllEncoders();
   }
 
+  //Pivot Functions
   public void pivotArm(double yAxis){
     if(!isPivotAtLimit() && getPivotEncoder()>0 && getPivotEncoder() < Constants.maxPivot)
       m_pivot.set(yAxis);
@@ -50,72 +51,12 @@ public class ArmSubsystem extends SubsystemBase {
       m_pivot.set(0.0);
   }
 
-  public void extendArm(double yAxis){
-    if(!isExtensionAtLimit() && getExtensionEncoder() < Constants.maxExtension)
-      m_Extension.set(yAxis);
-    else
-      m_Extension.set(0.0);
-  }
-
-  public void grabCone(){
-    if(getClawEncoder()< Constants.encoder_cone)
-      m_Claw.set(0.25);
-    else
-      m_Claw.set(0.0);
-  }
-  public void moveClaw(double speed){
-    
-    if(!isClawAtLimit() && getClawEncoder()< Constants.maxClaw)
-      m_Claw.set(speed);
-    else
-      m_Claw.set(0.0);
-  }
-
-  public void grabCube(){
-    if(getClawEncoder()< Constants.encoder_cube)
-      m_Claw.set(0.25);
-    else
-      m_Claw.set(0.0);
-  }
-
-  public void retractClaw(){
-    if(!m_clawLimitSwitch.get()){
-      m_Claw.set(-0.2);
-    }
-  }
-
-  public void stopClaw(){
-    m_Claw.set(0.0);
-  }
-
   public void stopPivot(){
     m_pivot.set(0.0);
   }
 
-  public void stopExtension(){
-    m_Extension.set(0.0);
-  }
-
-  public boolean isClawAtLimit(){
-    return m_clawLimitSwitch.get();
-  }
-
   public boolean isPivotAtLimit(){
     return m_pivotSwitch.get();
-  }
-
-  public boolean isExtensionAtLimit(){
-    return m_extensionSwitch.get();
-  }
-
-
-  //Reset Encoders
-  public void resetClawEncoders(){
-    m_ClawEncoder.setPosition(0);
-  }
-
-  public void resetExtensionEncoders(){
-    m_ExtensionEncoder.setPosition(0);
   }
 
   public void resetPivots(){
@@ -123,23 +64,81 @@ public class ArmSubsystem extends SubsystemBase {
     m_rightPivotEncoder.setPosition(0);
   }
 
-  public void resetAllEncoders(){
-    resetClawEncoders();
-    resetClawEncoders();
-    resetExtensionEncoders();
-    resetPivots();
+  public double getPivotEncoder(){
+    return m_rightPivotEncoder.getPosition() + m_leftPivotEncoder.getPosition();
+  }
+
+
+  //Extension Functions
+  public void extendArm(double yAxis){
+    if(!isExtensionAtLimit() && getExtensionEncoder() < Constants.maxExtension)
+      m_Extension.set(yAxis);
+    else
+      m_Extension.set(0.0);
+  }
+
+  public void stopExtension(){
+    m_Extension.set(0.0);
+  }
+
+  public boolean isExtensionAtLimit(){
+    return m_extensionSwitch.get();
+  }
+
+  public void resetExtensionEncoders(){
+    m_ExtensionEncoder.setPosition(0);
+  }
+
+  public double getExtensionEncoder(){
+    return m_ExtensionEncoder.getPosition();
+  }
+
+
+  //Claw Functions
+  public void moveClaw(double speed){
+    if(!isClawAtLimit() && getClawEncoder()< Constants.maxClaw)
+      m_Claw.set(speed);
+    else
+      m_Claw.set(0.0);
+  }
+  public void grabCone(){
+    if(getClawEncoder()< Constants.encoder_cone)
+      m_Claw.set(0.25);
+    else
+      m_Claw.set(0.0);
+  }
+  public void grabCube(){
+    if(getClawEncoder()< Constants.encoder_cube)
+      m_Claw.set(0.25);
+    else
+      m_Claw.set(0.0);
+  }
+  public void retractClaw(){
+    if(!m_clawLimitSwitch.get()){
+      m_Claw.set(-0.2);
+    }
+  }
+  public void stopClaw(){
+    m_Claw.set(0.0);
+  }
+
+  public boolean isClawAtLimit(){
+    return m_clawLimitSwitch.get();
+  }
+
+  public void resetClawEncoders(){
+    m_ClawEncoder.setPosition(0);
   }
 
   public double getClawEncoder(){
     return m_ClawEncoder.getPosition();
   }
 
-  public double getPivotEncoder(){
-    return m_rightPivotEncoder.getPosition() + m_leftPivotEncoder.getPosition();
-  }
-
-  public double getExtensionEncoder(){
-    return m_ExtensionEncoder.getPosition();
+  public void resetAllEncoders(){
+    resetClawEncoders();
+    resetClawEncoders();
+    resetExtensionEncoders();
+    resetPivots();
   }
 
   @Override
