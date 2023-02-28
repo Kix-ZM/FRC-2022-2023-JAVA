@@ -26,23 +26,28 @@ public class Drivetrain extends SubsystemBase {
   // private final Spark m_leftMotor = new Spark(0);
   //private final Spark m_rightMotor = new Spark(1);
 // 1 motor claw, 1 motor extnsion, 2 motors pivot
-  private final CANSparkMax m_flMotor = new CANSparkMax(3, MotorType.kBrushless);
-  private final CANSparkMax m_blMotor = new CANSparkMax(4, MotorType.kBrushless);
-  MotorControllerGroup m_left = new MotorControllerGroup(m_flMotor, m_blMotor);
+  private final CANSparkMax m_flMotor;
+  private final CANSparkMax m_blMotor;
+  MotorControllerGroup m_left;
   
-  private final CANSparkMax m_frMotor = new CANSparkMax(1, MotorType.kBrushless);
-  private final CANSparkMax m_brMotor = new CANSparkMax(2, MotorType.kBrushless);
-  MotorControllerGroup m_right = new MotorControllerGroup(m_frMotor, m_brMotor);
+  private final CANSparkMax m_frMotor;
+  private final CANSparkMax m_brMotor;
+  MotorControllerGroup m_right;
   
   // The Romi has onboard encoders that are hardcoded
   // to use DIO pins 4/5 and 6/7 for the left and right
-  private final RelativeEncoder m_leftEncoder = m_flMotor.getEncoder();
-  private final RelativeEncoder m_rightEncoder = m_frMotor.getEncoder();
-  private final RelativeEncoder m_leftBackEncoder = m_blMotor.getEncoder();
-  private final RelativeEncoder m_rightBackEncoder = m_brMotor.getEncoder();
+  private final RelativeEncoder m_leftEncoder;
+  private final RelativeEncoder m_rightEncoder;
+  private final RelativeEncoder m_leftBackEncoder;
+  private final RelativeEncoder m_rightBackEncoder;
 
   // Set up the differential drive controller
   private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
+
+  private final boolean isUsingFLMotor = true;
+  private final boolean isUsingFRMotor = true;
+  private final boolean isUsingBLMotor = true;
+  private final boolean isUsingBRMotor = true;
  // private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_brMotor, m_frMotor);
   
 
@@ -55,6 +60,45 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
+    //Setup for motors and encoders
+    if(isUsingBLMotor){
+      m_blMotor = new CANSparkMax(4, MotorType.kBrushless);
+      m_leftBackEncoder = m_blMotor.getEncoder();
+    } 
+    if(isUsingFLMotor){
+      m_flMotor = new CANSparkMax(3, MotorType.kBrushless);
+      m_leftEncoder = m_flMotor.getEncoder();
+    }
+    if(isUsingBRMotor){
+      m_brMotor = new CANSparkMax(2, MotorType.kBrushless);
+      m_rightBackEncoder = m_brMotor.getEncoder();
+    } 
+    if(isUsingFRMotor){
+      m_frMotor = new CANSparkMax(1, MotorType.kBrushless);
+      m_rightEncoder = m_frMotor.getEncoder();
+    }
+
+    //Setup for motor groups
+    if(isUsingBLMotor){
+      if(isUsingFLMotor){
+        m_left = new MotorControllerGroup(m_flMotor, m_blMotor);
+      }else{
+        m_left = new MotorControllerGroup(m_blMotor);
+      }
+    }else if(isUsingFLMotor){
+      m_left = new MotorControllerGroup(m_flMotor);
+    }
+
+    if(isUsingBRMotor){
+      if(isUsingFRMotor){
+        m_right = new MotorControllerGroup(m_frMotor, m_brMotor);
+      }else{
+        m_right = new MotorControllerGroup(m_brMotor);
+      }
+    }else if(isUsingFRMotor){
+      m_right = new MotorControllerGroup(m_frMotor);
+    }
+
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
@@ -78,6 +122,9 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
+    if(xaxisSpeed > Constants.maxSpeed){
+      xaxisSpeed = Constants.maxSpeed;
+    }
     m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
   }
 
@@ -89,6 +136,9 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void runTest(double speed){
+    if(speed > Constants.maxSpeed){
+      speed = Constants.maxSpeed;
+    }
     m_brMotor.set(speed);
   }
   // FOr when the time calls for it, run this
@@ -97,43 +147,73 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public RelativeEncoder getLeftEncoder() {
-    return m_leftEncoder;
+    if(isUsingFLMotor){
+      return m_leftEncoder;
+    }
+    return null;
   }
 
   public RelativeEncoder getRightEncoder() {
-    return m_rightEncoder;
+    if(isUsingFRMotor){
+      return m_rightEncoder;
+    }
+    return null;
   }
 
   public RelativeEncoder getRightBackEncoder(){
-    return m_rightBackEncoder;
+    if(isUsingBRMotor){
+      return m_rightBackEncoder;
+    }
+    return null;
   }
 
   public RelativeEncoder getLeftBackEncoder(){
-    return m_leftBackEncoder;
+    if(isUsingBLMotor){
+      return m_leftBackEncoder;
+    }
+    return null;
   }
 
   public double getLeftDistanceInch() {
-    return m_leftEncoder.getPosition();
+    if(isUsingFLMotor){
+      return m_leftEncoder.getPosition();
+    }
+    return 0.0;
   }
 
   public double getLeftBackDistanceInch(){
-    return m_leftBackEncoder.getPosition();
+    if(isUsingBLMotor){
+      return m_leftBackEncoder.getPosition();
+    }
+    return 0.0;
   }
 
   public double getRightDistanceInch() {
-    return m_rightEncoder.getPosition();
+    if(isUsingFRMotor){
+      return m_rightEncoder.getPosition();
+    }
+    return 0.0;
   }
 
   public double getRightBackDistanceInch(){
-    return m_rightBackEncoder.getPosition();
+    if(isUsingBRMotor){
+      return m_rightBackEncoder.getPosition();
+    }
+    return 0.0;
   }
 
   public double getLeftAverageDistanceInch(){
-    return ((getLeftDistanceInch()) + (getLeftBackDistanceInch())) / 2.0;
+    if(isUsingBLMotor && isUsingBRMotor){
+      return ((getLeftDistanceInch()) + (getLeftBackDistanceInch())) / 2.0;
+    }
+    return getLeftDistanceInch() + getLeftBackDistanceInch();
   }
 
   public double getRightAverageDistanceInch(){
-    return ((getRightDistanceInch()) + (getRightBackDistanceInch())) / 2.0;
+    if(isUsingBRMotor && isUsingFRMotor){
+      return ((getRightDistanceInch()) + (getRightBackDistanceInch())) / 2.0;
+    }
+    return ((getRightDistanceInch()) + (getRightBackDistanceInch()));
   }
 
   public double getAverageDistanceInch() {

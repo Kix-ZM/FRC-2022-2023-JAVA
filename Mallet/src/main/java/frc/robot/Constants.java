@@ -14,6 +14,7 @@ package frc.robot;
  */
 public final class Constants {
     public static final double SPEED = 0.25;
+    public static final double maxSpeed = 0.8;
     public static final double kCountsPerRevolution = 4096.0;
     public static final double kWheelDiameterInch = 6; // 70 mm
     public static final double tSpeed = 0.20;
@@ -27,4 +28,10 @@ public final class Constants {
     public static final long yMIN = 130;
     public static final long yMAX = 170;
     public static final double degLimit = 2.5;
+
+    //Motors on the real robot
+    public static final boolean isUsingFLMotor = true;
+    public static final boolean isUsingFRMotor = true;
+    public static final boolean isUsingBLMotor = true;
+    public static final boolean isUsingBRMotor = true;
 }
