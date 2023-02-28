@@ -11,7 +11,6 @@ package frc.robot.subsystems;
 // import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 
 import edu.wpi.first.networktables.*;
-import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -31,10 +30,14 @@ import frc.robot.Constants;
  */
 
 public class Limelight extends SubsystemBase {
-  
-  IntegerSubscriber xSub;
-  IntegerSubscriber ySub;
   NetworkTableInstance inst;
+
+  NetworkTableEntry tv;
+  NetworkTableEntry tx;
+  NetworkTableEntry ty;
+  NetworkTableEntry ta;
+  NetworkTableEntry pipelineIndex;
+
   NetworkTable table;
   NetworkTable tabLime;
 
@@ -51,15 +54,15 @@ public class Limelight extends SubsystemBase {
     table = inst.getTable("limelight");
 
     // is there a target? (0 or 1)
-    NetworkTableEntry tx = table.getEntry("tv");
+    tv = table.getEntry("tv");
     // target x offset (-27 to 27 degrees)
-    NetworkTableEntry tx = table.getEntry("tx");
+    tx = table.getEntry("tx");
     // target y offset (-20.5 to 20.5 degrees)
-    NetworkTableEntry ty = table.getEntry("ty");
+    ty = table.getEntry("ty");
     // target area (0 to 100%)
-    NetworkTableEntry ta = table.getEntry("ta");
+    ta = table.getEntry("ta");
     // pipeline data data entry
-    NetworkTableEntry pipelineIndex = table.getEntry("pipeline")
+    pipelineIndex = table.getEntry("pipeline");
 
     // camera_ori.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     // camera_new.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
@@ -159,7 +162,7 @@ public class Limelight extends SubsystemBase {
 
 // index 0-9
   public void switchPipeline(int index) {
-    pipeline.setNumber(index)
+    pipelineIndex.setNumber(index);
   }
   
   @Override

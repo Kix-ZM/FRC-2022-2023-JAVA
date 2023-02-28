@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -79,12 +81,12 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
     m_limelight.setDefaultCommand( new CameraCMD(m_limelight));
 
-    l_controllerButtons.put("trigger", new JoystickButton(m_lcontroller(1)))
-    r_controllerButtons.put("trigger", new JoystickButton(m_rcontroller(1)))
+    l_controllerButtons.put("trigger", new JoystickButton(m_lcontroller, 1));
+    r_controllerButtons.put("trigger", new JoystickButton(m_rcontroller, 1));
     for (int i = 2; i <= 11; i++)
     {
-      l_controllerButtons.put((String)i, new JoystickButton(m_lcontroller(i)))
-      r_controllerButtons.put((String)i, new JoystickButton(m_rcontroller(i)))
+      l_controllerButtons.put(Integer.toString(i), new JoystickButton(m_lcontroller, 1));
+      r_controllerButtons.put(Integer.toString(i), new JoystickButton(m_rcontroller, 1));
     }
 
 
