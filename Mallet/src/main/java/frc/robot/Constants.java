@@ -17,10 +17,13 @@ public final class Constants {
     public static final double kCountsPerRevolution = 4096.0;
     public static final double kWheelDiameterInch = 6; // 70 mm
     public static final double tSpeed = 0.20;
+
+    // center of image for raspberry pi
     public static final long xMIN = 70;
     public static final long xMAX = 90;
     public static final long yMIN = 130;
     public static final long yMAX = 170;
+
     public static final double degLimit = 2.5;
     public static final double kLimelightMountAngleDegrees = 25.0; // LIMELIGHT ANGLE FROM VERTICAL! NOT ANGLE OF ATTACK!
     public static final double kLimelightLensHeightInches = 20.0; // HEIGHT FROM FLOOR OF LIMELIGHT
@@ -30,6 +33,8 @@ public final class Constants {
     public static final double kAprilTagTop = 24.375; // Higher AprilTag, measured from floor to base of black squares
     public static final double kAprilTagBtm = 15.25;  // Lower AprilTag, measured from floor to base of black squares
     public static final double onFloor = 0; // Height of the Cube and Cone initially.
+
+    public static final float aimAdjustScalar = 0.05f;
 }
 
 /*

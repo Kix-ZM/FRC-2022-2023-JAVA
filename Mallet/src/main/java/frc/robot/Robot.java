@@ -83,8 +83,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    m_robotContainer.getCameraCommand().schedule();
-    m_robotContainer.getArcadeDriveCommand().schedule();
+    //just runs periodic, which should already be running once subsystem is initialized
+//    m_robotContainer.getCameraCommand().schedule();
+
+    // set default command already
+//    m_robotContainer.getArcadeDriveCommand().schedule();
     m_robotContainer.getArmCommand().schedule();
   }
 

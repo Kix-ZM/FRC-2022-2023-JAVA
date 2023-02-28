@@ -12,23 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AimCommand extends CommandBase {
     private final Drivetrain m_drivetrain;
     private final Limelight m_limelight;
-    private double m_xaxisSpeed;
-    private double m_zaxisRotate;
-    //private final Supplier<Double> m_xaxisSpeedSupplier;
-    //private final Supplier<Double> m_zaxisRotateSupplier;
 
-    /**
-     * Creates a new ArcadeDrive. This command will drive your robot according to the speed supplier
-     * lambdas. This command does not terminate.
-     *
-     * @param drivetrain The drivetrain subsystem on which this command will run
-     * @param xaxisSpeedSupplier Lambda supplier of forward/backward speed
-     * @param zaxisRotateSupplier Lambda supplier of rotational speed
-     */
-    public ArcadeDrive(Drivetrain drivetrain) {
+    public AimCommand(Drivetrain drivetrain, Limelight limelight) {
         m_drivetrain = drivetrain;
-        m_xaxisSpeed = RobotContainer.m_controller.getRawAxis(0);
-        m_zaxisRotate = RobotContainer.m_controller.getRawAxis(1);
+        m_limelight = limelight;
         addRequirements(drivetrain);
     }
 

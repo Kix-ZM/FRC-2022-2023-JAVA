@@ -32,17 +32,21 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static final Drivetrain m_drivetrain = new Drivetrain();
-  private static final Limelight limelight = new Limelight();
+  private static final Limelight m_limelight = new Limelight();
   // private static final Launcher m_launcher = new Launcher();
   private static final ArmSubsystem m_armSub = new ArmSubsystem();
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
   // Assumes a gamepad plugged into channnel 0
 
-  public static Joystick m_controller = new Joystick(0);
-  public static Joystick m_controllerOther = new Joystick(1);
-  public static JoystickButton m_fireButton = new JoystickButton(m_controller, 1);
-  public static JoystickButton m_forwardButton = new JoystickButton(m_controllerOther, 2);
-  public static JoystickButton m_backButton = new JoystickButton(m_controllerOther, 3);
+
+  HashMap<String, JoystickButton> l_controllerButtons = new HashMap<String, JoystickButton>();
+  HashMap<String, JoystickButton> r_controllerButtons = new HashMap<String, JoystickButton>();
+
+  public static Joystick m_lcontroller = new Joystick(0);
+  public static Joystick m_rcontroller = new Joystick(1);
+  public static JoystickButton m_fireButton = new JoystickButton(m_lcontroller, 1);
+  public static JoystickButton m_forwardButton = new JoystickButton(m_rcontroller, 2);
+  public static JoystickButton m_backButton = new JoystickButton(m_rcontroller, 3);
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -61,7 +65,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
   }
 
   /**
@@ -73,7 +76,20 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
-    
+    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    m_limelight.setDefaultCommand( new CameraCMD(m_limelight));
+
+    l_controllerButtons.put("trigger", new JoystickButton(m_lcontroller(1)))
+    r_controllerButtons.put("trigger", new JoystickButton(m_rcontroller(1)))
+    for (int i = 2; i <= 11; i++)
+    {
+      l_controllerButtons.put((String)i, new JoystickButton(m_lcontroller(i)))
+      r_controllerButtons.put((String)i, new JoystickButton(m_rcontroller(i)))
+    }
+
+
+
+
     // Example of how to use the onboard IO
     // Button onboardButtonA = new Button(m_onboardIO::getButtonAPressed);
     // onboardButtonA
@@ -105,7 +121,7 @@ public class RobotContainer {
   }
 
   public Command getCameraCommand(){
-    return new CameraCMD(limelight);
+    return new CameraCMD(m_limelight);
   }
 
   public Command getArmCommand(){

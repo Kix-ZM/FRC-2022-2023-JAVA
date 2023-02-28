@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
 
 public class CameraCMD extends CommandBase {
-  private final CameraSub m_camSub;
+  private final Limelight m_limelight;
   //private final Supplier<Double> m_xaxisSpeedSupplier;
   //private final Supplier<Double> m_zaxisRotateSupplier;
 
@@ -22,9 +22,9 @@ public class CameraCMD extends CommandBase {
    * @param xaxisSpeedSupplier Lambda supplier of forward/backward speed
    * @param zaxisRotateSupplier Lambda supplier of rotational speed
    */
-  public CameraCMD(CameraSub camSub) {
-    m_camSub = camSub;
-    addRequirements(m_camSub);
+  public CameraCMD(Limelight limelight) {
+    m_limelight = limelight;
+    addRequirements(m_limelight);
   }
 
   // Called when the command is initially scheduled.
@@ -38,7 +38,7 @@ public class CameraCMD extends CommandBase {
   public void execute() {
     // m_camSub.startUp();
     // m_camSub.changeCamera();
-    m_camSub.periodic();
+    m_limelight.periodic();
   }
 
 
@@ -47,7 +47,7 @@ public class CameraCMD extends CommandBase {
   @Override
   public void end(boolean interrupted) {}
 
-  public CameraSub getCamSub(){return m_camSub;}
+  public CameraSub getCamSub(){return m_limelight;}
 
   // Returns true when the command should end.
   @Override
