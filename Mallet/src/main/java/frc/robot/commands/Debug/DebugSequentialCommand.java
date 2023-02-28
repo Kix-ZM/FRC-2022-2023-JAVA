@@ -13,7 +13,7 @@ public class DebugSequentialCommand extends SequentialCommandGroup{
         m_gyro = gyro;
         m_drivetrain = drivetrain;
         addCommands(
-            new TurnAngle(m_drivetrain, m_gyro, 180.0f, false)
+            new TurnAngle(m_drivetrain, m_gyro, 90.0f, true)
         );
     }
 }
