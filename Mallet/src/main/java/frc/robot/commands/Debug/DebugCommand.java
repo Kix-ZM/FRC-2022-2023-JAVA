@@ -1,16 +1,17 @@
 package frc.robot.commands.Debug;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.*;
 
 public class DebugCommand extends CommandBase{
   private GyroScope m_gyro;
     public DebugCommand(GyroScope gyro){
       m_gyro = gyro;
+      System.out.println(m_gyro.isCalibrating());
     }
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      System.out.println(m_gyro.isCalibrating());
     }
   
     // Called every time the scheduler runs while the command is scheduled.

@@ -163,7 +163,7 @@ public class RobotContainer {
   }
 
   public Command getDebugCommand(){
-    return new DebugCommand();
+    return new DebugCommand(m_gryo);
   }
   public Command getDebugSequentialCommand(){
     return new DebugSequentialCommand(m_drivetrain, m_gryo);

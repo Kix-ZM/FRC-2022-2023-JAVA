@@ -12,7 +12,10 @@ public class DebugSequentialCommand extends SequentialCommandGroup{
     public DebugSequentialCommand(Drivetrain drivetrain, GyroScope gyro){
         m_gyro = gyro;
         m_drivetrain = drivetrain;
+        System.out.println("Started");
+        System.out.println(m_gyro.isCalibrating());
         addCommands(
+            new DebugCommand(m_gyro),
             new TurnAngle(m_drivetrain, m_gyro, 90.0f, true)
         );
     }

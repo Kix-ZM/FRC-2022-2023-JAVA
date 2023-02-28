@@ -8,9 +8,12 @@ public class TurnAngle extends CommandBase{
 
     private Drivetrain m_drivetrain;
     private GyroScope m_gyro;
+    private float startDes;
     private float turnDestination;
+    private float m_turnAmount;
+    private boolean isf;
     private int direction;
-    private float errorRange = 2.0f;
+    private float errorRange = 5.0f;
     private boolean status;
     /*drivetrain - the drivetrain being used
     gyro - the gyro being used
@@ -20,32 +23,47 @@ public class TurnAngle extends CommandBase{
     public TurnAngle(Drivetrain drivetrain, GyroScope gyro, float turnAmount, boolean isTurnningBy){
         m_drivetrain = drivetrain;
         m_gyro = gyro;
-        status = false;
+        System.out.println("\n==============================LoL==============================\n");
+
         addRequirements(m_drivetrain);
         addRequirements(m_gyro);
+        isf = isTurnningBy;
+        status = false;
         // Getting what the angle should be at the end
-        turnDestination = m_gyro.getAngleX();
-        if(isTurnningBy){
-             turnDestination += turnAmount;
-        }
+        // m_turnAmount = turnAmount;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-  
+        System.out.println("Init");
+        startDes = m_gyro.getAngleZ();
+        if(startDes < 0){
+            startDes = 360 + startDes;
+        }
+
+        status = false;
+        // if(isf){
+            m_turnAmount = startDes + 90.0f;
+        // }
+        if(m_turnAmount > 180.0f){
+            m_turnAmount = -1*(180-(m_turnAmount%180));
+        }
     }
   
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        System.out.println("Destination : " + m_turnAmount);
+        System.out.println("Start : " + startDes);
+        System.out.println("Z : " + m_gyro.getAngleZ());
         /*If statements to check the distance it needs to go and if it is within a small margin or not
         and based of that, checks to see the direction to turn to (if it has already reached its destination,
         it will not move*/
-        if(turnDestination-m_gyro.getAngleX()>errorRange){
+        if(m_turnAmount-m_gyro.getAngleZ()>errorRange){
             direction = 1;
-        }else if(turnDestination-m_gyro.getAngleX() < -1*errorRange){
-            direction = -1;
+        }else if(m_turnAmount-m_gyro.getAngleZ() < -1*errorRange){
+            direction = 1;
         }else{
             direction = 0;
         }
@@ -60,6 +78,7 @@ public class TurnAngle extends CommandBase{
     @Override
     public void end(boolean interrupted) {
       direction = 0;
+      System.out.println("Fin");
       m_drivetrain.arcadeDrive(direction, direction);
     }
   
