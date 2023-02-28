@@ -48,13 +48,18 @@ public class CameraSub extends SubsystemBase {
   public CameraSub(){
 
     inst = NetworkTableInstance.getDefault();
-    table = inst.getTable("vision");
-    tabLime = inst.getTable("limelight");
+    table = inst.getTable("limelight");
 
-    xSub = table.getIntegerTopic("target_x").subscribe(-1);
-    ySub = table.getIntegerTopic("target_y").subscribe(-1);
-    
-    
+    // is there a target? (0 or 1)
+    NetworkTableEntry tx = table.getEntry("tv");
+    // target x offset (-27 to 27 degrees)
+    NetworkTableEntry tx = table.getEntry("tx");
+    // target y offset (-20.5 to 20.5 degrees)
+    NetworkTableEntry ty = table.getEntry("ty");
+    // target area (0 to 100%)
+    NetworkTableEntry ta = table.getEntry("ta");
+    // pipeline data data entry
+    NetworkTableEntry pipelineIndex = table.getEntry("pipeline")
 
     // camera_ori.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     // camera_new.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
@@ -110,31 +115,55 @@ public class CameraSub extends SubsystemBase {
   //     server.setSource(camera_new);
   // }
   public int getXPos(){
-    return (int)(xSub.get());
+    return (int)(tx.getDouble(0.0));
   }
 
   public int getYPos(){
-    return (int)(ySub.get());
+    return (int)(ty.getDouble(0.0));
   }
 
-  public int getXCheckAllign(){
-    long temp = xSub.get();
-    if(temp>Constants.xMAX){return 1;}
-    else if(temp<Constants.xMIN){return -1;}
-    else return 0;
-  }
+// IMPLEMENT THIS IN A COMMAND LATER FOR MORE PRECISE CONTROL
+// float Kp = -0.1f;  // Proportional control constant
+//
+// std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
+// float tx = table->GetNumber("tx");
+//
+// if (joystick->GetRawButton(9))
+// {
+//         float heading_error = tx;
+//         steering_adjust = Kp * tx;
+//
+//         left_command+=steering_adjust;
+//         right_command-=steering_adjust;
+// }
 
-  public int getYCheckAllign(){
-    long temp = ySub.get();
-    if(temp>Constants.yMAX){return 1;}
-    else if(temp<Constants.yMIN){return -1;}
-    else return 0;
-  }
+//   public int getXCheckAlign(){
+//     long temp = xSub.get();
+//     if(temp>Constants.xMAX){return 1;}
+//     else if(temp<Constants.xMIN){return -1;}
+//     else return 0;
+//   }
+//
+//   public int getYCheckAllign(){
+//     long temp = ySub.get();
+//     if(temp>Constants.yMAX){return 1;}
+//     else if(temp<Constants.yMIN){return -1;}
+//     else return 0;
+//   }
 
   public double getDistance(double param){
-    double angleToGoalDegrees = Constants.kLimelightMountAngleDegrees + tabLime.getEntry("ty").getDouble(0.0);
+    double angleToGoalDegrees = Constants.kLimelightMountAngleDegrees + getYPos();
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
     return (param - Constants.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
+  }
+
+  public void switchPipeline(int index)
+  {
+    if (index < 0 || index > 9)
+    {
+
+    }
+    pipeline.setNumber(index)
   }
   
   @Override
