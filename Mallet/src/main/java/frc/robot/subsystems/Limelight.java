@@ -30,7 +30,7 @@ import frc.robot.Constants;
  * many methods for different types of processing.
  */
 
-public class CameraSub extends SubsystemBase {
+public class Limelight extends SubsystemBase {
   
   IntegerSubscriber xSub;
   IntegerSubscriber ySub;
@@ -45,7 +45,7 @@ public class CameraSub extends SubsystemBase {
   // public VideoSink server = CameraServer.getServer();
   
 
-  public CameraSub(){
+  public Limelight(){
 
     inst = NetworkTableInstance.getDefault();
     table = inst.getTable("limelight");
@@ -157,12 +157,8 @@ public class CameraSub extends SubsystemBase {
     return (param - Constants.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
   }
 
-  public void switchPipeline(int index)
-  {
-    if (index < 0 || index > 9)
-    {
-
-    }
+// index 0-9
+  public void switchPipeline(int index) {
     pipeline.setNumber(index)
   }
   

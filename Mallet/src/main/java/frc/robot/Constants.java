@@ -22,7 +22,7 @@ public final class Constants {
     public static final long yMIN = 130;
     public static final long yMAX = 170;
     public static final double degLimit = 2.5;
-    public static final double kLimelightMountAngleDegrees = 25.0; // LIMELIGHT ANGLE FROM VERTACLE! NOT ANGLE OF ATTACK!
+    public static final double kLimelightMountAngleDegrees = 25.0; // LIMELIGHT ANGLE FROM VERTICAL! NOT ANGLE OF ATTACK!
     public static final double kLimelightLensHeightInches = 20.0; // HEIGHT FROM FLOOR OF LIMELIGHT
     public static final double kGoalHeightInches = 60.0;
     public static final double kTapeTop = 41.125; // From floor to base of the tape, this is the higher one

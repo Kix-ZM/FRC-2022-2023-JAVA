@@ -32,7 +32,7 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private static final Drivetrain m_drivetrain = new Drivetrain();
-  private static final CameraSub m_camSub = new CameraSub();
+  private static final Limelight limelight = new Limelight();
   // private static final Launcher m_launcher = new Launcher();
   private static final ArmSubsystem m_armSub = new ArmSubsystem();
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
@@ -105,7 +105,7 @@ public class RobotContainer {
   }
 
   public Command getCameraCommand(){
-    return new CameraCMD(m_camSub);
+    return new CameraCMD(limelight);
   }
 
   public Command getArmCommand(){
