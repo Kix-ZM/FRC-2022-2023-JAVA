@@ -86,7 +86,7 @@ public class RobotContainer {
     configureButtonBindings();
     String[] autoList = {"Drive Forwards", "Drive Backwards", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
-
+    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
     
   }
   public void checkAutoInput(){
