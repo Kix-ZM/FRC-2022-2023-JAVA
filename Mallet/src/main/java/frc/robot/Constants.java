@@ -17,6 +17,8 @@ public final class Constants {
     public static final double kCountsPerRevolution = 4096.0;
     public static final double kWheelDiameterInch = 6; // 70 mm
     public static final double tSpeed = 0.20;
+    public static final double ptd = 57.2958;
+    public static final double dtp = 0.01745;
 
     // center of image for raspberry pi
     public static final long xMIN = 70;

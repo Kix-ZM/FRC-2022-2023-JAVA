@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 // import frc.robot.RobotContainer;
-import frc.robot.subsystems.CameraSub;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
 
@@ -47,7 +47,7 @@ public class CameraCMD extends CommandBase {
   @Override
   public void end(boolean interrupted) {}
 
-  public CameraSub getCamSub(){return m_limelight;}
+  public Limelight getCamSub(){return m_limelight;}
 
   // Returns true when the command should end.
   @Override

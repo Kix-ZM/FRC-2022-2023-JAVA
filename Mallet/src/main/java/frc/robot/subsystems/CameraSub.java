@@ -11,6 +11,7 @@ package frc.robot.subsystems;
 // import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -29,15 +30,13 @@ import frc.robot.Constants;
  * many methods for different types of processing.
  */
 
-public class Limelight extends SubsystemBase {
+public class CameraSub extends SubsystemBase {
+  
+  IntegerSubscriber xSub;
+  IntegerSubscriber ySub;
+  DoubleSubscriber t_ySub;
+  DoubleSubscriber t_xSub;
   NetworkTableInstance inst;
-
-  NetworkTableEntry tv;
-  NetworkTableEntry tx;
-  NetworkTableEntry ty;
-  NetworkTableEntry ta;
-  NetworkTableEntry pipelineIndex;
-
   NetworkTable table;
   NetworkTable tabLime;
 
@@ -48,21 +47,18 @@ public class Limelight extends SubsystemBase {
   // public VideoSink server = CameraServer.getServer();
   
 
-  public Limelight(){
+  public CameraSub(){
 
     inst = NetworkTableInstance.getDefault();
-    table = inst.getTable("limelight");
+    table = inst.getTable("vision");
+    tabLime = inst.getTable("limelight");
 
-    // is there a target? (0 or 1)
-    tv = table.getEntry("tv");
-    // target x offset (-27 to 27 degrees)
-    tx = table.getEntry("tx");
-    // target y offset (-20.5 to 20.5 degrees)
-    ty = table.getEntry("ty");
-    // target area (0 to 100%)
-    ta = table.getEntry("ta");
-    // pipeline data data entry
-    pipelineIndex = table.getEntry("pipeline");
+    xSub = table.getIntegerTopic("target_x").subscribe(-1);
+    ySub = table.getIntegerTopic("target_y").subscribe(-1);
+    
+    t_xSub = tabLime.getDoubleTopic("tx").subscribe(0.0);
+    t_ySub = tabLime.getDoubleTopic("ty").subscribe(0.0);
+    
 
     // camera_ori.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
     // camera_new.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
@@ -118,59 +114,32 @@ public class Limelight extends SubsystemBase {
   //     server.setSource(camera_new);
   // }
   public int getXPos(){
-    return (int)(tx.getDouble(0.0));
+    return (int)(xSub.get());
   }
 
   public int getYPos(){
-    return (int)(ty.getDouble(0.0));
+    return (int)(ySub.get());
   }
 
-  public boolean getIsThere(){
-    return tv.getBoolean(false); 
-  }
-
-  public int getArea(){
-    return (int) ta.getInteger(0);
-  }
-
-// IMPLEMENT THIS IN A COMMAND LATER FOR MORE PRECISE CONTROL
-// float Kp = -0.1f;  // Proportional control constant
-//
-// std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
-// float tx = table->GetNumber("tx");
-//
-// if (joystick->GetRawButton(9))
-// {
-//         float heading_error = tx;
-//         steering_adjust = Kp * tx;
-//
-//         left_command+=steering_adjust;
-//         right_command-=steering_adjust;
-// }
-
-  public int getXCheckAlign(){
-    double temp = tx.getDouble(0.0);
+  public int getXCheckAllign(){
+    long temp = xSub.get();
     if(temp>Constants.xMAX){return 1;}
     else if(temp<Constants.xMIN){return -1;}
     else return 0;
   }
 
   public int getYCheckAllign(){
-    double temp = ty.getDouble(0.0);
+    long temp = ySub.get();
     if(temp>Constants.yMAX){return 1;}
     else if(temp<Constants.yMIN){return -1;}
     else return 0;
   }
 
   public double getDistance(double param){
-    double angleToGoalDegrees = Constants.kLimelightMountAngleDegrees + getYPos();
+    double temp = t_ySub.get();
+    double angleToGoalDegrees = Constants.kLimelightMountAngleDegrees + temp;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
     return (param - Constants.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
-  }
-
-// index 0-9
-  public void switchPipeline(int index) {
-    pipelineIndex.setNumber(index);
   }
   
   @Override

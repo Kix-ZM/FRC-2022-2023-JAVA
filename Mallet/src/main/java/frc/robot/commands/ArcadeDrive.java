@@ -26,8 +26,8 @@ public class ArcadeDrive extends CommandBase {
    */
   public ArcadeDrive(Drivetrain drivetrain) {
     m_drivetrain = drivetrain;
-    m_xaxisSpeed = RobotContainer.m_controller.getRawAxis(0);
-    m_zaxisRotate = RobotContainer.m_controller.getRawAxis(1);
+    m_xaxisSpeed = RobotContainer.m_lcontroller.getRawAxis(0);
+    m_zaxisRotate = RobotContainer.m_lcontroller.getRawAxis(1);
     addRequirements(drivetrain);
   }
 
@@ -40,7 +40,7 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.arcadeDrive(-m_zaxisRotate,-m_xaxisSpeed);
+    m_drivetrain.arcadeDrive(-m_xaxisSpeed,-m_zaxisRotate);
     //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
   }
 

@@ -4,18 +4,21 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
 
 public class AimCommand extends CommandBase {
     private final Drivetrain m_drivetrain;
     private final Limelight m_limelight;
+    private final double cSpeed;
 
-    public AimCommand(Drivetrain drivetrain, Limelight limelight) {
+    public AimCommand(Drivetrain drivetrain, Limelight limelight, Double currentSpeed) {
         m_drivetrain = drivetrain;
         m_limelight = limelight;
+        cSpeed = currentSpeed;
         addRequirements(drivetrain);
     }
 
@@ -28,7 +31,7 @@ public class AimCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_drivetrain.arcadeDrive(-m_zaxisRotate,-m_xaxisSpeed);
+        m_drivetrain.arcadeDrive(-cSpeed,m_limelight.getXCheckAlign()*Constants.ptd);
         //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
     }
 
