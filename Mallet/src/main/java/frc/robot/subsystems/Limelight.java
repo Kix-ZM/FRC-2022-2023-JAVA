@@ -41,12 +41,27 @@ public class Limelight extends SubsystemBase {
   NetworkTable table;
   NetworkTable tabLime;
 
+  private enum targetType {
+    CUBE,
+    CONE,
+    NONE
+  }
+  
+  private enum placeType {
+    POLE,
+    PLATFORM,
+    NONE
+  }
+
+  private targetType targetFound = targetType.NONE;
 
   // Thread m_visionThread;
   // public UsbCamera camera_ori = CameraServer.startAutomaticCapture(0);
   // public UsbCamera camera_new = CameraServer.startAutomaticCapture(1);
   // public VideoSink server = CameraServer.getServer();
   
+  
+
 
   public Limelight(){
 
@@ -117,20 +132,21 @@ public class Limelight extends SubsystemBase {
   //   else
   //     server.setSource(camera_new);
   // }
-  public int getXPos(){
-    return (int)(tx.getDouble(0.0));
+  public double getXPos(){
+    return tx.getDouble(0.0);
   }
 
-  public int getYPos(){
-    return (int)(ty.getDouble(0.0));
+  public double getYPos(){
+    return ty.getDouble(0.0);
   }
 
-  public boolean getIsThere(){
-    return tv.getBoolean(false); 
+  public boolean isTarget(){
+    return tv.getDouble(0.0) == 0 ? false : true;
+    
   }
 
-  public int getArea(){
-    return (int) ta.getInteger(0);
+  public double getArea(){
+    return ta.getDouble(0.0);
   }
 
 // IMPLEMENT THIS IN A COMMAND LATER FOR MORE PRECISE CONTROL
@@ -168,10 +184,39 @@ public class Limelight extends SubsystemBase {
     return (param - Constants.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
   }
 
-// index 0-9
-  public void switchPipeline(int index) {
-    pipelineIndex.setNumber(index);
+/*  index 0-9
+ *  1 : cone
+ *  2 : cube
+ */
+  public void setPipeline(double index) {
+    pipelineIndex.setDouble(index);
   }
+
+  public void setTargetPipeline (targetType type) {
+    switch (type) {
+      case CONE:
+        setPipeline(1);
+        break;
+      case CUBE:
+        setPipeline(2);
+        break;
+      case NONE:
+        break;
+    }
+  }
+
+  // returns true if target present and area is over the threshold
+  public boolean targetFound(){
+    return isTarget() && getArea() > 3.0;
+  }
+
+  // in progress
+  public void determineTargetType(){
+    setTargetPipeline(targetType.CONE);
+    
+  }
+
+
   
   @Override
   public void periodic() {
