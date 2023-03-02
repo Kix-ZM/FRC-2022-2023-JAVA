@@ -84,7 +84,7 @@ public class RobotContainer {
     */
     // m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
     configureButtonBindings();
-    String[] autoList = {"Drive Forwards", "Drive Backwards", "Default"};
+    String[] autoList = {"Drive Forwards", "Drive Backwards", "Balance", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
     
@@ -100,6 +100,8 @@ public class RobotContainer {
       case "Drive Backwards":
         m_autoGroup = getAutoDrive_Backwards();
         break;
+      case "Balance":
+        m_autoGroup = getDebugSequentialCommand();
       case "Default":
         m_autoGroup = getAutoDrive_Default();
         break;
@@ -116,7 +118,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_resetEncoderTrigger.onTrue(getResetEncodersCommand());
     m_debugTrigger.onTrue(getDebugCommand());
-    m_debugSeqTrigger.onTrue(getDebugSequentialCommand());
+    m_debugSeqTrigger.onTrue(getGyroCMD());
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
     
@@ -162,10 +164,14 @@ public class RobotContainer {
     return m_autoGroup;
   }
 
+  public Command getGyroCMD(){
+    return new GyroCMD(m_gryo);
+  }
+
   public Command getDebugCommand(){
     return new DebugCommand(m_gryo);
   }
-  public Command getDebugSequentialCommand(){
+  public SequentialCommandGroup getDebugSequentialCommand(){
     return new DebugSequentialCommand(m_drivetrain, m_gryo);
   }
 

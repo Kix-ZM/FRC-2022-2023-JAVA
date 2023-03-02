@@ -84,11 +84,24 @@ public class GyroCMD extends CommandBase {
         double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
         yAxisRate = Math.sin(rollAngleRadians) * -1;
     }
+    if(yAxisRate>0.5){
+      yAxisRate = 0.5;
+    }else if(yAxisRate<-0.5){
+      yAxisRate = -0.5;
+    }
+
+    if(xAxisRate>0.5){
+      xAxisRate = 0.5;
+    }else if(xAxisRate<-0.5){
+      xAxisRate = -0.5;
+    }
 
     try {
-      m_Drivetrain.arcadeDrive(-m_zaxisRotate,-m_xaxisSpeed);
+      m_Drivetrain.arcadeDrive(-xAxisRate,-yAxisRate);
     } catch (RuntimeException ex) {
            System.out.println("Drive system error: " + ex.getMessage() );
+    } catch (Exception e){
+        System.out.println(e);
     }
 
   }
