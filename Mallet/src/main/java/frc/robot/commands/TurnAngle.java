@@ -13,7 +13,7 @@ public class TurnAngle extends CommandBase{
     private float m_turnAmount;
     private boolean m_isTurnningBy;
     private int direction;
-    private float errorRange = 5.0f;
+    private float errorRange = 0.5f;
     private boolean status;
     /*drivetrain - the drivetrain being used
     gyro - the gyro being used
