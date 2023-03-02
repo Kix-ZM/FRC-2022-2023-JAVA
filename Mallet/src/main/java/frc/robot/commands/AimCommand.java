@@ -20,6 +20,7 @@ public class AimCommand extends CommandBase {
         m_limelight = limelight;
         cSpeed = currentSpeed;
         addRequirements(drivetrain);
+        addRequirements(limelight);
     }
 
     // Called when the command is initially scheduled.
@@ -29,6 +30,8 @@ public class AimCommand extends CommandBase {
     }
 
     // Called every time the scheduler runs while the command is scheduled.
+
+    // CHANGE TO IMPLEMENT TURNANGLE WHEN MERGE 
     @Override
     public void execute() {
         m_drivetrain.arcadeDrive(-cSpeed,m_limelight.getXCheckAlign()*Constants.ptd);

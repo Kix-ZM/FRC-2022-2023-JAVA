@@ -41,6 +41,8 @@ public class Limelight extends SubsystemBase {
   NetworkTable table;
   NetworkTable tabLime;
 
+
+  //not sure if we will need this kind of thing
   private enum targetType {
     CUBE,
     CONE,
@@ -171,7 +173,7 @@ public class Limelight extends SubsystemBase {
     else return 0;
   }
 
-  public int getYCheckAllign(){
+  public int getYCheckAlign(){
     double temp = ty.getDouble(0.0);
     if(temp>Constants.yMAX){return 1;}
     else if(temp<Constants.yMIN){return -1;}
@@ -206,14 +208,25 @@ public class Limelight extends SubsystemBase {
   }
 
   // returns true if target present and area is over the threshold
-  public boolean targetFound(){
+  public boolean validTargetFound(){
     return isTarget() && getArea() > 3.0;
   }
 
   // in progress
-  public void determineTargetType(){
+  public void determineTargetType() {
     setTargetPipeline(targetType.CONE);
-    
+    double coneArea = getArea();
+    setTargetPipeline(targetType.CUBE);
+    double cubeArea = getArea();
+
+    if (coneArea > 3 && coneArea > cubeArea) {
+      
+      targetFound = targetType.CONE;
+    } else if (cubeArea > 3 && cubeArea > coneArea) {
+      targetFound = targetType.CUBE;
+    } else {
+      targetFound = targetType.NONE;
+    }
   }
 
 
