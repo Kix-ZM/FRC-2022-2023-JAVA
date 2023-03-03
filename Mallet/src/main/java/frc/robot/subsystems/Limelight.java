@@ -134,19 +134,24 @@ public class Limelight extends SubsystemBase {
   //   else
   //     server.setSource(camera_new);
   // }
+
+  // get x angle offset in degrees
   public double getXOffset(){
     return tx.getDouble(0.0);
   }
 
+  // get y angle offset in degrees
   public double getYOffset(){
     return ty.getDouble(0.0);
   }
 
+  // is there a target?
   public boolean isTarget(){
     return tv.getDouble(0.0) == 0 ? false : true;
     
   }
 
+  // get target area in percent
   public double getArea(){
     return ta.getDouble(0.0);
   }
@@ -166,6 +171,8 @@ public class Limelight extends SubsystemBase {
 //         right_command-=steering_adjust;
 // }
 
+  // return 1 if target is to the right of the center
+  // return -1 if target is to the left of the center
   public int getXCheckAlign(){
     double temp = getXOffset();
     if(temp>Constants.xMAX){return 1;}
@@ -173,6 +180,8 @@ public class Limelight extends SubsystemBase {
     else return 0;
   }
 
+  // return 1 if target is above the center
+  // return -1 if target is below the center
   public int getYCheckAlign(){
     double temp = getYOffset();
     if(temp>Constants.yMAX){return 1;}
@@ -180,6 +189,7 @@ public class Limelight extends SubsystemBase {
     else return 0;
   }
 
+  // return distance to target in inches(ASK SEAMUS)
   public double getDistance(double param){
     double angleToGoalDegrees = Constants.kLimelightMountAngleDegrees + getYOffset();
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
@@ -194,6 +204,7 @@ public class Limelight extends SubsystemBase {
     pipelineIndex.setDouble(index);
   }
 
+  // sets pipeline just based on target type name
   public void setTargetPipeline (targetType type) {
     switch (type) {
       case CONE:
@@ -212,7 +223,7 @@ public class Limelight extends SubsystemBase {
     return isTarget() && getArea() > 3.0;
   }
 
-  // in progress
+  // in progress (may or may not remove)
   public void determineTargetType() {
     setTargetPipeline(targetType.CONE);
     double coneArea = getArea();
