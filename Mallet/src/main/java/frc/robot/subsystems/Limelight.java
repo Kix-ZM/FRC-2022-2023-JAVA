@@ -134,11 +134,11 @@ public class Limelight extends SubsystemBase {
   //   else
   //     server.setSource(camera_new);
   // }
-  public double getXPos(){
+  public double getXOffset(){
     return tx.getDouble(0.0);
   }
 
-  public double getYPos(){
+  public double getYOffset(){
     return ty.getDouble(0.0);
   }
 
@@ -167,21 +167,21 @@ public class Limelight extends SubsystemBase {
 // }
 
   public int getXCheckAlign(){
-    double temp = tx.getDouble(0.0);
+    double temp = getXOffset();
     if(temp>Constants.xMAX){return 1;}
     else if(temp<Constants.xMIN){return -1;}
     else return 0;
   }
 
   public int getYCheckAlign(){
-    double temp = ty.getDouble(0.0);
+    double temp = getYOffset();
     if(temp>Constants.yMAX){return 1;}
     else if(temp<Constants.yMIN){return -1;}
     else return 0;
   }
 
   public double getDistance(double param){
-    double angleToGoalDegrees = Constants.kLimelightMountAngleDegrees + getYPos();
+    double angleToGoalDegrees = Constants.kLimelightMountAngleDegrees + getYOffset();
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
     return (param - Constants.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
   }
@@ -237,6 +237,8 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("TapeBtmDistance", getDistance(Constants.kTapeBtm));
     SmartDashboard.putNumber("AprilTagTopDistance", getDistance(Constants.kAprilTagTop));
     SmartDashboard.putNumber("AprilTagBtmDistance", getDistance(Constants.kAprilTagBtm));
+    SmartDashboard.putNumber("LimelightXOffset", getXOffset());
+    SmartDashboard.putNumber("LimelightYOffset", getYOffset());
     // System.out.print("X: "+xSub.get()+", Y: "+ySub.get());
     // System.out.println(", xAllign: "+getXCheckAllign()+", yAllign: "+getYCheckAllign());
   }

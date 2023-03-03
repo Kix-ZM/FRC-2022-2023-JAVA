@@ -8,6 +8,10 @@ def runPipeline(image, llrobot):
     cY = 120
 
     # define extra limelight array
+    # first value is type of object
+    # 0 = no object
+    # 1 = cone
+    # 2 = cube
     llpython = [0, 0, 0, 0, 0, 0, 0, 0]
 
     # convert image to hsv
@@ -25,33 +29,37 @@ def runPipeline(image, llrobot):
 
     # get largest contour in cone contours if it exists
     largestCone = np.array([[]])
-    if len(cone_contours) > 0:
+    if cone_contours.size != 0:
         largestCone = max(cone_contours, key=cv2.contourArea)
 
     # get largest contour in cube contours if it exists
     largestCube = np.array([[]])
-    if len(cube_contours) > 0:
+    if cubeContours.size != 0:
         largestCube = max(cube_contours, key=cv2.contourArea)
 
     # get largest contour between the two
     largestContour = np.array([[]])
-    if cv2.contourArea(largestCone) > cv2.contourArea(largestCube):
+    if largestCone.size != 0 and cv2.contourArea(largestCone) > cv2.contourArea(largestCube):
         largestContour = largestCone
-    else:
+        llpython[0] = 1
+    else if largestCube.size != 0:
         largestContour = largestCube
+        llpython[0] = 2
 
     # if area above threshold, find center of contour
     # otherwise set center to center of image
-    if cv2.contourArea(largestContour) > 50:
+    if largestContour.size != 0 and cv2.contourArea(largestContour) > 50:
         M = cv2.moments(largestContour)
         if M["m00"] != 0:
             cX = int(M["m10"] / M["m00"])
             cY = int(M["m01"] / M["m00"])
-    ctr = np.array([[cX - 2, cY + 2], [cX + 2, cY + 2], [cX + 2, cY - 2], [cX - 2, cY - 2]]).reshape((-1, 1, 2)).astype(
+    ctr = np.array([[cX - 3, cY + 3], [cX + 3, cY + 3], [cX + 3, cY - 3], [cX - 3, cY - 3]]).reshape((-1, 1, 2)).astype(
         np.int32)
 
     # make sure to return a contour,
     # an image to stream,
     # and optionally an array of up to 8 values for the "llpython"
     # networktables array
+
+    # TEST if you can return empty ctr array if not found
     return ctr, image, llpython
