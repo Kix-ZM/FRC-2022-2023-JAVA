@@ -89,7 +89,7 @@ public class RobotContainer {
       r_controllerButtons.put(Integer.toString(i), new JoystickButton(m_rcontroller, i));
     }
 
-
+    r_controllerButtons.get("9").whenPressed(new AimCommand(m_drivetrain, m_limelight, null));
 
 
 
