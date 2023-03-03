@@ -85,9 +85,11 @@ public class RobotContainer {
     r_controllerButtons.put("trigger", new JoystickButton(m_rcontroller, 1));
     for (int i = 2; i <= 11; i++)
     {
-      l_controllerButtons.put(Integer.toString(i), new JoystickButton(m_lcontroller, 1));
-      r_controllerButtons.put(Integer.toString(i), new JoystickButton(m_rcontroller, 1));
+      l_controllerButtons.put(Integer.toString(i), new JoystickButton(m_lcontroller, i));
+      r_controllerButtons.put(Integer.toString(i), new JoystickButton(m_rcontroller, i));
     }
+
+
 
 
 
