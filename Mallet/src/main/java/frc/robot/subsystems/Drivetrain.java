@@ -60,7 +60,7 @@ public class Drivetrain extends SubsystemBase {
     m_brMotor.setInverted(true);
     m_frMotor.setInverted(true);
 
-    m_brMotor.restoreFactoryDefaults();
+    //m_brMotor.restoreFactoryDefaults();
 
     // Use inches as unit for encoder distances
     // m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);

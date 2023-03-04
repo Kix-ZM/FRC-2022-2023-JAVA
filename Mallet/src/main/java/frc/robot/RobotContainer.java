@@ -89,7 +89,8 @@ public class RobotContainer {
       r_controllerButtons.put(Integer.toString(i), new JoystickButton(m_rcontroller, i));
     }
 
-    r_controllerButtons.get("9").whenPressed(new AimCommand(m_drivetrain, m_limelight, null));
+    // chenge the constant of 0.01 here to whatever else you need to later
+    r_controllerButtons.get("9").whileTrue(new AimCommand(m_drivetrain, m_limelight, 0.01));
 
 
 

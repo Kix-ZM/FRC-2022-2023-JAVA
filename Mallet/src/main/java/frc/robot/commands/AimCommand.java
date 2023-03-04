@@ -34,7 +34,7 @@ public class AimCommand extends CommandBase {
     // CHANGE TO IMPLEMENT TURNANGLE WHEN MERGE 
     @Override
     public void execute() {
-        m_drivetrain.arcadeDrive(-cSpeed,m_limelight.getXCheckAlign()*Constants.ptd);
+        m_drivetrain.arcadeDrive(-cSpeed,-m_limelight.getXOffset()*Constants.dtp*0.9);
         //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
     }
 
