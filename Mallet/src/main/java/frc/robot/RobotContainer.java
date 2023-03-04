@@ -6,23 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArcadeDrive;
-// import frc.robot.commands.LauncherCMD;
-// import frc.robot.commands.AutonomousDistance;
-// import frc.robot.commands.AutonomousTime;
-import frc.robot.subsystems.Drivetrain;
-// import frc.robot.subsystems.Launcher;
-// import frc.robot.subsystems.OnBoardIO;
-// import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.PrintCommand;
-// import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DebugCommand;
+import frc.robot.commands.TestCommand;
+import frc.robot.subsystems.TestSub;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -31,17 +23,11 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private static final Drivetrain m_drivetrain = new Drivetrain();
-  // private static final Launcher m_launcher = new Launcher();
-  private static final ArmSubsystem m_armSub = new ArmSubsystem();
-  // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
-  // Assumes a gamepad plugged into channnel 0
+  //
   public static Joystick m_controller = new Joystick(0);
-  public static Joystick m_controllerOther = new Joystick(1);
-  public static JoystickButton m_fireButton = new JoystickButton(m_controller, 1);
-  public static JoystickButton m_forwardButton = new JoystickButton(m_controllerOther, 2);
-  public static JoystickButton m_backButton = new JoystickButton(m_controllerOther, 3);
+  public static Trigger m_trigger = new JoystickButton(m_controller, 0);
+  //Subsystems
+  public TestSub m_testSub = new TestSub();
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -60,7 +46,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
   }
 
   /**
@@ -70,19 +55,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Default command is arcade drive. This will run unless another command
-    // is scheduled over it.
-    
-    // Example of how to use the onboard IO
-    // Button onboardButtonA = new Button(m_onboardIO::getButtonAPressed);
-    // onboardButtonA
-    //     .whenActive(new PrintCommand("Button A Pressed"))
-    //     .whenInactive(new PrintCommand("Button A Released"));
-
-    // Setup SmartDashboard options
-    // m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
-    // m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
-    // SmartDashboard.putData(m_chooser);
+    m_trigger.onTrue(getAutonomousCommand());
   }
 
   /**
@@ -94,22 +67,17 @@ public class RobotContainer {
     return m_chooser.getSelected();
   }
 
+  public Command getDebugCommand(){
+    return new DebugCommand(m_controller);
+  }
+
+  public Command getTestCommand(){
+    return new TestCommand(m_testSub, m_controller);
+  }
+
   /**
    * Use this to pass the teleop command to the main {@link Robot} class.
    *
    * @return the command to run in teleop
    */
-  public Command getArcadeDriveCommand() {
-    return new ArcadeDrive(m_drivetrain);
-  }
-
-  
-
-  public Command getArmCommand(){
-    return new ArmCommand(m_armSub);
-  }
-
-  public static Drivetrain getDriveTrainSub(){
-    return m_drivetrain;
-  }
 }
