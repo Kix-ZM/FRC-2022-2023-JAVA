@@ -60,6 +60,8 @@ public class GyroCMD extends CommandBase {
     m_zaxisRotate = RobotContainer.m_controller.getRawAxis(1);
     double pitchAngleDegrees = m_gyro.getAngleX();
     double rollAngleDegrees = m_gyro.getAngleY();
+    System.out.println("Pitch: " + pitchAngleDegrees);
+    System.out.println("Roll: " + rollAngleDegrees);
 
     if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= m_offBalanceDeg)) {
         autoBalanceXMode = true;
