@@ -44,8 +44,8 @@ public class GyroCMD extends CommandBase {
     autoBalance();
     //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
   }
-  static final double kOffBalanceAngleThresholdDegrees = 2.5;
-  static final double kOonBalanceAngleThresholdDegrees = 5;
+  double m_offBalanceDeg = Constants.OffBalanceThresholdDeg;
+  double m_onBalanceDeg = Constants.OnBalanceThresholdDeg;
   boolean autoBalanceXMode=false;
   boolean autoBalanceYMode=false;
   Drivetrain m_Drivetrain;
@@ -61,14 +61,14 @@ public class GyroCMD extends CommandBase {
     double pitchAngleDegrees = m_gyro.getAngleX();
     double rollAngleDegrees = m_gyro.getAngleY();
 
-    if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
+    if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= m_offBalanceDeg)) {
         autoBalanceXMode = true;
-    } else if (autoBalanceXMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
+    } else if (autoBalanceXMode && (Math.abs(pitchAngleDegrees) <= m_onBalanceDeg)) {
         autoBalanceXMode = false;
     }
-    if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
+    if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= m_offBalanceDeg)) {
         autoBalanceYMode = true;
-    } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
+    } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= m_onBalanceDeg)) {
         autoBalanceYMode = false;
     }
 
