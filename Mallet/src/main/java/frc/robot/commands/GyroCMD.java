@@ -51,60 +51,79 @@ public class GyroCMD extends CommandBase {
   Drivetrain m_Drivetrain;
   private double m_xaxisSpeed;
   private double m_zaxisRotate;
+  private final double m_maxAdjustSpeed = 0.2; 
+  private final double m_maxSpeed = .5; 
+  private boolean onPlatform = false;
 
   public void autoBalance()
   {
-    double xAxisRate = RobotContainer.m_controller.getX();
-    double yAxisRate = RobotContainer.m_controller.getY();
-    m_xaxisSpeed = RobotContainer.m_controller.getRawAxis(0);
-    m_zaxisRotate = RobotContainer.m_controller.getRawAxis(1);
-    double pitchAngleDegrees = m_gyro.getAngleX();
+    // if angle negative, go forwards
+    // if angle positive, go backwards
     double rollAngleDegrees = m_gyro.getAngleY();
-    System.out.println("Pitch: " + pitchAngleDegrees);
-    System.out.println("Roll: " + rollAngleDegrees);
-
-    if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= m_offBalanceDeg)) {
-        autoBalanceXMode = true;
-    } else if (autoBalanceXMode && (Math.abs(pitchAngleDegrees) <= m_onBalanceDeg)) {
-        autoBalanceXMode = false;
+    if (!onPlatform)
+    {
+      m_Drivetrain.arcadeDrive(1, 0);
+      if (Math.abs(rollAngleDegrees) > 2)
+        onPlatform = true;
     }
-    if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= m_offBalanceDeg)) {
-        autoBalanceYMode = true;
-    } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= m_onBalanceDeg)) {
-        autoBalanceYMode = false;
-    }
-
-    // Control drive system automatically,
-    // driving in reverse direction of pitch/roll angle,
-    // with a magnitude based upon the angle
-
-    if (autoBalanceXMode) {
-        double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
-        xAxisRate = Math.sin(pitchAngleRadians) * -1;
-    }
-    if (autoBalanceYMode) {
-        double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
-        yAxisRate = Math.sin(rollAngleRadians) * -1;
-    }
-    if(yAxisRate>0.5){
-      yAxisRate = 0.5;
-    }else if(yAxisRate<-0.5){
-      yAxisRate = -0.5;
+    else{
+      if (rollAngleDegrees < -2)
+        m_Drivetrain.arcadeDrive(m_maxAdjustSpeed, 0);
+      else if (rollAngleDegrees > 2)
+        m_Drivetrain.arcadeDrive(-m_maxAdjustSpeed, 0);
     }
 
-    if(xAxisRate>0.5){
-      xAxisRate = 0.5;
-    }else if(xAxisRate<-0.5){
-      xAxisRate = -0.5;
-    }
 
-    try {
-      m_Drivetrain.arcadeDrive(-xAxisRate,-yAxisRate);
-    } catch (RuntimeException ex) {
-           System.out.println("Drive system error: " + ex.getMessage() );
-    } catch (Exception e){
-        System.out.println(e);
-    }
+    // double xAxisRate = RobotContainer.m_controller.getX();
+    // double yAxisRate = RobotContainer.m_controller.getY();
+    // m_xaxisSpeed = RobotContainer.m_controller.getRawAxis(0);
+    // m_zaxisRotate = RobotContainer.m_controller.getRawAxis(1);
+    // double pitchAngleDegrees = m_gyro.getAngleX();
+    // System.out.println("Pitch: " + pitchAngleDegrees);
+    // System.out.println("Roll: " + rollAngleDegrees);
+
+    // if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= m_offBalanceDeg)) {
+    //     autoBalanceXMode = true;
+    // } else if (autoBalanceXMode && (Math.abs(pitchAngleDegrees) <= m_onBalanceDeg)) {
+    //     autoBalanceXMode = false;
+    // }
+    // if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= m_offBalanceDeg)) {
+    //     autoBalanceYMode = true;
+    // } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= m_onBalanceDeg)) {
+    //     autoBalanceYMode = false;
+    // }
+
+    // // Control drive system automatically,
+    // // driving in reverse direction of pitch/roll angle,
+    // // with a magnitude based upon the angle
+
+    // if (autoBalanceXMode) {
+    //     double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
+    //     xAxisRate = Math.sin(pitchAngleRadians) * -1;
+    // }
+    // if (autoBalanceYMode) {
+    //     double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
+    //     yAxisRate = Math.sin(rollAngleRadians) * -1;
+    // }
+    // if(yAxisRate>0.5){
+    //   yAxisRate = 0.5;
+    // }else if(yAxisRate<-0.5){
+    //   yAxisRate = -0.5;
+    // }
+
+    // if(xAxisRate>0.5){
+    //   xAxisRate = 0.5;
+    // }else if(xAxisRate<-0.5){
+    //   xAxisRate = -0.5;
+    // }
+
+    // try {
+    //   m_Drivetrain.arcadeDrive(-xAxisRate,-yAxisRate);
+    // } catch (RuntimeException ex) {
+    //        System.out.println("Drive system error: " + ex.getMessage() );
+    // } catch (Exception e){
+    //     System.out.println(e);
+    // }
 
   }
 

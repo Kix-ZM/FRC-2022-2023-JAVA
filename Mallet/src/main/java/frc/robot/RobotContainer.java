@@ -44,7 +44,7 @@ public class RobotContainer {
   private static final Drivetrain m_drivetrain = new Drivetrain();
   // private static final Launcher m_launcher = new Launcher();
   private static final ArmSubsystem m_armSub = new ArmSubsystem();
-  private static final GyroScope m_gryo = new GyroScope();
+  private static final GyroScope m_gyro = new GyroScope();
  // private static final ADXRS450_Gyro m_gyro = new ADXRS450_Gyro();
   // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
   // Assumes a gamepad plugged into channnel 0
@@ -174,14 +174,14 @@ public class RobotContainer {
   }
 
   public Command getGyroCMD(){
-    return new GyroCMD(m_gryo);
+    return new GyroCMD(m_gyro);
   }
 
   public Command getDebugCommand(){
-    return new DebugCommand(m_gryo);
+    return new DebugCommand(m_gyro);
   }
   public SequentialCommandGroup getDebugSequentialCommand(){
-    return new DebugSequentialCommand(m_drivetrain, m_gryo);
+    return new DebugSequentialCommand(m_drivetrain, m_gyro);
   }
 
   public Command getArmCommand(){
@@ -202,6 +202,6 @@ public class RobotContainer {
     return m_drivetrain;
   }
   public static Command getTurnAngle(float turnAmount, boolean isTurningBy){
-    return new TurnAngle(m_drivetrain, m_gryo, turnAmount, isTurningBy);
+    return new TurnAngle(m_drivetrain, m_gyro, turnAmount, isTurningBy);
   }
 }
