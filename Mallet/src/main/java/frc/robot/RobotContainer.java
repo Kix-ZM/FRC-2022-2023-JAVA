@@ -55,7 +55,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_trigger.onTrue(getAutonomousCommand());
+    m_trigger.onTrue(getDebugCommand());
   }
 
   /**
