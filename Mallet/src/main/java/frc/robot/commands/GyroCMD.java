@@ -41,7 +41,7 @@ public class GyroCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    autoBalance();
     //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
   }
   static final double kOffBalanceAngleThresholdDegrees = 2.5;
