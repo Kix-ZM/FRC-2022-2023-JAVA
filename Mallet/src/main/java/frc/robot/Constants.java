@@ -27,5 +27,18 @@ public final class Constants {
     public static final double maxExtension = 2*encoders_550Motors; //Num revolutions
     public static final double maxClaw = 3*encoders_550Motors;
 
+    public static final double minPivot = 0;
+    public static final double minExtension = 0;
+    public static final double minClaw = 0;
+
     public static final double pivotStartPos = encoders_550Motors/90;
+
+    public static final boolean hasArmLimitSwitch = false;
+    public static final boolean hasExtLimitSwitch = false;
+    public static final boolean hasClawLimitSwitch = false;
+
+    public static final boolean hasPivMotor = false;
+    public static final boolean hasExtMotor = false;
+    public static final boolean hasClawMotor = false;
+    
 }

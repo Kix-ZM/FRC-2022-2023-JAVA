@@ -23,9 +23,9 @@ public class ArmSubsystem extends SubsystemBase {
   private final CANSparkMax m_leftPivot = new CANSparkMax(3, MotorType.kBrushless);
   private final CANSparkMax m_rightPivot = new CANSparkMax(4, MotorType.kBrushless);
 
-  private final DigitalInput m_clawLimitSwitch = new DigitalInput(0);
-  private final DigitalInput m_extensionSwitch = new DigitalInput(1);
-  private final DigitalInput m_pivotSwitch = new DigitalInput(2); 
+  private final DigitalInput m_clawLimitSwitch;
+  private final DigitalInput m_extensionSwitch;
+  private final DigitalInput m_pivotSwitch; 
 
   private final RelativeEncoder m_ClawEncoder = m_Claw.getEncoder();
   private final RelativeEncoder m_ExtensionEncoder = m_Extension.getEncoder();
@@ -35,7 +35,22 @@ public class ArmSubsystem extends SubsystemBase {
   MotorControllerGroup m_pivot = new MotorControllerGroup(m_leftPivot, m_rightPivot);
 
   /** Creates a new Drivetrain. */
-  public ArmSubsystem() {
+  public ArmSubsystem(){
+    if(Constants.hasClawLimitSwitch){
+      m_clawLimitSwitch = new DigitalInput(0);
+    }else{
+      m_clawLimitSwitch = null;
+    }
+    if(Constants.hasExtLimitSwitch){
+      m_extensionSwitch = new DigitalInput(1);
+    }else{
+      m_extensionSwitch = null;
+    }
+    if(Constants.hasPivMotor){
+      m_pivotSwitch = new DigitalInput(2);
+    }else{
+      m_pivotSwitch = null;
+    }
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
@@ -56,7 +71,14 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isPivotAtLimit(){
-    return m_pivotSwitch.get();
+    if(Constants.hasPivMotor){
+      return m_pivotSwitch.get();
+    }else{
+      if(getPivotEncoder()>Constants.minPivot){
+          return false;
+      }
+    }
+    return true;
   }
 
   public void resetPivots(){
@@ -82,7 +104,14 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isExtensionAtLimit(){
-    return m_extensionSwitch.get();
+    if(Constants.hasExtLimitSwitch){
+      return m_extensionSwitch.get();
+    }else{
+      if(getExtensionEncoder()>Constants.minExtension){
+        return false;
+      }
+    }
+    return true;
   }
 
   public void resetExtensionEncoders(){
@@ -114,7 +143,7 @@ public class ArmSubsystem extends SubsystemBase {
       m_Claw.set(0.0);
   }
   public void retractClaw(){
-    if(!m_clawLimitSwitch.get()){
+    if(!isClawAtLimit()){
       m_Claw.set(-0.2);
     }
   }
@@ -123,7 +152,14 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isClawAtLimit(){
-    return m_clawLimitSwitch.get();
+    if(Constants.hasClawLimitSwitch){
+      return m_clawLimitSwitch.get();
+    }else{
+      if(getClawEncoder()>Constants.minClaw){
+        return false;
+      }
+    }
+    return true;
   }
 
   public void resetClawEncoders(){
