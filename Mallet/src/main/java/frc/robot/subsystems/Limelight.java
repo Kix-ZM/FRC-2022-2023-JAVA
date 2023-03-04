@@ -250,6 +250,8 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("AprilTagBtmDistance", getDistance(Constants.kAprilTagBtm));
     SmartDashboard.putNumber("LimelightXOffset", getXOffset());
     SmartDashboard.putNumber("LimelightYOffset", getYOffset());
+    System.out.println(getXOffset());
+    System.out.println(getYOffset());
     // System.out.print("X: "+xSub.get()+", Y: "+ySub.get());
     // System.out.println(", xAllign: "+getXCheckAllign()+", yAllign: "+getYCheckAllign());
   }
