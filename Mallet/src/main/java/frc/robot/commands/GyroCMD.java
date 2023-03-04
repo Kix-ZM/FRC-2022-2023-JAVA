@@ -35,6 +35,7 @@ public class GyroCMD extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.print("initializing");
 
   }
 
@@ -42,6 +43,7 @@ public class GyroCMD extends CommandBase {
   @Override
   public void execute() {
     autoBalance();
+    System.out.print("executing");
     //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
   }
   double m_offBalanceDeg = Constants.OffBalanceThresholdDeg;
@@ -52,7 +54,7 @@ public class GyroCMD extends CommandBase {
   private double m_xaxisSpeed;
   private double m_zaxisRotate;
   private final double m_maxAdjustSpeed = 0.2; 
-  private final double m_maxSpeed = .5; 
+  private final double m_maxSpeed = .7; 
   private boolean onPlatform = false;
 
   public void autoBalance()
@@ -62,15 +64,15 @@ public class GyroCMD extends CommandBase {
     double rollAngleDegrees = m_gyro.getAngleY();
     if (!onPlatform)
     {
-      m_Drivetrain.arcadeDrive(1, 0);
+      m_Drivetrain.arcadeDrive(-m_maxSpeed, 0);
       if (Math.abs(rollAngleDegrees) > 2)
         onPlatform = true;
     }
     else{
       if (rollAngleDegrees < -2)
-        m_Drivetrain.arcadeDrive(m_maxAdjustSpeed, 0);
-      else if (rollAngleDegrees > 2)
         m_Drivetrain.arcadeDrive(-m_maxAdjustSpeed, 0);
+      else if (rollAngleDegrees > 2)
+        m_Drivetrain.arcadeDrive(m_maxAdjustSpeed, 0);
     }
 
 
