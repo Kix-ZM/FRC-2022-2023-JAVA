@@ -21,7 +21,6 @@ public class TurnAngle extends CommandBase{
     isTurnningBy - wether or not the turnAmount is a destination, or we the amount we are adding to
     our current angle*/
     public TurnAngle(Drivetrain drivetrain, GyroScope gyro, float turnAmount, boolean isTurnningBy){
-        System.out.println("\n==============================LoL==============================\n");
 
         m_drivetrain = drivetrain;
         m_gyro = gyro;
@@ -31,7 +30,7 @@ public class TurnAngle extends CommandBase{
         m_isTurnningBy = isTurnningBy;
         status = false;
         // Getting what the angle should be at the end
-        // m_turnAmount = turnAmount;
+        m_turnAmount = turnAmount;
     }
 
     // Called when the command is initially scheduled.
@@ -39,14 +38,12 @@ public class TurnAngle extends CommandBase{
     public void initialize() {
         System.out.println("Init");
         status = false;
-        
-        m_turnAmount = 90.0f;
 
-        // if(m_isTurnningBy){
+        if(m_isTurnningBy){
             //Converts gyro to 360 degrees
             startDes = (m_gyro.getAngleZ()+360.0f)%360.0f;
             m_turnAmount += startDes;
-        // }
+        }
 
         //Converts 360 degrees back to gyro
         m_turnAmount %= 360.0f;

@@ -56,6 +56,11 @@ public class RobotContainer {
   public static Trigger m_resetEncoderTrigger = new JoystickButton(m_controllerOther, 11);
   public static Trigger m_debugTrigger = new JoystickButton(m_controllerOther, 7);
   public static Trigger m_debugSeqTrigger = new JoystickButton(m_controllerOther, 6);
+
+  public static Trigger m_turn90 = new JoystickButton(m_controller, 2);
+  public static Trigger m_to90 = new JoystickButton(m_controller, 3);
+  public static Trigger m_turn2 = new JoystickButton(m_controller, 4);
+  public static Trigger m_turn5 = new JoystickButton(m_controller, 5);
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
@@ -119,6 +124,10 @@ public class RobotContainer {
     m_resetEncoderTrigger.onTrue(getResetEncodersCommand());
     m_debugTrigger.onTrue(getDebugCommand());
     m_debugSeqTrigger.onTrue(getGyroCMD());
+    m_turn2.onTrue(getTurnAngle(2.0f, true));
+    m_turn5.onTrue(getTurnAngle(5.0f, true));
+    m_turn90.onTrue(getTurnAngle(90.0f, true));
+    m_to90.onTrue(getTurnAngle(90.0f, false));
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
     
@@ -191,5 +200,8 @@ public class RobotContainer {
 
   public static Drivetrain getDriveTrainSub(){
     return m_drivetrain;
+  }
+  public static Command getTurnAngle(float turnAmount, boolean isTurningBy){
+    return new TurnAngle(m_drivetrain, m_gryo, turnAmount, isTurningBy);
   }
 }
