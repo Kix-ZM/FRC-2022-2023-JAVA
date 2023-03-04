@@ -68,6 +68,9 @@ public class GyroScope extends SubsystemBase {
     }
     @Override
     public void periodic() {
+        System.out.println("x angle: " + getAngleX());
+        System.out.println("y angle: " + getAngleY());
+        System.out.println("z angle: " + getAngleZ());
         // This method will be called once per scheduler run
     }
 }
