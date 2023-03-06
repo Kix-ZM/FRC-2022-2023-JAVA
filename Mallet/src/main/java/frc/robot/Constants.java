@@ -21,12 +21,22 @@ public final class Constants {
     public static final double ticksPerFeet = 40.964489;
     public static final double forward_feet = 17 * ticksPerFeet;//17.666666
     public static final double backward_feet = 6 * ticksPerFeet;//6.572500
-    public static final double OffBalanceThresholdDeg = 2.5;
-    public static final double OnBalanceThresholdDeg = 5;
+    
     
     public static final long xMIN = 70;
     public static final long xMAX = 90;
     public static final long yMIN = 130;
     public static final long yMAX = 170;
-    public static final double degLimit = 2.5;
+
+    // Balancing constants
+    //angle at which the robot is considered to be on the platform
+    public static final double onPlatThreshDeg = 2.5;
+    //angle at within which the robot is considered to be balanced
+    public static final double OnBalanceThreshDeg = 1;
+    // starting speed towards platform
+    public static final double startingSpeedMax = 0.5;
+    // speed to adjust balance
+    public static final double adjustSpeedMax = 0.2;
+    // speed to adjust angle in case of slipping
+    public static final double adjustRotateMax = 0.1;
 }

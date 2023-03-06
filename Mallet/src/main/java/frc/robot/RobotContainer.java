@@ -174,7 +174,7 @@ public class RobotContainer {
   }
 
   public Command getGyroCMD(){
-    return new GyroCMD(m_gyro);
+    return new DriveTillPlatform(m_drivetrain, m_gyro);
   }
 
   public Command getDebugCommand(){

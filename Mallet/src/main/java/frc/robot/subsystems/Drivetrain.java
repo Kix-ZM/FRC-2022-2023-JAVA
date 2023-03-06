@@ -77,6 +77,7 @@ public class Drivetrain extends SubsystemBase {
     return m_brMotor;
   }
 
+  // negative is forward or to the right
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
     m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
   }
