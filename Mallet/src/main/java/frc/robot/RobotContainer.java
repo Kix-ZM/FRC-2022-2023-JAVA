@@ -25,6 +25,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
+
+// sequential command groups
+import frc.robot.commands.AutoSequentialGroup.AutoDriveBalance;
 import frc.robot.commands.AutoSequentialGroup.AutoDrive_Backwards;
 import frc.robot.commands.AutoSequentialGroup.AutoDrive_Default;
 import frc.robot.commands.AutoSequentialGroup.AutoDrive_Forwards;
@@ -107,6 +110,9 @@ public class RobotContainer {
         break;
       case "Balance":
         m_autoGroup = getDebugSequentialCommand();
+        break;
+      case "Balance and Drive":
+        m_autoGroup = new AutoDriveBalance(m_drivetrain, m_gyro);
       case "Default":
         m_autoGroup = getAutoDrive_Default();
         break;
