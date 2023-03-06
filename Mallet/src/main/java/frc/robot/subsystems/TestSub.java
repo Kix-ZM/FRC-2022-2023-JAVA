@@ -6,13 +6,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TestSub extends SubsystemBase{
     private final CANSparkMax motor1 = new CANSparkMax(2, MotorType.kBrushless);
-    private double maxSpeed = 0.3;
+    private double maxSpeed = 0.4;
     public TestSub(){
         
     }
     public void moveMotor1(double speed){
         if(speed > maxSpeed){
             speed = maxSpeed;
+        }else if(speed < -maxSpeed){
+          speed = -maxSpeed;
         }
         motor1.set(speed);
     }

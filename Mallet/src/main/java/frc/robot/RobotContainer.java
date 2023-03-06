@@ -25,7 +25,7 @@ import frc.robot.subsystems.TestSub;
 public class RobotContainer {
   //
   public static Joystick m_controller = new Joystick(0);
-  public static Trigger m_trigger = new JoystickButton(m_controller, 0);
+  public static Trigger m_trigger = new JoystickButton(m_controller, 3);
   //Subsystems
   public TestSub m_testSub = new TestSub();
   // Create SmartDashboard chooser for autonomous routines
@@ -46,6 +46,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    m_testSub.setDefaultCommand(getTestCommand());
   }
 
   /**
