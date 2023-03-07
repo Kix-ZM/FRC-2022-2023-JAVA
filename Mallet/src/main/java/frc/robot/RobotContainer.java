@@ -92,7 +92,7 @@ public class RobotContainer {
     */
     // m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
     configureButtonBindings();
-    String[] autoList = {"Drive Forwards", "Drive Backwards", "Balance", "Default"};
+    String[] autoList = {"Drive Forwards", "Drive Backwards", "Balance", "Balance and Drive", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
     
@@ -113,6 +113,7 @@ public class RobotContainer {
         break;
       case "Balance and Drive":
         m_autoGroup = new AutoDriveBalance(m_drivetrain, m_gyro);
+        break;
       case "Default":
         m_autoGroup = getAutoDrive_Default();
         break;

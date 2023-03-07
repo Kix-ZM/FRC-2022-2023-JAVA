@@ -30,13 +30,13 @@ public final class Constants {
 
     // Balancing constants
     //angle at which the robot is considered to be on the platform
-    public static final double onPlatThreshDeg = 2.5;
+    public static final double onPlatThreshDeg = 8;
     //angle at within which the robot is considered to be balanced
-    public static final double OnBalanceThreshDeg = 1;
+    public static final double OnBalanceThreshDeg = 2;
     // starting speed towards platform
-    public static final double startingSpeedMax = 0.5;
+    public static final double startingSpeedMax = 0.3;
     // speed to adjust balance
-    public static final double adjustSpeedMax = 0.2;
+    public static final double adjustSpeedMax = 0.3;
     // speed to adjust angle in case of slipping
     public static final double adjustRotateMax = 0.1;
 }
