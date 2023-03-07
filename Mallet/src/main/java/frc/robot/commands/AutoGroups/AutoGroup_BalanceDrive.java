@@ -1,4 +1,4 @@
-package frc.robot.commands.AutoSequentialGroup;
+package frc.robot.commands.AutoGroups;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.GyroScope;
@@ -7,16 +7,18 @@ import frc.robot.commands.ResetEncoders;
 import frc.robot.commands.AutoBalance;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class AutoDriveBalance extends SequentialCommandGroup {
+public class AutoGroup_BalanceDrive extends SequentialCommandGroup {
     //Variables
-    public AutoDriveBalance(Drivetrain drivetrain, GyroScope gyro){
+    public AutoGroup_BalanceDrive(Drivetrain drivetrain, GyroScope gyro){
         //Adding a drivetrain
         //Adding Order of commands
 
         addCommands(
             new ResetEncoders(drivetrain),
 
-            // drive until on platform            
+            // drive until on platform
+            new DriveTillPlatform(drivetrain, gyro),
+            
             // balance
             new AutoBalance(drivetrain, gyro)
 

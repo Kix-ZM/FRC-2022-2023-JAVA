@@ -9,7 +9,6 @@ public class TurnAngle extends CommandBase{
     private Drivetrain m_drivetrain;
     private GyroScope m_gyro;
     private float startDes;
-    private float turnDestination;
     private float m_turnAmount;
     private boolean m_isTurnningBy;
     private int direction;

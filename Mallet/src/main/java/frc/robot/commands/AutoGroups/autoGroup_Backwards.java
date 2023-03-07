@@ -1,4 +1,4 @@
-package frc.robot.commands.AutoSequentialGroup;
+package frc.robot.commands.AutoGroups;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants;
@@ -6,10 +6,10 @@ import frc.robot.commands.MoveDistance;
 import frc.robot.commands.ResetEncoders;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class AutoDrive_Backwards extends SequentialCommandGroup {
+public class AutoGroup_Backwards extends SequentialCommandGroup {
     //Variables
     Drivetrain m_Drivetrain;
-    public AutoDrive_Backwards(Drivetrain drivetrain){
+    public AutoGroup_Backwards(Drivetrain drivetrain){
         //Adding a drivetrain
         m_Drivetrain = drivetrain;
         //Adding Order of commands

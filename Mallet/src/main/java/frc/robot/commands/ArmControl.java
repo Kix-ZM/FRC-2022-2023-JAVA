@@ -11,7 +11,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
 
-public class ArmCommand extends CommandBase {
+public class ArmControl extends CommandBase {
   private final ArmSubsystem m_armSub;
   private boolean m_backwardArm;
   private boolean m_forwardArm;
@@ -27,7 +27,7 @@ public class ArmCommand extends CommandBase {
    * @param xaxisSpeedSupplier Lambda supplier of forward/backward speed
    * @param zaxisRotateSupplier Lambda supplier of rotational speed
    */
-  public ArmCommand(ArmSubsystem armSub) {
+  public ArmControl(ArmSubsystem armSub) {
     m_armSub = armSub;
     m_forwardArm = RobotContainer.m_controllerOther.getRawButton(2);
     m_backwardArm = RobotContainer.m_controllerOther.getRawButton(3);

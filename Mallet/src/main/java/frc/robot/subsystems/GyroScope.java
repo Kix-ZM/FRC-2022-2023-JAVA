@@ -4,26 +4,15 @@
 
 package frc.robot.subsystems;
 
-// import frc.robot.Constants;
-
 import com.kauailabs.navx.frc.AHRS;
-
-
-
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Timer;
-// import edu.wpi.first.wpilibj.DigitalInput;
-// import edu.wpi.first.wpilibj.Encoder;
-// import frc.robot.sensors.RomiGyro;
-// import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-// import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GyroScope extends SubsystemBase {
 
   private AHRS gScope;
 
-  /** Creates a new Gyro. */
+    // Creates a new Gyro.
     public GyroScope() {
         gScope = new AHRS(I2C.Port.kMXP);
         gScope.calibrate();

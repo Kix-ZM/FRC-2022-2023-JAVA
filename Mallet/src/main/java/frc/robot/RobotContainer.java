@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
-import frc.robot.commands.AutoGroups.autoGroup_Balance;
-import frc.robot.commands.AutoGroups.autoGroup_Backwards;
-import frc.robot.commands.AutoGroups.autoGroup_Default;
-import frc.robot.commands.AutoGroups.autoGroup_Forwards;
+import frc.robot.commands.AutoGroups.AutoGroup_BalanceDrive;
+import frc.robot.commands.AutoGroups.AutoGroup_Backwards;
+import frc.robot.commands.AutoGroups.AutoGroup_Default;
+import frc.robot.commands.AutoGroups.AutoGroup_Forwards;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
@@ -42,64 +42,54 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
-    String[] autoList = {"Drive Forwards", "Drive Backwards", "Balance", "Default"};
+    String[] autoList = {"Drive Forwards", "Drive Backwards", "Balance and Drive", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
   }
 
   // At the beginning of auto
-  public void checkAutoInput(){
+  public Command autoInput(){
     String autoName = SmartDashboard.getString("Auto Selector", "Drive Forwards"); // This would make "Drive Forwards the default auto
     System.out.println("Cal");
+    
+    Command activeAutoGroup;
     switch(autoName) { //switch between autonomous modes
       case "Drive Forwards":
-        m_autoGroup = new autoGroup_Forwards(m_drivetrain);
+        activeAutoGroup = new AutoGroup_Forwards(m_drivetrain);
         break;
       case "Drive Backwards":
-        m_autoGroup = new autoGroup_Backwards(m_drivetrain);
-        break;
-      case "Balance":
-        m_autoGroup = new autoGroup_Balance(m_drivetrain, m_gyro);
+        activeAutoGroup = new AutoGroup_Backwards(m_drivetrain);
         break;
       case "Balance and Drive":
-        m_autoGroup = new autoGroup_Balance(m_drivetrain, m_gyro);
+        activeAutoGroup = new AutoGroup_BalanceDrive(m_drivetrain, m_gyro);
       case "Default":
-        m_autoGroup = new autoGroup_Default(m_drivetrain);
-        break;
       default:
+        activeAutoGroup = new AutoGroup_Default(m_drivetrain);  
         break;
     }
+
+    return activeAutoGroup;
   }
 
   private void configureButtonBindings() {
     m_resetEncoderTrigger.onTrue(resetEncodersCommand());
     m_debugSeqTrigger.onTrue(driveTillPlatformCommand());
-    m_turn2.onTrue(getTurnAngle(2.0f, true));
-    m_turn5.onTrue(getTurnAngle(5.0f, true));
-    m_turn90.onTrue(getTurnAngle(90.0f, true));
-    m_to90.onTrue(getTurnAngle(90.0f, false));
+    m_turn2.onTrue(turnAngleCommand(2.0f, true));
+    m_turn5.onTrue(turnAngleCommand(5.0f, true));
+    m_turn90.onTrue(turnAngleCommand(90.0f, true));
+    m_to90.onTrue(turnAngleCommand(90.0f, false));
   }
 
-  //these all re
   public Command resetEncodersCommand(){
     return new ResetEncoders(m_drivetrain);
-  }
-  public Command autoDriveCommand(){
-    checkAutoInput();
-    return m_autoGroup;
   }
   public Command driveTillPlatformCommand(){
     return new DriveTillPlatform(m_drivetrain, m_gyro);
   }
-
-  public Command getArmCommand(){
-    return new ArmCommand(m_armSub);
+  public Command armControlCommand(){
+    return new ArmControl(m_armSub);
   }
-
-  public static Drivetrain getDriveTrainSub(){
-    return m_drivetrain;
-  }
-  public static Command getTurnAngle(float turnAmount, boolean isTurningBy){
+  public static Command turnAngleCommand(float turnAmount, boolean isTurningBy){
     return new TurnAngle(m_drivetrain, m_gyro, turnAmount, isTurningBy);
   }
 }

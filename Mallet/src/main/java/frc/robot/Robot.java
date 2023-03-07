@@ -31,8 +31,7 @@ public class Robot extends TimedRobot {
   //called when auto is selected
   @Override
   public void autonomousInit() {
-    m_robotContainer.checkAutoInput();
-    m_robotContainer.autoDriveCommand().schedule();
+    m_robotContainer.autoInput().schedule();
   }
 
   //called periodically when robot is in auto
@@ -50,7 +49,7 @@ public class Robot extends TimedRobot {
   //called periodically when robot is in teleop
   @Override
   public void teleopPeriodic() {
-    m_robotContainer.getArmCommand().schedule();
+    m_robotContainer.armControlCommand().schedule();
   }
 
   //called when test is selected
