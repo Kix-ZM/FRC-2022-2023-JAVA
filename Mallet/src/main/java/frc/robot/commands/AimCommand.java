@@ -13,12 +13,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AimCommand extends CommandBase {
     private final Drivetrain m_drivetrain;
     private final Limelight m_limelight;
-    private final double cSpeed;
 
-    public AimCommand(Drivetrain drivetrain, Limelight limelight, Double currentSpeed) {
+    public AimCommand(Drivetrain drivetrain, Limelight limelight) {
         m_drivetrain = drivetrain;
         m_limelight = limelight;
-        cSpeed = currentSpeed;
         addRequirements(drivetrain);
         addRequirements(limelight);
     }
@@ -34,7 +32,7 @@ public class AimCommand extends CommandBase {
     // CHANGE TO IMPLEMENT TURNANGLE WHEN MERGE 
     @Override
     public void execute() {
-        m_drivetrain.arcadeDrive(-cSpeed,-m_limelight.getXOffset()*Constants.dtp*0.9);
+        m_drivetrain.arcadeDrive(0,-m_limelight.getXOffset()*Constants.dtp*0.9);
         //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
     }
 

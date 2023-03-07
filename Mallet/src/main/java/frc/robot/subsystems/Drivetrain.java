@@ -11,21 +11,11 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-// import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-// import frc.robot.sensors.RomiGyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-// import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
-  
-
-  // The Romi has the left and right motors set to
-  // PWM channels 0 and 1 respectively
-  // private final Spark m_leftMotor = new Spark(0);
-  //private final Spark m_rightMotor = new Spark(1);
-
   private final CANSparkMax m_flMotor = new CANSparkMax(3, MotorType.kBrushless);
   private final CANSparkMax m_blMotor = new CANSparkMax(4, MotorType.kBrushless);
   MotorControllerGroup m_left = new MotorControllerGroup(m_flMotor, m_blMotor);
@@ -34,20 +24,14 @@ public class Drivetrain extends SubsystemBase {
   private final CANSparkMax m_brMotor = new CANSparkMax(2, MotorType.kBrushless);
   MotorControllerGroup m_right = new MotorControllerGroup(m_frMotor, m_brMotor);
   
-  // The Romi has onboard encoders that are hardcoded
-  // to use DIO pins 4/5 and 6/7 for the left and right
   private final RelativeEncoder m_leftEncoder = m_flMotor.getEncoder();
   private final RelativeEncoder m_rightEncoder = m_frMotor.getEncoder();
   private final RelativeEncoder m_leftBackEncoder = m_blMotor.getEncoder();
   private final RelativeEncoder m_rightBackEncoder = m_brMotor.getEncoder();
 
   // Set up the differential drive controller
-  // private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
   private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
-
-
-  // Set up the RomiGyro
-  // private final RomiGyro m_gyro = new RomiGyro();
+ // private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_brMotor, m_frMotor);
 
   // Set up the BuiltInAccelerometer
   private final BuiltInAccelerometer m_accelerometer = new BuiltInAccelerometer();
@@ -59,8 +43,6 @@ public class Drivetrain extends SubsystemBase {
     // gearbox is constructed, you might have to invert the left side instead.
     m_brMotor.setInverted(true);
     m_frMotor.setInverted(true);
-
-    //m_brMotor.restoreFactoryDefaults();
 
     // Use inches as unit for encoder distances
     // m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
@@ -78,6 +60,7 @@ public class Drivetrain extends SubsystemBase {
     return m_brMotor;
   }
 
+  // negative is forward or to the right
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
     m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
   }
@@ -92,7 +75,7 @@ public class Drivetrain extends SubsystemBase {
   public void runTest(double speed){
     m_brMotor.set(speed);
   }
-  // FOr when the time calls for it, run this
+  // For when the time calls for it, run this
   public void stopMotors(){
     m_diffDrive.arcadeDrive(0, 0);
   }
@@ -130,11 +113,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftAverageDistanceInch(){
-    return (getLeftDistanceInch() + getLeftBackDistanceInch()) / 2.0;
+    return ((getLeftDistanceInch()) + (getLeftBackDistanceInch())) / 2.0;
   }
 
   public double getRightAverageDistanceInch(){
-    return (getRightDistanceInch() + getRightBackDistanceInch()) / 2.0;
+    return ((getRightDistanceInch()) + (getRightBackDistanceInch())) / 2.0;
   }
 
   public double getAverageDistanceInch() {

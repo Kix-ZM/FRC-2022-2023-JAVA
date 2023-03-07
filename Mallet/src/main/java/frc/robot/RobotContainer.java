@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.PrintCommand;
 // import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 // import frc.robot.commands.LauncherCMD;
 // import frc.robot.commands.AutonomousDistance;
@@ -40,8 +41,8 @@ public class RobotContainer {
   // Assumes a gamepad plugged into channnel 0
 
 
-  HashMap<String, JoystickButton> l_controllerButtons = new HashMap<String, JoystickButton>();
-  HashMap<String, JoystickButton> r_controllerButtons = new HashMap<String, JoystickButton>();
+  HashMap<String, Trigger> l_controllerButtons = new HashMap<String, Trigger>();
+  HashMap<String, Trigger> r_controllerButtons = new HashMap<String, Trigger>();
 
   public static Joystick m_lcontroller = new Joystick(0);
   public static Joystick m_rcontroller = new Joystick(1);
@@ -78,7 +79,7 @@ public class RobotContainer {
     // Default command is arcade drive. This will run unless another command
     // is scheduled over it.
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
-    m_limelight.setDefaultCommand( new CameraCMD(m_limelight));
+    m_limelight.setDefaultCommand(new CameraCMD(m_limelight));
 
     l_controllerButtons.put("trigger", new JoystickButton(m_lcontroller, 1));
     r_controllerButtons.put("trigger", new JoystickButton(m_rcontroller, 1));
@@ -88,11 +89,8 @@ public class RobotContainer {
       r_controllerButtons.put(Integer.toString(i), new JoystickButton(m_rcontroller, i));
     }
 
-    // chenge the constant of 0.01 here to whatever else you need to later
-    r_controllerButtons.get("9").whileTrue(new AimCommand(m_drivetrain, m_limelight, 0.01));
-
-
-
+    
+    r_controllerButtons.get("9").whileTrue(new AimCommand(m_drivetrain, m_limelight));
 
     // Example of how to use the onboard IO
     // Button onboardButtonA = new Button(m_onboardIO::getButtonAPressed);

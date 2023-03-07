@@ -6,13 +6,16 @@ package frc.robot.commands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
 
 public class ArcadeDrive extends CommandBase {
   private final Drivetrain m_drivetrain;
-  private double m_xaxisSpeed;
-  private double m_zaxisRotate;
+  //private double m_xaxisSpeed;
+  //private double m_zaxisRotate;
+  private Joystick m_joystick;
   //private final Supplier<Double> m_xaxisSpeedSupplier;
   //private final Supplier<Double> m_zaxisRotateSupplier;
 
@@ -26,8 +29,9 @@ public class ArcadeDrive extends CommandBase {
    */
   public ArcadeDrive(Drivetrain drivetrain) {
     m_drivetrain = drivetrain;
-    m_xaxisSpeed = RobotContainer.m_lcontroller.getRawAxis(0);
-    m_zaxisRotate = RobotContainer.m_lcontroller.getRawAxis(1);
+    //m_xaxisSpeed = RobotContainer.m_controller.getRawAxis(0);
+    //m_zaxisRotate = RobotContainer.m_controller.getRawAxis(1);
+    m_joystick = RobotContainer.m_lcontroller;
     addRequirements(drivetrain);
   }
 
@@ -40,7 +44,7 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.arcadeDrive(-m_xaxisSpeed,-m_zaxisRotate);
+    m_drivetrain.arcadeDrive(-m_joystick.getRawAxis(1),-m_joystick.getRawAxis(0));
     //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
   }
 
@@ -48,7 +52,9 @@ public class ArcadeDrive extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    
+  }
 
   // Returns true when the command should end.
   @Override
