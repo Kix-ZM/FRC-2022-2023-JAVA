@@ -1,15 +1,9 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -38,19 +32,14 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
-    // We need to invert one side of the drivetrain so that positive voltages
-    // result in both sides moving forward. Depending on how your robot's
-    // gearbox is constructed, you might have to invert the left side instead.
+    // We need to invert one side of the drivetrain so that positive voltages result in both sides moving forward. Depending on how your robot's gearbox is constructed, you might have to invert the left side instead.
     m_brMotor.setInverted(true);
     m_frMotor.setInverted(true);
 
-    // Use inches as unit for encoder distances
-    // m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    // m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    m_leftEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
-    m_rightEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
-    m_leftBackEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
-    m_rightBackEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
+    m_leftEncoder.setPositionConversionFactor(Constants.K_WHEEL_DIAMETER_INCH);
+    m_rightEncoder.setPositionConversionFactor(Constants.K_WHEEL_DIAMETER_INCH);
+    m_leftBackEncoder.setPositionConversionFactor(Constants.K_WHEEL_DIAMETER_INCH);
+    m_rightBackEncoder.setPositionConversionFactor(Constants.K_WHEEL_DIAMETER_INCH);
     
     resetEncoders();
   }

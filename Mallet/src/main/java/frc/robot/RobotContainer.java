@@ -16,26 +16,21 @@ import frc.robot.commands.AutoGroups.AutoGroup_Forwards;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
+  //INIT SUBSYSTEMS
   private static final Drivetrain m_drivetrain = new Drivetrain();
   private static final ArmSubsystem m_armSub = new ArmSubsystem();
   private static final GyroScope m_gyro = new GyroScope();
 
+  //INIT JOYSTICKS (NOTE: PLEASE RENAME TO LEFT/RIGHT)
   public static Joystick m_controller = new Joystick(0);
   public static Joystick m_controllerOther = new Joystick(1);
-  public static JoystickButton m_fireButton = new JoystickButton(m_controller, 1);
-  public static JoystickButton m_forwardButton = new JoystickButton(m_controllerOther, 2);
-  public static JoystickButton m_backButton = new JoystickButton(m_controllerOther, 3);
 
-  public static Trigger m_resetEncoderTrigger = new JoystickButton(m_controllerOther, 11);
-  public static Trigger m_debugTrigger = new JoystickButton(m_controllerOther, 7);
-  public static Trigger m_debugSeqTrigger = new JoystickButton(m_controllerOther, 6);
+  //INIT CONTROLS
+  public static Trigger m_trigger_resetEncoder = new JoystickButton(m_controllerOther, 11);
+  public static Trigger m_button_turnBy90 = new JoystickButton(m_controller, 2);
+  public static Trigger m_button_goto90 = new JoystickButton(m_controller, 3);
 
-  public static Trigger m_turn90 = new JoystickButton(m_controller, 2);
-  public static Trigger m_to90 = new JoystickButton(m_controller, 3);
-  public static Trigger m_turn2 = new JoystickButton(m_controller, 4);
-  public static Trigger m_turn5 = new JoystickButton(m_controller, 5);
-
-  // Create SmartDashboard chooser for autonomous routines
+  //INIT SMARTDASHBOARD
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
   SequentialCommandGroup m_autoGroup = new SequentialCommandGroup();
@@ -47,21 +42,32 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
   }
 
+  //assign button functions
+  private void configureButtonBindings() {
+    m_trigger_resetEncoder.onTrue(resetEncodersCommand());
+    m_button_turnBy90.onTrue(turnAngleCommand(90.0f, true));
+    m_button_goto90.onTrue(turnAngleCommand(90.0f, false));
+  }
+
   // At the beginning of auto
   public Command autoInput(){
-    String autoName = SmartDashboard.getString("Auto Selector", "Drive Forwards"); // This would make "Drive Forwards the default auto
+    String autoName = SmartDashboard.getString("Auto Selector", "Default"); //Make "Default" the default option
     System.out.println("Cal");
     
     Command activeAutoGroup;
     switch(autoName) { //switch between autonomous modes
+      //just makes the robot drive forwards
       case "Drive Forwards":
         activeAutoGroup = new AutoGroup_Forwards(m_drivetrain);
         break;
+      //just makes the robot drive backwards
       case "Drive Backwards":
         activeAutoGroup = new AutoGroup_Backwards(m_drivetrain);
         break;
+      //Drive forward until it reaches the platform then attempt to balance
       case "Balance and Drive":
         activeAutoGroup = new AutoGroup_BalanceDrive(m_drivetrain, m_gyro);
+      //Default auto
       case "Default":
       default:
         activeAutoGroup = new AutoGroup_Default(m_drivetrain);  
@@ -69,15 +75,6 @@ public class RobotContainer {
     }
 
     return activeAutoGroup;
-  }
-
-  private void configureButtonBindings() {
-    m_resetEncoderTrigger.onTrue(resetEncodersCommand());
-    m_debugSeqTrigger.onTrue(driveTillPlatformCommand());
-    m_turn2.onTrue(turnAngleCommand(2.0f, true));
-    m_turn5.onTrue(turnAngleCommand(5.0f, true));
-    m_turn90.onTrue(turnAngleCommand(90.0f, true));
-    m_to90.onTrue(turnAngleCommand(90.0f, false));
   }
 
   public Command resetEncodersCommand(){

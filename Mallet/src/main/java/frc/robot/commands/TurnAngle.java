@@ -67,7 +67,7 @@ public class TurnAngle extends CommandBase{
         }
         //Direction should only be 0 when the robot reaches the desired angle
         status = (direction == 0);
-        m_drivetrain.arcadeDrive(0.0, Constants.SPEED*direction);
+        m_drivetrain.arcadeDrive(0.0, Constants.K_SPEED*direction);
     }
   
   
