@@ -1,4 +1,6 @@
 package frc.robot.subsystems;
+import java.util.HashMap;
+
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,34 +11,29 @@ import frc.robot.Constants;
  */
 
 public class Limelight extends SubsystemBase {
-  NetworkTableInstance inst;
+  private NetworkTableInstance inst;
+  private NetworkTableEntry tv;
+  private NetworkTableEntry tx;
+  private NetworkTableEntry ty;
+  private NetworkTableEntry ta;
+  private NetworkTableEntry pipelineIndex;
 
-  NetworkTableEntry tv;
-  NetworkTableEntry tx;
-  NetworkTableEntry ty;
-  NetworkTableEntry ta;
-  NetworkTableEntry pipelineIndex;
-
-  NetworkTable table;
-  NetworkTable tabLime;
-
-  // target types for easier use
-  private enum targetType {
-    POLE,
-    CUBE,
-    CONE,
-    CONE_AND_CUBE,
-    APRILTAG,
-    NONE
-  }
-
-  private targetType targetFound = targetType.NONE;
+  private NetworkTable table;
+  private HashMap<String, Integer> pipelineMap;
+  private double curIndex;
 
   public Limelight() {
+    // create pipeline map
+    pipelineMap = new HashMap<String, Integer>();
+    pipelineMap.put("pole", 0);
+    pipelineMap.put("coneAndCube", 1);
+    pipelineMap.put("cube", 2);
+    pipelineMap.put("cone", 3);
+    pipelineMap.put("aprilTag", 4);
 
+// initialize network tables
     inst = NetworkTableInstance.getDefault();
     table = inst.getTable("limelight");
-
     // is there a target? (0 or 1)
     tv = table.getEntry("tv");
     // target x offset (-27 to 27 degrees)
@@ -45,8 +42,18 @@ public class Limelight extends SubsystemBase {
     ty = table.getEntry("ty");
     // target area (0 to 100%)
     ta = table.getEntry("ta");
-    // pipeline data data entry
+    // pipeline index data entry
     pipelineIndex = table.getEntry("pipeline");
+    
+    //set pipeline to cone and cube
+    setPipeline(pipelineMap.get("coneAndCube"));
+    curIndex = pipelineMap.get("coneAndCube");
+
+    // initialize values on smartdashboard
+    SmartDashboard.putBoolean("LimelightTarget", isTarget());
+    SmartDashboard.putNumber("Current Index", curIndex); // change so it displays key not value
+    SmartDashboard.putNumber("LimelightXOffset", getXOffset());
+    SmartDashboard.putNumber("LimelightYOffset", getYOffset());
   }
 
   // get x angle offset in degrees
@@ -80,34 +87,22 @@ public class Limelight extends SubsystemBase {
 /*  index 0-9 ( MUST VERIFY )
  *  0 : retroreflective
  *  1 : cone and cube
- *  2 : cone  (NEED TO ADD)
- *  3 : cube
+ *  2 : cube
+ *  3 : cone  (NEED TO ADD)
  *  4 : april tags
  */
   public void setPipeline(double index) {
     pipelineIndex.setDouble(index);
+    curIndex = index;
   }
 
-  // sets pipeline just based on target type name
-  public void setTargetPipeline (targetType type) {
-    switch (type) {
-      case POLE:
-        setPipeline(0);
-        break;
-      case CONE_AND_CUBE:
-        setPipeline(1);
-        break;
-      case CONE:
-        setPipeline(2);
-        break;
-      case CUBE:
-        setPipeline(3);
-        break;
-      case APRILTAG:
-        setPipeline(4);
-        break;
-      case NONE:
-        break;
+  public void nextPipeline() {
+    if (curIndex < pipelineMap.size()-1) {
+      setPipeline(curIndex + 1);
+      curIndex++;
+    } else {
+      setPipeline(0);
+      curIndex=0;
     }
   }
 
@@ -115,27 +110,11 @@ public class Limelight extends SubsystemBase {
   public boolean validTargetFound(){
     return isTarget() && getArea() > 3.0;
   }
-
-  // in progress (may or may not remove)
-  public void determineTargetType() {
-    setTargetPipeline(targetType.CONE);
-    double coneArea = getArea();
-    setTargetPipeline(targetType.CUBE);
-    double cubeArea = getArea();
-
-    if (coneArea > 3 && coneArea > cubeArea) {
-      
-      targetFound = targetType.CONE;
-    } else if (cubeArea > 3 && cubeArea > coneArea) {
-      targetFound = targetType.CUBE;
-    } else {
-      targetFound = targetType.NONE;
-    }
-  }
   
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("LimelightTarget", isTarget());
+    SmartDashboard.putNumber("Current Index", curIndex); // change so it displays key not value
     SmartDashboard.putNumber("LimelightXOffset", getXOffset());
     SmartDashboard.putNumber("LimelightYOffset", getYOffset());
   }
