@@ -20,7 +20,7 @@ public final class Constants {
     //angle at within which the robot is considered to be balanced
     public static final double OnBalanceThreshDeg = 2;
     // starting speed towards platform
-    public static final double startingSpeedMax = 0.3;
+    public static final double startingSpeedMax = 0.5;
     // speed to adjust balance
     public static final double adjustSpeedMax = 0.3;
     // speed to adjust angle in case of slipping
