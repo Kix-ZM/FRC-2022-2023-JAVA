@@ -17,6 +17,6 @@ public final class Constants {
     public static final double kCountsPerRevolution = 4096.0;
     public static final double kWheelDiameterInch = 6; // 70 mm
     public static final double tSpeed = 0.20;
-    public static final double minSpeed = 0.25;
-    public static final double maxSpeed = 1.00;
+    public static final double minSpeed = 0.5; // In terms of Voltage
+    public static final double maxSpeed = 5; // In terms of Voltage
 }

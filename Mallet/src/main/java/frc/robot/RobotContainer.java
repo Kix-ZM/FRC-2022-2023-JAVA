@@ -24,7 +24,11 @@ import frc.robot.subsystems.TestSub;
 public class RobotContainer {
   //
   public static Joystick m_controller = new Joystick(0);
-  public static Trigger m_trigger = new JoystickButton(m_controller, 3);
+  public static JoystickButton m_emerStop = new JoystickButton(m_controller, 2);
+  public static JoystickButton m_swap = new JoystickButton(m_controller, 3);
+
+  public static JoystickButton m_lower = new JoystickButton(m_controller, 4);
+  public static JoystickButton m_raise = new JoystickButton(m_controller, 5);
   //Subsystems
   public TestSub m_testSub = new TestSub();
   // Create SmartDashboard chooser for autonomous routines
@@ -45,7 +49,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_testSub.setDefaultCommand(getTestCommand());
+    m_testSub.setDefaultCommand(getTestCommand(1));
   }
 
   /**
@@ -55,7 +59,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_trigger.onTrue(getDebugCommand());
+
+    m_emerStop.onTrue(getTestCommand(2));
+    m_swap.onTrue(getTestCommand(3));
+    // m_swap.toggleOnFalse(getTestCommand(3));
+    m_lower.onTrue(getTestCommand(4));
+    m_raise.onTrue(getTestCommand(5));
+    // m_lower.toggleOnFalse(getTestCommand(5));
   }
 
   /**
@@ -71,8 +81,8 @@ public class RobotContainer {
     return new DebugCommand(m_controller);
   }
 
-  public Command getTestCommand(){
-    return new TestCommand(m_testSub, m_controller);
+  public Command getTestCommand(int opt){
+    return new TestCommand(m_testSub, m_controller, opt);
   }
 
   /**
