@@ -1,14 +1,14 @@
 package frc.robot.commands;
-import javax.print.attribute.standard.JobHoldUntil;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.TestSub;
 
 
 public class DebugCommand extends CommandBase{
+    Joystick m_joy;
+
     public DebugCommand(Joystick joy){
-        System.out.println("0 Axis: " + joy.getRawAxis(0) + " 1 Axis : " + joy.getRawAxis(1) + "2 Axis: " + joy.getRawAxis(2));
+        m_joy = joy;
     }
     // Called when the command is initially scheduled.
     @Override
@@ -16,7 +16,11 @@ public class DebugCommand extends CommandBase{
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {}
+    public void execute() {
+        System.out.println("0 Axis: " + m_joy.getRawAxis(0) 
+        + " 1 Axis : " + m_joy.getRawAxis(1) 
+        + "2 Axis: " + m_joy.getRawAxis(2));
+    }
 
     // Called once the command ends or is interrupted.
     @Override

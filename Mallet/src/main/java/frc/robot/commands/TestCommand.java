@@ -1,5 +1,4 @@
 package frc.robot.commands;
-import javax.print.attribute.standard.JobHoldUntil;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -21,13 +20,13 @@ public class TestCommand extends CommandBase{
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_test.moveMotor1(m_joystick.getRawAxis(0));
+        m_test.moveMotors(m_joystick.getRawAxis(0),m_joystick.getRawAxis(1));
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_test.stopMotor1();
+        m_test.moveMotors(0, 0);
     }
 
     // Returns true when the command should end.
