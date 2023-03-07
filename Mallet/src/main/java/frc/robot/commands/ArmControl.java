@@ -29,8 +29,8 @@ public class ArmControl extends CommandBase {
    */
   public ArmControl(ArmSubsystem armSub) {
     m_armSub = armSub;
-    m_forwardArm = RobotContainer.m_controllerOther.getRawButton(2);
-    m_backwardArm = RobotContainer.m_controllerOther.getRawButton(3);
+    m_forwardArm = RobotContainer.m_rcontroller.getRawButton(2);
+    m_backwardArm = RobotContainer.m_rcontroller.getRawButton(3);
     // m_CAMSpeed = RobotContainer.m_controllerOther.getRawAxis(0);
     // m_triggerCheck = RobotContainer.m_controllerOther.getTrigger();
     addRequirements(armSub);

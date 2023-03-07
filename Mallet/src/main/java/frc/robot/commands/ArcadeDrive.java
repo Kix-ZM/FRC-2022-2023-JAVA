@@ -12,7 +12,7 @@ public class ArcadeDrive extends CommandBase {
 
   public ArcadeDrive(Drivetrain drivetrain) {
     m_drivetrain = drivetrain;
-    m_joystick = RobotContainer.m_controller;
+    m_joystick = RobotContainer.m_lcontroller;
     addRequirements(drivetrain);
   }
 

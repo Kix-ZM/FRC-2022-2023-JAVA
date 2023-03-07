@@ -6,13 +6,19 @@ public final class Constants {
     public static final double tSpeed = 0.20;
     public static final double ticksPerMeter = 133.285034;
     public static final double ticksPerFeet = 40.964489;
-    public static final double forward_feet = 17 * ticksPerFeet;//17.666666
-    public static final double backward_feet = 6 * ticksPerFeet;//6.572500
+
     
     public static final long xMIN = 70;
     public static final long xMAX = 90;
     public static final long yMIN = 130;
     public static final long yMAX = 170;
+
+    // Autonomous constants
+    public static final double forward_feet = 17 * ticksPerFeet;//17.666666
+    public static final double backward_feet = 6 * ticksPerFeet;//6.572500
+    public static final double ptd = 57.2958; //seamus what are these
+    public static final double dtp = 0.01745;
+
 
     // Balancing constants
     //angle at which the robot is considered to be on the platform
@@ -25,4 +31,8 @@ public final class Constants {
     public static final double adjustSpeedMax = 0.3;
     // speed to adjust angle in case of slipping
     public static final double adjustRotateMax = 0.1;
+
+    // Vision constants
+    public static final double kLimelightMountAngleDegrees = 25.0; // LIMELIGHT ANGLE FROM VERTICAL! NOT ANGLE OF ATTACK!
+    public static final double kLimelightLensHeightInches = 20.0; // HEIGHT FROM FLOOR OF LIMELIGHT
 }
