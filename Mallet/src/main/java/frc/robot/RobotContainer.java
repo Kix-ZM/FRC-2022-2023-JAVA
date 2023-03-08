@@ -81,9 +81,10 @@ public class RobotContainer {
         break;
       //Drive forward until it reaches the platform then attempt to balance
       case "Balance and Drive":
+        System.out.println("Balance Drive Case");
         activeAutoGroup = new AutoGroup_BalanceDrive(m_drivetrain, m_gyro);
+        break;
       //Default auto
-      case "Default":
       default:
         activeAutoGroup = new AutoGroup_Default(m_drivetrain);  
         break;

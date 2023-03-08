@@ -56,10 +56,10 @@ public class AutoBalance extends CommandBase {
           toAdjustSpeed = pitchAngleDegrees < 0 // if tilted backwards
               ? -Constants.adjustSpeedMax // go forward
               : Constants.adjustSpeedMax; // go backwards
-      if (Math.abs(yawAngleDegrees) > Constants.OnBalanceThreshDeg)
+      while (Math.abs(yawAngleDegrees) > Constants.OnBalanceThreshDeg)
           toAdjustRotate = yawAngleDegrees < 0 // if tilted left
-              ? -Constants.adjustRotateMax  // go right
-              : Constants.adjustRotateMax; // go left
+              ? Constants.adjustRotateMax  // go right
+              : -Constants.adjustRotateMax; // go left
       m_drivetrain.arcadeDrive(-toAdjustSpeed, -toAdjustRotate);
     }
   }

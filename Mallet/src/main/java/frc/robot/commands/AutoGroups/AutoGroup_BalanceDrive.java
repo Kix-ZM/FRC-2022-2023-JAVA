@@ -16,9 +16,6 @@ public class AutoGroup_BalanceDrive extends SequentialCommandGroup {
         addCommands(
             new ResetEncoders(drivetrain),
 
-            // drive until on platform
-            new DriveTillPlatform(drivetrain, gyro),
-            
             // balance
             new AutoBalance(drivetrain, gyro)
 
