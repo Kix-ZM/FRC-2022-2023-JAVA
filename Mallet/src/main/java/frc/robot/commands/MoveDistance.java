@@ -11,7 +11,7 @@ public class MoveDistance extends CommandBase{
     private boolean finishStatus = false;
     private Drivetrain m_Drivetrain;
     
-    double forwardDist =  Constants.K_FORWARDS_FEED; //how far to move until start moving backwards
+    double forwardDist =  Constants.K_FORWARDS_FEET; //how far to move until start moving backwards
     double backwardDist = Constants.K_BACKWARDS_FEET; //how far to move backwards until we stop
     double distance;
     boolean isBackwards;

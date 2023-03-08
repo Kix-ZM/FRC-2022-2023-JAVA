@@ -19,7 +19,6 @@ public class RobotContainer {
   //INIT SUBSYSTEMS
   private static final Drivetrain m_drivetrain = new Drivetrain();
   private static final Limelight m_limelight = new Limelight();
-  private static final ArmSubsystem m_armSub = new ArmSubsystem();
   private static final GyroScope m_gyro = new GyroScope();
 
   //INIT JOYSTICKS (NOTE: PLEASE RENAME TO LEFT/RIGHT)
@@ -98,9 +97,6 @@ public class RobotContainer {
   }
   public Command driveTillPlatformCommand(){
     return new DriveTillPlatform(m_drivetrain, m_gyro);
-  }
-  public Command armControlCommand(){
-    return new ArmControl(m_armSub);
   }
   public static Command turnAngleCommand(float turnAmount, boolean isTurningBy){
     return new TurnAngle(m_drivetrain, m_gyro, turnAmount, isTurningBy);
