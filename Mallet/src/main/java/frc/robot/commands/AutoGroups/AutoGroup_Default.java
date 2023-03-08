@@ -15,8 +15,8 @@ public class AutoGroup_Default extends SequentialCommandGroup {
         //Adding Order of commands
         addCommands(
             new ResetEncoders(this.m_Drivetrain),
-            new MoveDistance(m_Drivetrain, Constants.forward_feet, false),
-            new MoveDistance(m_Drivetrain, Constants.backward_feet, true)
+            new MoveDistance(m_Drivetrain, Constants.K_FORWARDS_FEET, false),
+            new MoveDistance(m_Drivetrain, Constants.K_BACKWARDS_FEET, true)
         );
     }
 }

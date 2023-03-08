@@ -3,32 +3,22 @@ package frc.robot;
 public final class Constants {
     public static final double K_SPEED = 0.25; //speed for turning
     public static final double K_WHEEL_DIAMETER_INCH = 6; //diameter of the wheels in inches
-    public static final double tSpeed = 0.20;
-    public static final double ticksPerMeter = 133.285034;
-    public static final double ticksPerFeet = 40.964489;
-
-    
-    public static final long xMIN = 70;
-    public static final long xMAX = 90;
-    public static final long yMIN = 130;
-    public static final long yMAX = 170;
+    public static final double K_TICKS_PER_FEET = 40.964489;
 
     // Autonomous constants
-    public static final double forward_feet = 17 * ticksPerFeet;//17.666666
-    public static final double backward_feet = 6 * ticksPerFeet;//6.572500
-    public static final double ptd = 57.2958; //seamus what are these
-    public static final double dtp = 0.01745;
-
+    public static final double K_FORWARDS_FEET = 17 * K_TICKS_PER_FEET;//17.666666
+    public static final double K_BACKWARDS_FEET = 6 * K_TICKS_PER_FEET;//6.572500
+    public static final double K_DEC_TO_PI = 0.01745;
 
     // Balancing constants
     //angle at which the robot is considered to be on the platform
-    public static final double onPlatThreshDeg = 10;
+    public static final double K_PLAT_DEGREE_THRESH = 10;
     //angle at within which the robot is considered to be balanced
-    public static final double OnBalanceThreshDeg = 4.2;
+    public static final double K_BALANCE_THRESH_DEG = 4.2;
     // starting speed towards platform
-    public static final double forwardSpeed = 0.50;
+    public static final double K_FWD_SPEED = 0.50;
     // speed to adjust balance
-    public static final double adjustSpeed = .26;  // speed to adjust angle or brake
+    public static final double K_ADJUST_SPEED = .26;  // speed to adjust angle or brake
     public static final double adjustRotate = 0.1;
 
     // Vision constants

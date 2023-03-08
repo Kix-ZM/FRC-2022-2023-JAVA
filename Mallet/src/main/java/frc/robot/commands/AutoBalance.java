@@ -43,9 +43,9 @@ public class AutoBalance extends CommandBase {
     double pitchAngleDegrees = m_gyro.getAngleY();
     if (!startBalancing)
     {
-      m_drivetrain.arcadeDrive(Constants.forwardSpeed, 0);
+      m_drivetrain.arcadeDrive(Constants.K_FWD_SPEED, 0);
       // if at high enough angle so we know it is on the platform
-      if (Math.abs(pitchAngleDegrees) > Constants.onPlatThreshDeg)
+      if (Math.abs(pitchAngleDegrees) > Constants.K_PLAT_DEGREE_THRESH)
         onPlatform = true;
       
       // if on platform and tilted to the other side of the charger
@@ -58,14 +58,14 @@ public class AutoBalance extends CommandBase {
       double toAdjustRotate = 0;
       // if angle negative, go forwards
       // if angle positive, go backwards
-      if (Math.abs(pitchAngleDegrees) > Constants.OnBalanceThreshDeg)
+      if (Math.abs(pitchAngleDegrees) > Constants.K_BALANCE_THRESH_DEG)
           toAdjustSpeed = pitchAngleDegrees < 0 // if tilted backwards
-              ? -Constants.adjustSpeed // go forward
-              : Constants.adjustSpeed; // if tilted forwards go backwards
-      while (Math.abs(yawAngleDegrees) > Constants.OnBalanceThreshDeg)
+              ? -Constants.K_ADJUST_SPEED // go forward
+              : Constants.K_ADJUST_SPEED; // if tilted forwards go backwards
+      while (Math.abs(yawAngleDegrees) > Constants.K_BALANCE_THRESH_DEG)
           toAdjustRotate = yawAngleDegrees < 0 // if tilted left
-              ? Constants.adjustRotate  // go right
-              : -Constants.adjustRotate; // go left
+              ? Constants.K_ADJUST_ROTATE  // go right
+              : -Constants.K_ADJUST_ROTATE; // go left
       m_drivetrain.arcadeDrive(-toAdjustSpeed, -toAdjustRotate);
     }
   }

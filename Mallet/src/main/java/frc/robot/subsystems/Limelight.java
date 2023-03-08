@@ -79,9 +79,9 @@ public class Limelight extends SubsystemBase {
 
   // return distance to target in inches(ASK SEAMUS)
   public double getDistance(double param){
-    double angleToGoalDegrees = Constants.kLimelightMountAngleDegrees + getYOffset();
+    double angleToGoalDegrees = Constants.K_LIMELIGHT_MOUNT_ANG_DEG + getYOffset();
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
-    return (param - Constants.kLimelightLensHeightInches)/Math.tan(angleToGoalRadians);
+    return (param - Constants.K_LIMELIGHT_LENS_HEIGHT_INCH)/Math.tan(angleToGoalRadians);
   }
 
 /*  index 0-9 ( MUST VERIFY )

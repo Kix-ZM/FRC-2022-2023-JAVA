@@ -36,7 +36,7 @@ public class DriveTillPlatform extends CommandBase {
   @Override
   public void execute() {
     // drive forward until on platform
-    m_drivetrain.arcadeDrive(Constants.forwardSpeed, 0);
+    m_drivetrain.arcadeDrive(Constants.K_FWD_SPEED, 0);
     System.out.print("executing");
   }
 
@@ -48,6 +48,6 @@ public class DriveTillPlatform extends CommandBase {
   @Override
   public boolean isFinished() {
     // end when on platform
-    return Math.abs(m_gyro.getAngleY()) > Constants.onPlatThreshDeg;
+    return Math.abs(m_gyro.getAngleY()) > Constants.K_PLAT_DEGREE_THRESH;
   }
 }
