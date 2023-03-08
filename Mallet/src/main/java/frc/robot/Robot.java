@@ -49,7 +49,6 @@ public class Robot extends TimedRobot {
   //called periodically when robot is in teleop
   @Override
   public void teleopPeriodic() {
-    m_robotContainer.armControlCommand().schedule();
   }
 
   //called when test is selected
