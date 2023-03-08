@@ -19,9 +19,9 @@ public final class Constants {
     public static final double K_FWD_SPEED = 0.50;
     // speed to adjust balance
     public static final double K_ADJUST_SPEED = .26;  // speed to adjust angle or brake
-    public static final double adjustRotate = 0.1;
+    public static final double K_ADJUST_ROTATE = 0.1;
 
     // Vision constants
-    public static final double kLimelightMountAngleDegrees = 25.0; // LIMELIGHT ANGLE FROM VERTICAL! NOT ANGLE OF ATTACK!
-    public static final double kLimelightLensHeightInches = 20.0; // HEIGHT FROM FLOOR OF LIMELIGHT
+    public static final double K_LIMELIGHT_MOUNT_ANG_DEG = 25.0; // LIMELIGHT ANGLE FROM VERTICAL! NOT ANGLE OF ATTACK!
+    public static final double K_LIMELIGHT_LENS_HEIGHT_INCH = 20.0; // HEIGHT FROM FLOOR OF LIMELIGHT
 }
