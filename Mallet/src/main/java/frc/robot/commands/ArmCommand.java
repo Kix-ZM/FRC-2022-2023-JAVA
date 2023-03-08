@@ -31,11 +31,11 @@ public class ArmCommand extends CommandBase {
    */
   public ArmCommand(ArmSubsystem armSub) {
     m_armSub = armSub;
-    m_retractButton = RobotContainer.m_controllerOther.getRawButton(3);
-    m_coneButton = RobotContainer.m_controllerOther.getRawButton(4);
-    m_cubeButton = RobotContainer.m_controllerOther.getRawButton(5);
-    m_trigger = RobotContainer.m_controllerOther.getTrigger();
-    m_zAxis = RobotContainer.m_controllerOther.getRawAxis(1);
+    m_retractButton = RobotContainer.m_rcontroller.getRawButton(3);
+    m_coneButton = RobotContainer.m_rcontroller.getRawButton(4);
+    m_cubeButton = RobotContainer.m_rcontroller.getRawButton(5);
+    m_trigger = RobotContainer.m_rcontroller.getTrigger();
+    m_zAxis = RobotContainer.m_rcontroller.getRawAxis(1);
     addRequirements(armSub);
   }
 

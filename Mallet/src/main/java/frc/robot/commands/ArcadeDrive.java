@@ -26,8 +26,8 @@ public class ArcadeDrive extends CommandBase {
    */
   public ArcadeDrive(Drivetrain drivetrain) {
     m_drivetrain = drivetrain;
-    m_xaxisSpeed = RobotContainer.m_controller.getRawAxis(0);
-    m_zaxisRotate = RobotContainer.m_controller.getRawAxis(1);
+    m_xaxisSpeed = RobotContainer.m_lcontroller.getRawAxis(0);
+    m_zaxisRotate = RobotContainer.m_lcontroller.getRawAxis(1);
     addRequirements(drivetrain);
   }
 
