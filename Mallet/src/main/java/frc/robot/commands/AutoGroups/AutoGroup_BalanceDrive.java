@@ -2,7 +2,6 @@ package frc.robot.commands.AutoGroups;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.GyroScope;
-import frc.robot.commands.DriveTillPlatform;
 import frc.robot.commands.ResetEncoders;
 import frc.robot.commands.AutoBalance;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;

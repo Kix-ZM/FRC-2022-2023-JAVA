@@ -36,7 +36,7 @@ public class DriveTillPlatform extends CommandBase {
   @Override
   public void execute() {
     // drive forward until on platform
-    m_drivetrain.arcadeDrive(Constants.startingSpeedMax, 0);
+    m_drivetrain.arcadeDrive(Constants.forwardSpeed, 0);
     System.out.print("executing");
   }
 

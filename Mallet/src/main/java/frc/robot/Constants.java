@@ -22,14 +22,14 @@ public final class Constants {
 
     // Balancing constants
     //angle at which the robot is considered to be on the platform
-    public static final double onPlatThreshDeg = 14.3;
+    public static final double onPlatThreshDeg = 10;
     //angle at within which the robot is considered to be balanced
     public static final double OnBalanceThreshDeg = 4.2;
     // starting speed towards platform
-    public static final double startingSpeedMax = 0.50;
+    public static final double forwardSpeed = 0.50;
     // speed to adjust balance
-    public static final double adjustSpeedMax = .26;  // speed to adjust angle in case of slipping
-    public static final double adjustRotateMax = 0.1;
+    public static final double adjustSpeed = .26;  // speed to adjust angle or brake
+    public static final double adjustRotate = 0.1;
 
     // Vision constants
     public static final double kLimelightMountAngleDegrees = 25.0; // LIMELIGHT ANGLE FROM VERTICAL! NOT ANGLE OF ATTACK!
