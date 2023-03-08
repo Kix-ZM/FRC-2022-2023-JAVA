@@ -25,7 +25,8 @@ public class TestCommand extends CommandBase{
         System.out.println("opion: "+m_opt);
         switch(m_opt){
             case 1:
-                m_test.moveMotors(m_joystick.getRawAxis(2),-1*m_joystick.getRawAxis(2));
+                //Moves Motors From Z Dial (The one at the base of the joystick)
+                m_test.moveMotors(m_joystick.getRawAxis(2),-1*m_joystick.getRawAxis(2),0);
             break;
             case 2:
                 m_test.kill();

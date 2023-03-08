@@ -9,7 +9,7 @@ import frc.robot.Constants;
 public class TestSub extends SubsystemBase{
     // This is the Pivot Motor
     // Idle - Break
-    private final CANSparkMax motor1 = new CANSparkMax(1, MotorType.kBrushless);
+    private final CANSparkMax pivMotor;
     private double cMove = 1; 
     private boolean change;
     private boolean isStopped = false;
@@ -17,30 +17,67 @@ public class TestSub extends SubsystemBase{
 
     // This is the Arm Extension Motor
     // Idle - Coast
-    private final CANSparkMax motor2 = new CANSparkMax(2, MotorType.kBrushless);    
+    private final CANSparkMax extMotor;   
+    
+    //This is the Claw Motor
+    //Idle - Coast
+    private final CANSparkMax clawMotor;
 
     public TestSub(){
-        motor1.setIdleMode(IdleMode.kBrake);
-        motor2.setIdleMode(IdleMode.kCoast);
+      if(Constants.isUsingPivot){
+        pivMotor = new CANSparkMax(1, MotorType.kBrushless);
+        pivMotor.setIdleMode(IdleMode.kBrake);
+      }else{
+        pivMotor = null;
+      }
+      if(Constants.isUsingExt){
+        extMotor = new CANSparkMax(1, MotorType.kBrushless);
+        extMotor.setIdleMode(IdleMode.kCoast);
+      }else{
+        extMotor = null;
+      }
+      if(Constants.isUsingClaw){
+        clawMotor = new CANSparkMax(1, MotorType.kBrushless);
+        clawMotor.setIdleMode(IdleMode.kCoast);
+      }else{
+        clawMotor = null;
+      }
     }
-    public void moveMotors(double motor1Speed, double motor2Speed){
+    public void moveMotors(double pivSpeed, double extSpeed, double clawSpeed){
       if(isStopped)
         emergencyStop();
       else{
-        if(Math.abs(motor1Speed)*2<Constants.minSpeed){motor1.setVoltage(0);}
-        else if(Math.abs(motor1Speed)*2>Constants.maxSpeed){motor1.setVoltage(Constants.maxSpeed*cMove);}
-        else{motor1.setVoltage(motor1Speed*2*cMove);}
-        if(Math.abs(motor2Speed*2)<Constants.minSpeed){motor2.setVoltage(0);}
-        else if(Math.abs(motor2Speed*2)>Constants.maxSpeed){motor2.setVoltage(Constants.maxSpeed*cMove);}
-        else{motor2.setVoltage(motor2Speed*2*cMove);}
+        if(Constants.isUsingPivot){
+          if(Math.abs(pivSpeed)*2<Constants.minSpeed){pivMotor.setVoltage(0);}
+          else if(Math.abs(pivSpeed)*2>Constants.maxSpeed){pivMotor.setVoltage(Constants.maxSpeed*cMove);}
+          else{pivMotor.setVoltage(pivSpeed*2*cMove);}
+        }
+        if(Constants.isUsingExt){
+          if(Math.abs(extSpeed*2)<Constants.minSpeed){extMotor.setVoltage(0);}
+          else if(Math.abs(extSpeed*2)>Constants.maxSpeed){extMotor.setVoltage(Constants.maxSpeed*cMove);}
+          else{extMotor.setVoltage(extSpeed*2*cMove);}
+        }
+        if(Constants.isUsingClaw){
+          if(Math.abs(clawSpeed*2)<Constants.minSpeed){clawMotor.setVoltage(0);}
+          else if(Math.abs(clawSpeed*2)>Constants.maxSpeed){clawMotor.setVoltage(Constants.maxSpeed*cMove);}
+          else{clawMotor.setVoltage(clawSpeed*2*cMove);}
+        }
       }
     }
 
     public void emergencyStop(){
-      motor1.setIdleMode(IdleMode.kBrake);
-      motor1.setIdleMode(IdleMode.kBrake);
-      motor1.stopMotor();
-      motor2.stopMotor();
+      if(Constants.isUsingPivot){
+        pivMotor.setIdleMode(IdleMode.kBrake);
+        pivMotor.stopMotor();
+      }
+      if(Constants.isUsingExt){
+        extMotor.setIdleMode(IdleMode.kBrake);
+        extMotor.stopMotor();
+      }
+      if(Constants.isUsingClaw){
+        clawMotor.setIdleMode(IdleMode.kBrake);
+        clawMotor.stopMotor();
+      }
     }
 
     public void kill(){
@@ -53,12 +90,27 @@ public class TestSub extends SubsystemBase{
 
     public void changeSetting(){
       if(change){
-        motor1.setIdleMode(IdleMode.kBrake);
-        motor2.setIdleMode(IdleMode.kBrake);
+        if(Constants.isUsingPivot){
+          pivMotor.setIdleMode(IdleMode.kBrake);
+        }
+        if(Constants.isUsingExt){
+          extMotor.setIdleMode(IdleMode.kBrake);
+        }
+        if(Constants.isUsingClaw){
+          clawMotor.setIdleMode(IdleMode.kBrake);
+        }
       }
       else{
-        motor1.setIdleMode(IdleMode.kCoast);
-        motor2.setIdleMode(IdleMode.kCoast);}
+        if(Constants.isUsingPivot){
+          pivMotor.setIdleMode(IdleMode.kCoast);
+        }
+        if(Constants.isUsingExt){
+          extMotor.setIdleMode(IdleMode.kCoast);
+        }
+        if(Constants.isUsingClaw){
+          clawMotor.setIdleMode(IdleMode.kCoast);
+        }
+      }
       change=!change;
     }
 
