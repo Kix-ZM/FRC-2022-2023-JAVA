@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
-import frc.robot.commands.AutoGroups.AutoGroup_BalanceDrive;
+import frc.robot.commands.AutoGroups.AutoGroup_BalanceOnly;
 import frc.robot.commands.AutoGroups.AutoGroup_Backwards;
 import frc.robot.commands.AutoGroups.AutoGroup_Default;
 import frc.robot.commands.AutoGroups.AutoGroup_Forwards;
@@ -81,7 +81,7 @@ public class RobotContainer {
       //Drive forward until it reaches the platform then attempt to balance
       case "Balance and Drive":
         System.out.println("Balance Drive Case");
-        activeAutoGroup = new AutoGroup_BalanceDrive(m_drivetrain, m_gyro);
+        activeAutoGroup = new AutoGroup_BalanceOnly(m_drivetrain, m_gyro);
         break;
       //Default auto
       default:
