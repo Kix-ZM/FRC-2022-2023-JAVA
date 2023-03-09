@@ -16,7 +16,7 @@ public final class Constants {
     //angle at within which the robot is considered to be balanced
     public static final double K_BALANCE_THRESH_DEG = 4.2;
     // starting speed towards platform
-    public static final double K_FWD_SPEED = 0.50;
+    public static final double K_FWD_SPEED = 0.3575;
     // speed to adjust balance
     public static final double K_ADJUST_SPEED = .26;  // speed to adjust angle or brake
     public static final double K_ADJUST_ROTATE = 0.1;
