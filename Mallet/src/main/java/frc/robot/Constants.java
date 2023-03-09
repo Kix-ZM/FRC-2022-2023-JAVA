@@ -19,9 +19,4 @@ public final class Constants {
     public static final double tSpeed = 0.20;
     public static final double minSpeed = 0.5; // In terms of Voltage
     public static final double maxSpeed = 5; // In terms of Voltage
-
-    public static final boolean isUsingPivot = true;
-    public static final boolean isUsingExt = false;
-    public static final boolean isUsingClaw = false;
-
 }
