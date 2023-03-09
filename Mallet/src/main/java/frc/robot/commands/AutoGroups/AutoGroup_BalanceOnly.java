@@ -16,7 +16,7 @@ public class AutoGroup_BalanceOnly extends SequentialCommandGroup {
             new ResetEncoders(drivetrain),
 
             // balance
-            new AutoBalance(drivetrain, gyro)
+            new AutoBalance(drivetrain, gyro, false)
 
         );
     }
