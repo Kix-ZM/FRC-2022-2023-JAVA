@@ -25,6 +25,8 @@ public class AutoBalance extends CommandBase {
   public AutoBalance(Drivetrain drivetrain, GyroScope gyro, boolean backwards) {
     startBalancing = false;
     onPlatform = false;
+
+    // if starting from other side of charger, go backwards and change which side is other side
     backwardsScaler = backwards ? -1 : 1; 
 
     m_gyro = gyro;
