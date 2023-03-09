@@ -6,24 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArcadeDrive;
-// import frc.robot.commands.LauncherCMD;
-// import frc.robot.commands.AutonomousDistance;
-// import frc.robot.commands.AutonomousTime;
-import frc.robot.subsystems.Drivetrain;
-// import frc.robot.subsystems.Launcher;
-// import frc.robot.subsystems.OnBoardIO;
-// import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.PrintCommand;
-// import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.*;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,18 +20,17 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private static final Drivetrain m_drivetrain = new Drivetrain();
-  // private static final Launcher m_launcher = new Launcher();
-  private static final ArmSubsystem m_armSub = new ArmSubsystem();
-  // private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
-  // Assumes a gamepad plugged into channnel 0
-  public static Joystick m_lcontroller = new Joystick(0);
-  public static Joystick m_rcontroller = new Joystick(1);
-  public static JoystickButton m_fireButton = new JoystickButton(m_lcontroller, 1);
-  public static JoystickButton m_forwardButton = new JoystickButton(m_rcontroller, 2);
-  public static JoystickButton m_backButton = new JoystickButton(m_rcontroller, 3);
-  public static Trigger m_resetArmTrigger = new JoystickButton(m_rcontroller, 10);
+  //
+  public static Joystick m_controller = new Joystick(0);
+  public static JoystickButton m_emerStop = new JoystickButton(m_controller, 2);
+  public static JoystickButton m_swap = new JoystickButton(m_controller, 3);
+
+  public static JoystickButton m_extend = new JoystickButton(m_controller, 4);
+  public static JoystickButton m_retract = new JoystickButton(m_controller, 5);
+  public static JoystickButton m_upPivot = new JoystickButton(m_controller, 8);
+  public static JoystickButton m_dwnPivot = new JoystickButton(m_controller, 9);
+  //Subsystems
+  public ArmSubsystem m_ArmSub = new ArmSubsystem();
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -62,7 +49,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    m_ArmSub.setDefaultCommand(getArmCommand(2));
   }
 
   /**
@@ -72,20 +59,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_resetArmTrigger.onTrue(getResetArm(false));
-    // Default command is arcade drive. This will run unless another command
-    // is scheduled over it.
-    
-    // Example of how to use the onboard IO
-    // Button onboardButtonA = new Button(m_onboardIO::getButtonAPressed);
-    // onboardButtonA
-    //     .whenActive(new PrintCommand("Button A Pressed"))
-    //     .whenInactive(new PrintCommand("Button A Released"));
 
-    // Setup SmartDashboard options
-    // m_chooser.setDefaultOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
-    // m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
-    // SmartDashboard.putData(m_chooser);
+    m_emerStop.onTrue(getArmCommand(2));
+    m_swap.onTrue(getArmCommand(3));
+    m_swap.onFalse(getArmCommand(3));
+    // m_swap.toggleOnFalse(getArmCommand(3));
+    m_extend.onTrue(getArmCommand(4));
+    m_retract.onTrue(getArmCommand(5));
+    m_upPivot.onTrue(getArmCommand(8));
+    m_dwnPivot.onTrue(getArmCommand(9));
+    // m_lower.toggleOnFalse(getArmCommand(5));
   }
 
   /**
@@ -97,26 +80,17 @@ public class RobotContainer {
     return m_chooser.getSelected();
   }
 
+  public Command getResetCommand(int opt){
+    return null;//new ArmCommand(m_ArmSub);
+  }
+
+  public Command getArmCommand(int opt){
+    return new ArmCommand(m_ArmSub, m_controller, opt);
+  }
+
   /**
    * Use this to pass the teleop command to the main {@link Robot} class.
    *
    * @return the command to run in teleop
    */
-  public Command getArcadeDriveCommand() {
-    return new ArcadeDrive(m_drivetrain);
-  }
-
-  
-
-  public Command getArmCommand(){
-    return new ArmCommand(m_armSub);
-  }
-
-  public Command getResetArm(boolean isHoldingCube){
-    return new ResetArm(m_armSub, isHoldingCube);
-  }
-
-  public static Drivetrain getDriveTrainSub(){
-    return m_drivetrain;
-  }
 }

@@ -1,8 +1,8 @@
 package frc.robot.commands;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+// import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
+// import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ResetArm extends CommandBase{
@@ -56,9 +56,9 @@ public class ResetArm extends CommandBase{
     if(isClawMoving){
         //Makes the claw grab the game piece
         if(m_armSubsystem.getClawEncoder()>clawStartPos){
-            m_armSubsystem.moveClaw(-0.2);
+            m_armSubsystem.grabClaw(0.2);
         }else if(m_armSubsystem.getClawEncoder()<clawStartPos){
-            m_armSubsystem.moveClaw(0.2);
+            m_armSubsystem.retractClaw();
         }else{
             isClawMoving = false;
         } 
@@ -82,7 +82,7 @@ public class ResetArm extends CommandBase{
   public void resetPhase(){
     if(isExtensionMoving){
         //Makes sure encoder value 0 is the max the extension can retract
-        if(!m_armSubsystem.isExtensionAtLimit()){
+        if(!m_armSubsystem.isExtensionAtLimitB()){
             m_armSubsystem.extendArm(-0.2);
         }else{
             m_armSubsystem.stopExtension();
