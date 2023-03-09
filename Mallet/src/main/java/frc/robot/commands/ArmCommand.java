@@ -4,23 +4,23 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
 // import frc.robot.Robot;
-import frc.robot.RobotContainer;
+// import frc.robot.Robot;
+// import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
 // import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import java.util.function.Supplier;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+// import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class ArmCommand extends CommandBase {
   private final ArmSubsystem m_armSub;
-  private boolean m_retractButton;
-  private boolean m_coneButton;
-  private boolean m_cubeButton;
-  private boolean m_trigger;
-  private double m_zAxis;
+  private final int m_process;
 
+  // Speed via joystick and via the weird axis thingy
+  // Meant to be used only on extention, rotation shall be done via external means
+  private final Joystick m_Joystick;
   /**
    * Creates a new ArcadeDrive. This command will drive your robot according to the speed supplier
    * lambdas. This command does not terminate.
@@ -29,13 +29,10 @@ public class ArmCommand extends CommandBase {
    * @param xaxisSpeedSupplier Lambda supplier of forward/backward speed
    * @param zaxisRotateSupplier Lambda supplier of rotational speed
    */
-  public ArmCommand(ArmSubsystem armSub) {
+  public ArmCommand(ArmSubsystem armSub, Joystick t_joy, int process) {
     m_armSub = armSub;
-    m_retractButton = RobotContainer.m_rcontroller.getRawButton(3);
-    m_coneButton = RobotContainer.m_rcontroller.getRawButton(4);
-    m_cubeButton = RobotContainer.m_rcontroller.getRawButton(5);
-    m_trigger = RobotContainer.m_rcontroller.getTrigger();
-    m_zAxis = RobotContainer.m_rcontroller.getRawAxis(1);
+    m_Joystick = t_joy;
+    m_process = process;
     addRequirements(armSub);
   }
 
@@ -55,6 +52,38 @@ public class ArmCommand extends CommandBase {
     #4 is for grabbing a cone
     #5 is for grabbing a cube
     */
+
+    switch(m_process){
+      case 1:
+        // TO BE CHANGED WHEN SAGAR FINDS THE RIGHT SPEED TO USED!!!
+        m_armSub.grabClaw(1.0);
+      break;
+      case 2:
+        m_armSub.stopClaw();
+        m_armSub.stopExtension();
+        m_armSub.stopPivot();
+      break;
+      case 3:
+        m_armSub.toggleExtentionMotorIdle();
+      break;
+      case 4:
+        m_armSub.extendArm(m_Joystick.getRawAxis(2));
+      break;
+      case 5:
+        m_armSub.extendArm(-m_Joystick.getRawAxis(2));
+      break;
+      case 8:
+        m_armSub.pivotArm(m_Joystick.getRawAxis(2));
+      break;
+      case 9:
+        m_armSub.pivotArm(-m_Joystick.getRawAxis(2));
+      break;
+      default:
+        System.out.println("ERROR SHOULD NEVER BE HERE!!! - ARM COMMAND RUNNING DEFAULT");
+      break;
+    }
+
+    /*
     if(m_trigger){
       m_armSub.extendArm(m_zAxis);
     }else{
@@ -67,6 +96,7 @@ public class ArmCommand extends CommandBase {
     }else if(m_cubeButton){
       m_armSub.grabCube();
     }
+     */
   }
 
 
