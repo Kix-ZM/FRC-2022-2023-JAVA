@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
-import frc.robot.commands.AutoGroups.AutoGroup_BalanceOnly;
-import frc.robot.commands.AutoGroups.AutoGroup_Backwards;
+import frc.robot.commands.AutoGroups.AutoGroup_Balance;
+import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
+import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_Default;
-import frc.robot.commands.AutoGroups.AutoGroup_Forwards;
+import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommAndBalance;
+import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommunity;
 import frc.robot.subsystems.*;
 import java.util.HashMap;
 
@@ -36,7 +38,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
-    String[] autoList = {"Drive Forwards", "Drive Backwards", "Balance and Drive", "Default"};
+    String[] autoList = {"Leave Community", "Place and Leave", "Balance", "Place and Balance", "Leave and Balance", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
   }
 
@@ -70,18 +72,25 @@ public class RobotContainer {
     
     Command activeAutoGroup;
     switch(autoName) { //switch between autonomous modes
-      //just makes the robot drive forwards
-      case "Drive Forwards":
-        activeAutoGroup = new AutoGroup_Forwards(m_drivetrain);
+      //drive forwards and leave the community
+      case "Leave Community":
+        activeAutoGroup = new AutoGroup_LeaveCommunity(m_drivetrain);
         break;
-      //just makes the robot drive backwards
-      case "Drive Backwards":
-        activeAutoGroup = new AutoGroup_Backwards(m_drivetrain);
+      //place a game piece and leave the community
+      case "Place and Leave":
+        activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain);
         break;
-      //Drive forward until it reaches the platform then attempt to balance
-      case "Balance and Drive":
-        System.out.println("Balance Drive Case");
-        activeAutoGroup = new AutoGroup_BalanceOnly(m_drivetrain, m_gyro);
+      //Drive forward until it reaches the platform then balance
+      case "Balance":
+        activeAutoGroup = new AutoGroup_Balance(m_drivetrain, m_gyro);
+        break;
+      //Place a game piece then drive forward and balance
+      case "Place and Balance":
+        activeAutoGroup = new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro);
+        break;
+      //Leave the community over the Charge station and get back on and balance
+      case "Leave and Balance":
+          activeAutoGroup = new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro);
         break;
       //Default auto
       default:

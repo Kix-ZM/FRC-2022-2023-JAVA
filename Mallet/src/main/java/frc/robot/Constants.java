@@ -6,7 +6,7 @@ public final class Constants {
     public static final double K_TICKS_PER_FEET = 40.964489;
 
     // Autonomous constants
-    public static final double K_FORWARDS_FEET = 17 * K_TICKS_PER_FEET;//17.666666
+    public static final double K_FORWARDS_FEET = 5 * K_TICKS_PER_FEET;//17.666666
     public static final double K_BACKWARDS_FEET = 6 * K_TICKS_PER_FEET;//6.572500
     public static final double K_DEC_TO_PI = 0.01745;
 
