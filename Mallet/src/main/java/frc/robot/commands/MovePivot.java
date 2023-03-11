@@ -6,24 +6,30 @@ import frc.robot.subsystems.PivotMotor;
 
 
 public class MovePivot extends CommandBase{
+    // Required Subsystems
     private PivotMotor m_pivot;
     private Joystick m_joystick;
+
+    // Creation Function of the Class
     public MovePivot(PivotMotor pivot, Joystick joystick){
         m_pivot = pivot;
         m_joystick = joystick;
         addRequirements(m_pivot);
     }
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
+    // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
     @Override
     public void execute() {
         m_pivot.moveMotors(-1*m_joystick.getRawAxis(2));
     }
 
     // Called once the command ends or is interrupted.
+    // Nothing is called here as it is covered already in the subsystem to stop the motor.
     @Override
     public void end(boolean interrupted) {}
 

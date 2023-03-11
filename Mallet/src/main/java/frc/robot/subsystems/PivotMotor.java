@@ -11,16 +11,23 @@ public class PivotMotor extends SubsystemBase{
     // Idle - Break
     private final CANSparkMax motor1 = new CANSparkMax(5, MotorType.kBrushless);
 
+    // Limit Switches
     private final DigitalInput BtmLimit = new DigitalInput(2);
     private final DigitalInput TopLimit = new DigitalInput(3);
 
+    // Ratio to multiply by and hopefully make things move better 
     private double cMove = 1; 
-    private boolean change;
+
+    // Determines if we got to stop all movement on the motor
     private boolean isStopped = false;
     
     public PivotMotor(){
         motor1.setIdleMode(IdleMode.kBrake);
     }
+
+    // Handles the movement of the motor.
+    // if the limit switches are hit in the direction of movement,
+    // then movement in that direction is stopped on motor
     public void moveMotors(double speed){
       if(isStopped)
         emergencyStop();
@@ -34,24 +41,9 @@ public class PivotMotor extends SubsystemBase{
       }
     }
 
+    // Stops the motor in case of emergency
     public void emergencyStop(){
       motor1.stopMotor();
-    }
-
-    public void kill(){
-      isStopped = !isStopped;
-    }
-
-    public void changeMovement(double change){
-      cMove=change;
-    }
-
-    public void changeSetting() {
-      if(change)
-        motor1.setIdleMode(IdleMode.kBrake);
-      else
-        motor1.setIdleMode(IdleMode.kCoast);
-      change=!change;
     }
 
   @Override

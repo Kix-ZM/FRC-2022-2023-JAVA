@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 public class DebugCommand extends CommandBase{
-    Joystick m_joy;
+    // Joystick to use
+    Joystick m_joy; 
 
     public DebugCommand(Joystick joy){
         m_joy = joy;
@@ -15,6 +16,7 @@ public class DebugCommand extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
+    // Literally is just here to make sure we are reading the movements on the joystick
     @Override
     public void execute() {
         System.out.println("0 Axis: " + m_joy.getRawAxis(0) 

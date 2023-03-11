@@ -6,6 +6,7 @@ import frc.robot.subsystems.ExtensionMotor;
 
 
 public class StopAllMotors extends CommandBase{
+    // Required Subsystems
     private PivotMotor m_pivot;
     private ExtensionMotor m_extender;
 
@@ -15,11 +16,13 @@ public class StopAllMotors extends CommandBase{
         addRequirements(m_pivot);
         addRequirements(m_extender);
     }
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
+    // Literally Stops Everything, All Arm Motors will stop
     @Override
     public void execute() {
         m_pivot.emergencyStop();
@@ -27,6 +30,7 @@ public class StopAllMotors extends CommandBase{
     }
 
     // Called once the command ends or is interrupted.
+    // This is never to be interupted
     @Override
     public void end(boolean interrupted) {}
 

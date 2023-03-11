@@ -5,22 +5,27 @@ import frc.robot.subsystems.ExtensionMotor;
 
 
 public class MoveExtenderForward extends CommandBase{
+    // Required Subsystem
     private ExtensionMotor m_extender;
+
     public MoveExtenderForward(ExtensionMotor extender){
         m_extender = extender;
         addRequirements(m_extender);
     }
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
+    // Tells the Extension Motor to go Forwards
     @Override
     public void execute() {
         m_extender.moveMotor(1);
     }
 
     // Called once the command ends or is interrupted.
+    // Tells the Extension Motor to Stop
     @Override
     public void end(boolean interrupted) {
         m_extender.moveMotor(0);

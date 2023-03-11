@@ -13,10 +13,10 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final double SPEED = 0.25;
-    public static final double kCountsPerRevolution = 4096.0;
-    public static final double kWheelDiameterInch = 6; // 70 mm
-    public static final double tSpeed = 0.20;
-    public static final double minSpeed = 0.5; // In terms of Voltage
-    public static final double maxSpeed = 5; // In terms of Voltage
+    public static final double SPEED = 0.25;                  // Speed for the Drive Train, not used here in this branch currently
+    public static final double kCountsPerRevolution = 4096.0; // Used in Auto to determine movement of drive train, not used in this branch
+    public static final double kWheelDiameterInch = 6;        // 70 mm
+    public static final double tSpeed = 0.20;                 // Used in Drive Train for unique Process, not currently used in this branch
+    public static final double minSpeed = 0.5;                // Minimum Speed in terms of Voltage
+    public static final double maxSpeed = 5;                  // Maximum Speed in terms of Voltage
 }

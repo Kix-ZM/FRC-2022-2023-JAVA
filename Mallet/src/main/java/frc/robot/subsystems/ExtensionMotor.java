@@ -9,18 +9,19 @@ import frc.robot.Constants;
 
 public class ExtensionMotor extends SubsystemBase{
     // This is the Arm Extension Motor
-    // Idle - Coast
+
+    // Idle - Break 
     private final CANSparkMax motor2 = new CANSparkMax(6, MotorType.kBrushless);
+    
     // Limits are true when open
     private final DigitalInput TopLimit = new DigitalInput(0);
     private final DigitalInput BtmLimit = new DigitalInput(1);
-
-    private boolean isStopped = false;
     
     public ExtensionMotor(){
         motor2.setIdleMode(IdleMode.kBrake);
     }
 
+    // If limit switch is hit in direction of movement, stop movement in that direction
     public void moveMotor(double direction) {
       if (direction > 0 && TopLimit.get()) {
         motor2.setVoltage((Constants.maxSpeed + Constants.minSpeed)/4);
@@ -31,19 +32,13 @@ public class ExtensionMotor extends SubsystemBase{
       }
     }
 
+    // Stops the movement of the Arm
     public void emergencyStop(){
       motor2.stopMotor();
     }
 
-    // not used either?
-    public void kill(){
-      isStopped = !isStopped;
-    }
-
-
   @Override
   public void periodic() {
     System.out.println("TOP:" +TopLimit.get() + ", BOT: " + BtmLimit.get());
-
   }
 }
