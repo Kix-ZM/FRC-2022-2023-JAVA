@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ResetEncoders extends CommandBase{
     private Drivetrain m_Drivetrain;
+    
     public ResetEncoders(Drivetrain drivetrain){
         m_Drivetrain = drivetrain;
         addRequirements(m_Drivetrain);

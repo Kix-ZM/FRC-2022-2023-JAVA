@@ -6,7 +6,6 @@ public class MoveDistanceV2 extends CommandBase{
     private Drivetrain m_Drivetrain;
     private double endDistance;
     
-
     public MoveDistanceV2(Drivetrain drivetrain, double newFeet, boolean backwards){
         m_Drivetrain.resetEncoders();
         endDistance = m_Drivetrain.getAverageDistanceInch() + newFeet*12;

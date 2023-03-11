@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.GyroScope;
@@ -14,6 +10,7 @@ public class AutoBalance extends CommandBase {
   private boolean startBalancing;
   private boolean onPlatform;
   private int backwardsScaler;
+  
   /**
    * Creates a new AutoBalance. This command balances the robot on the charging station. 
    * THIS WILL ONLY WORK IF THE ROBOT'S Y ANGLE STARTS OFF NEGATIVE (IMU orientation)
