@@ -27,6 +27,7 @@ public class MoveDistance extends CommandBase{
     }
     
     public void initialize(){
+        m_Drivetrain.resetEncoders();
         startDistance = m_Drivetrain.getAverageDistanceInch();
     }
     public void execute(){

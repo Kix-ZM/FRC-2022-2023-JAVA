@@ -7,19 +7,17 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.commands.MoveDistance;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class AutoGroup_LeaveCommAndBalance extends SequentialCommandGroup {
+public class AutoGroup_MoveTest extends SequentialCommandGroup {
     //Variables
-    public AutoGroup_LeaveCommAndBalance(Drivetrain drivetrain, GyroScope gyro){
+    Drivetrain m_Drivetrain;
+    public AutoGroup_MoveTest(Drivetrain drivetrain, GyroScope gyro){
         //Adding a drivetrain
+        m_Drivetrain = drivetrain;
         //Adding Order of commands
-
         addCommands(
-            new ResetEncoders(drivetrain),
-
-            new MoveDistance(drivetrain, 10, false),
-            // balance
-            new AutoBalance(drivetrain, gyro, true)
-
+            new ResetEncoders(this.m_Drivetrain),
+            new MoveDistance(this.m_Drivetrain, 10, false),
+            new MoveDistance(this.m_Drivetrain, 2, false)
         );
     }
 }

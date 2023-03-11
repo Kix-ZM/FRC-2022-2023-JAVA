@@ -14,6 +14,7 @@ import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_Default;
 import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommunity;
+import frc.robot.commands.AutoGroups.AutoGroup_MoveTest;
 import frc.robot.subsystems.*;
 import java.util.HashMap;
 
@@ -38,7 +39,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
-    String[] autoList = {"Leave Community", "Place and Leave", "Balance", "Place and Balance", "Leave and Balance", "Default"};
+    String[] autoList = {"Leave Community", "Place and Leave", "Balance", "Place and Balance", "Leave and Balance", "Move Test", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
   }
 
@@ -60,7 +61,7 @@ public class RobotContainer {
     // reset encoders
     r_controllerButtons.get("11").onTrue(resetEncodersCommand());
     // increment by 90 degrees
-    l_controllerButtons.get("2").onTrue(turnAngleCommand(90.0f, true));
+    l_controllerButtons.get("2").onTrue(turnAngleCommand(-90.0f, true));
     // set to 90 degrees
     l_controllerButtons.get("3").onTrue(turnAngleCommand(90.0f, false));
   }
@@ -92,6 +93,9 @@ public class RobotContainer {
       case "Leave and Balance":
           activeAutoGroup = new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro);
         break;
+      case "Move Test":
+        activeAutoGroup = new AutoGroup_MoveTest(m_drivetrain, m_gyro);
+        break;
       //Default auto
       default:
         activeAutoGroup = new AutoGroup_Default(m_drivetrain);  
@@ -104,7 +108,7 @@ public class RobotContainer {
   public Command resetEncodersCommand(){
     return new ResetEncoders(m_drivetrain);
   }
-  
+
   public static Command turnAngleCommand(float turnAmount, boolean isTurningBy){
     return new TurnAngle(m_drivetrain, m_gyro, turnAmount, isTurningBy);
   }
