@@ -14,13 +14,13 @@ public class TurnAngle extends CommandBase {
     private int m_direction;
     private boolean status;
 
-    public TurnAngle(Drivetrain p_drivetrain, GyroScope p_gyro, float p_turnAmount, boolean p_isTurnningBy){
+    public TurnAngle(Drivetrain p_drivetrain, GyroScope p_gyro, float p_turnAmount, boolean p_isTurningBy){
         m_drivetrain = p_drivetrain;
         m_gyro = p_gyro;
         addRequirements(m_drivetrain);
         addRequirements(m_gyro);
 
-        m_isTurnningBy = p_isTurnningBy;
+        m_isTurnningBy = p_isTurningBy;
         status = false;
 
         // Getting what the angle should be at the end
