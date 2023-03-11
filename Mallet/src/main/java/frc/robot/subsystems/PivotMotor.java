@@ -12,7 +12,7 @@ public class PivotMotor extends SubsystemBase{
     // Idle - Break on both
     // ID's 5 & 6
     private final CANSparkMax motor1 = new CANSparkMax(5, MotorType.kBrushless);
-    private final CANSparkMax motor2 = new CANSparkMax(8, MotorType.kBrushless);
+    private final CANSparkMax motor2 = new CANSparkMax(9, MotorType.kBrushless);
 
     // This is the motorControllerGroup of the 2 prior motors
     // Intended to make the Pivot Point Turn

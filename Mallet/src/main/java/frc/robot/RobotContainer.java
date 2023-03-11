@@ -35,6 +35,7 @@ public class RobotContainer {
   public static JoystickButton m_grabber = new JoystickButton(m_controller, 1);
   public static JoystickButton m_emerStop = new JoystickButton(m_controller, 5);
   public static JoystickButton m_retract = new JoystickButton(m_controller, 2);
+  public static JoystickButton m_retracts = new JoystickButton(m_controller,7);
   public static JoystickButton m_extend = new JoystickButton(m_controller, 3);
   public static JoystickButton m_extends = new JoystickButton(m_controller,6);
 
@@ -63,10 +64,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
-    m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor));     // Retracts Arm
-    m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor,true)); 
-    //m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
-    //m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
+    m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor, false));  // Retracts Arm
+    m_retracts.onTrue(new MoveExtenderBackwards(m_extensionMotor, true));
+    m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor,false)); 
+    m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
+    m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
     m_grabber.onTrue(new GraspClaw(m_clawMotor)); // Grabs with the claw
     m_grabber.onFalse(new ReleaseClaw(m_clawMotor)); // Releases with the claw
     //m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor));     // Retracts Arm

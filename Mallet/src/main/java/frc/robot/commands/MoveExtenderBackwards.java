@@ -8,8 +8,10 @@ public class MoveExtenderBackwards extends CommandBase{
 
     // Required Subsystem of Extension Motor
     private ExtensionMotor m_extender;
+    private boolean m_choice = false;
 
-    public MoveExtenderBackwards(ExtensionMotor extender){
+    public MoveExtenderBackwards(ExtensionMotor extender, boolean isUsingEncoders){        
+        m_choice = isUsingEncoders;
         m_extender = extender;
         addRequirements(m_extender);
     }
@@ -22,7 +24,13 @@ public class MoveExtenderBackwards extends CommandBase{
     // Tells the Extension Motor to go Backwards
     @Override
     public void execute() {
-        m_extender.moveMotor(-1);
+        if(m_choice)
+        {
+            m_extender.moveWithEncoders(-1);
+        }
+        else
+            m_extender.moveMotor(-1);
+        
     }
 
     // Called once the command ends or is interrupted.
