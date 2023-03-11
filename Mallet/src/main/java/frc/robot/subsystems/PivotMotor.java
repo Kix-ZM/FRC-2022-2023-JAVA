@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
-
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -11,6 +11,7 @@ public class PivotMotor extends SubsystemBase{
     // Idle - Break
     private final CANSparkMax motor1 = new CANSparkMax(5, MotorType.kBrushless);
 
+    private final DigitalInput PivotLimit = new DigitalInput(2);
     private double cMove = 1; 
     private boolean change;
     private boolean isStopped = false;
@@ -22,9 +23,12 @@ public class PivotMotor extends SubsystemBase{
       if(isStopped)
         emergencyStop();
       else{
-        if(Math.abs(speed)*2<Constants.minSpeed){motor1.setVoltage(0);}
-        else if(Math.abs(speed)*2>Constants.maxSpeed){motor1.setVoltage(Constants.maxSpeed*cMove);}
-        else{motor1.setVoltage(speed*2*cMove);}
+        if(speed > 0 || (speed < 0 && !PivotLimit.get())){
+          if(Math.abs(speed)*2<Constants.minSpeed){motor1.setVoltage(0);}
+          else if(Math.abs(speed)*2>Constants.maxSpeed){motor1.setVoltage(Constants.maxSpeed*cMove*(Math.abs(speed)/speed));}
+          else{motor1.setVoltage(speed*2*cMove);}
+        }
+        else{motor1.setVoltage(0);}
       }
     }
 

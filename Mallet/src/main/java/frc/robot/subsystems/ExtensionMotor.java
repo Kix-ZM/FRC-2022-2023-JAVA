@@ -3,6 +3,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -10,6 +11,8 @@ public class ExtensionMotor extends SubsystemBase{
     // This is the Arm Extension Motor
     // Idle - Coast
     private final CANSparkMax motor2 = new CANSparkMax(6, MotorType.kBrushless);
+    private final DigitalInput TopLimit = new DigitalInput(0);
+    private final DigitalInput BtmLimit = new DigitalInput(1);
 
     private double cMove = 1; 
     private boolean change;
@@ -29,9 +32,9 @@ public class ExtensionMotor extends SubsystemBase{
     }
 
     public void moveMotor(double direction) {
-      if (direction > 0) {
+      if (direction > 0 && !TopLimit.get()) {
         motor2.setVoltage((Constants.maxSpeed + Constants.minSpeed)/2);
-      }else if (direction < 0) {
+      }else if (direction < 0 &&!BtmLimit.get()) {
         motor2.setVoltage(-(Constants.maxSpeed + Constants.minSpeed)/2);
       } else {
         motor2.setVoltage(0);
