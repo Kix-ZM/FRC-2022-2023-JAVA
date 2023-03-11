@@ -7,8 +7,9 @@ import frc.robot.subsystems.ExtensionMotor;
 public class MoveExtenderForward extends CommandBase{
     // Required Subsystem
     private ExtensionMotor m_extender;
-
-    public MoveExtenderForward(ExtensionMotor extender){
+    private boolean m_choice = false;
+    public MoveExtenderForward(ExtensionMotor extender, boolean isUsingEncoders){        
+        m_choice = isUsingEncoders;
         m_extender = extender;
         addRequirements(m_extender);
     }
@@ -21,7 +22,13 @@ public class MoveExtenderForward extends CommandBase{
     // Tells the Extension Motor to go Forwards
     @Override
     public void execute() {
-        m_extender.moveMotor(1);
+        if(m_choice)
+        {
+            m_extender.moveWithEncoders(1);
+        }
+        else
+            m_extender.moveMotor(1);
+        
     }
 
     // Called once the command ends or is interrupted.

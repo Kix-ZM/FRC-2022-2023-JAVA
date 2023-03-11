@@ -32,6 +32,8 @@ public class RobotContainer {
   public static JoystickButton m_emerStop = new JoystickButton(m_controller, 5);
   public static JoystickButton m_retract = new JoystickButton(m_controller, 2);
   public static JoystickButton m_extend = new JoystickButton(m_controller, 3);
+  public static JoystickButton m_extends = new JoystickButton(m_controller,6);
+
   //Subsystems
   // public TestSub m_testSub = new TestSub();
   public ExtensionMotor m_extensionMotor = new ExtensionMotor();
@@ -57,7 +59,8 @@ public class RobotContainer {
 
     m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor)); // Stops all arm action
     m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor));     // Retracts Arm
-    m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor));        // Extends Arm
+    m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor,true)); 
+    m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
   }
 
   /**

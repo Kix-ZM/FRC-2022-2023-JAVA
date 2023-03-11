@@ -18,7 +18,8 @@ public final class Constants {
     public static final double kWheelDiameterInch = 6;        // 70 mm
     public static final double tSpeed = 0.20;                 // Used in Drive Train for unique Process, not currently used in this branch
     public static final double minSpeed = 0.5;                // Minimum Speed in terms of Voltage
-    public static final double maxSpeed = 5;                  // Maximum Speed in terms of Voltage
+    public static final double maxSpeed = 5;  // Maximum Speed in terms of Voltage
+    //public static final double inchesToGoForward = 2520.0; 
 
     //Which subsystems to use
     public static final boolean isUsingClaw = true;    //If is using the claw subsystem
