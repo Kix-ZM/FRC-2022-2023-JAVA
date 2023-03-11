@@ -37,10 +37,6 @@ public class MoveDistance extends CommandBase{
             speed = 0.0;
             finishStatus = true;
         }
-        // if(isMovingForwards) //if moving forward
-        //     moveForward();
-        // else //if moving backwards
-        //     moveBackward();
 
         m_Drivetrain.arcadeDrive(speed, 0);
     }

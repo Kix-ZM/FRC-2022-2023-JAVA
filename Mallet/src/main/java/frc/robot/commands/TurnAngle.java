@@ -52,6 +52,7 @@ public class TurnAngle extends CommandBase {
         System.out.println("Destination : " + m_turnAmount);
         System.out.println("Start : " + m_startDes);
         System.out.println("Z : " + m_gyro.getAngleZ());
+
         /*If statements to check the distance it needs to go and if it is within a small margin or not
         and based of that, checks to see the direction to turn to (if it has already reached its destination,
         it will not move*/
@@ -60,6 +61,7 @@ public class TurnAngle extends CommandBase {
         }else{
             m_direction = 0;
         }
+        
         //Direction should only be 0 when the robot reaches the desired angle
         status = (m_direction == 0);
         m_drivetrain.arcadeDrive(0.0, Constants.K_SPEED*m_direction);

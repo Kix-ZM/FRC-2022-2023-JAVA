@@ -104,9 +104,7 @@ public class RobotContainer {
   public Command resetEncodersCommand(){
     return new ResetEncoders(m_drivetrain);
   }
-  public Command driveTillPlatformCommand(){
-    return new DriveTillPlatform(m_drivetrain, m_gyro);
-  }
+  
   public static Command turnAngleCommand(float turnAmount, boolean isTurningBy){
     return new TurnAngle(m_drivetrain, m_gyro, turnAmount, isTurningBy);
   }
