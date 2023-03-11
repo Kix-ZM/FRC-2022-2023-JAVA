@@ -1,9 +1,11 @@
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -12,7 +14,9 @@ public class PivotMotor extends SubsystemBase{
     // Idle - Break on both
     // ID's 5 & 6
     private final CANSparkMax motor1 = new CANSparkMax(5, MotorType.kBrushless);
-    private final CANSparkMax motor2 = new CANSparkMax(8, MotorType.kBrushless);
+    private final CANSparkMax motor2 = new CANSparkMax(6, MotorType.kBrushless);
+    private final RelativeEncoder encoder1 = motor1.getEncoder();
+    private final RelativeEncoder encoder2 = motor2.getEncoder();
 
     // This is the motorControllerGroup of the 2 prior motors
     // Intended to make the Pivot Point Turn
@@ -25,9 +29,6 @@ public class PivotMotor extends SubsystemBase{
     private final DigitalInput BtmLimit = new DigitalInput(0);
     private final DigitalInput TopLimit = new DigitalInput(1);
 
-    // Ratio to multiply by and hopefully make things move better 
-    private double cMove = 1; 
-
     // Determines if we got to stop all movement on the motor
     private boolean isStopped = false;
     
@@ -36,6 +37,10 @@ public class PivotMotor extends SubsystemBase{
         motor1.setIdleMode(IdleMode.kBrake);
         motor2.setIdleMode(IdleMode.kBrake);
         motor1.setInverted(true);
+        encoder1.setPosition(0);
+        encoder2.setPosition(0);
+        // set conversion factor so getPosition returns degrees
+        encoder2.setPositionConversionFactor((Constants.calibrateEndingAngle-Constants.calibrateStartingAngle) / Constants.calibrateAngleEncoderValue);
       }
     }
 
@@ -47,9 +52,11 @@ public class PivotMotor extends SubsystemBase{
         emergencyStop();
       else{
         if((speed > 0 && TopLimit.get()) || (speed < 0 && BtmLimit.get())){
-          if(Math.abs(speed)*2<Constants.minSpeed){pivotMotors.setVoltage(0);}
-          else if(Math.abs(speed)*2>Constants.maxSpeed){pivotMotors.setVoltage(Constants.maxSpeed*cMove*(Math.abs(speed)/speed));}
-          else{pivotMotors.setVoltage(speed*2*cMove);}
+          if(Math.abs(speed)<Constants.minSpeed){pivotMotors.setVoltage(0);}
+          else if(Math.abs(speed)>Constants.maxSpeed){
+            pivotMotors.setVoltage(Constants.maxSpeed*(Math.abs(speed)/speed));
+          }
+          else{pivotMotors.setVoltage(speed);}
         }
         else{pivotMotors.setVoltage(0);}
       }
@@ -62,6 +69,8 @@ public class PivotMotor extends SubsystemBase{
 
   @Override
   public void periodic() {
-    
+    SmartDashboard.putNumber("Pivot Encoder 1", encoder1.getPosition());
+    SmartDashboard.putNumber("Pivot Encoder 2", encoder2.getPosition());
+
   }
 }

@@ -25,7 +25,7 @@ public class MovePivot extends CommandBase{
     // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
     @Override
     public void execute() {
-        m_pivot.moveMotors(-1*m_joystick.getRawAxis(1));
+        m_pivot.moveMotors(-1*m_joystick.getRawAxis(1)*2);
     }
 
     // Called once the command ends or is interrupted.

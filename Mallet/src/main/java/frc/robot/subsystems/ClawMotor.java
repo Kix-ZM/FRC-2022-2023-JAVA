@@ -11,7 +11,7 @@ public class ClawMotor extends SubsystemBase{
     // This is the Claw Extension Motor
     // Idle - Break
     // ID - 8
-    private final CANSparkMax clawMotor = new CANSparkMax(6, MotorType.kBrushless);
+    private final CANSparkMax clawMotor = new CANSparkMax(8, MotorType.kBrushless);
     
     // Limit Switch
     // WARNING - MAKE SURE THE LIMITS ARE HAVING THE YELLOW IN GROUND!
