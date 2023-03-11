@@ -4,7 +4,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.GyroScope;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TurnAngle extends CommandBase
+public class TurnAngle extends CommandBase {
     private Drivetrain m_drivetrain;
     private GyroScope m_gyro;
 
