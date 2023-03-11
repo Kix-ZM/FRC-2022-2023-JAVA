@@ -11,11 +11,15 @@ public class ExtensionMotor extends SubsystemBase{
     // This is the Arm Extension Motor
 
     // Idle - Break 
-    private final CANSparkMax motor2 = new CANSparkMax(6, MotorType.kBrushless);
+    // ID - 7
+    private final CANSparkMax motor2 = new CANSparkMax(7, MotorType.kBrushless);
     private final RelativeEncoder m_Encoder = motor2.getEncoder();
     // Limits are true when open
-    private final DigitalInput TopLimit = new DigitalInput(0);
-    private final DigitalInput BtmLimit = new DigitalInput(1);
+    // WARNING - MAKE SURE THE LIMITS ARE HAVING THE YELLOW IN GROUND!
+    //           YES IT LOOKS WRONG BUT BLAME ELECTRICAL FOR THEIR WIRING!
+    //           --> DEFAULT IS ALWAYS TRUE BUT WHEN HIT THEY RETURN FALSE!
+    private final DigitalInput BtmLimit = new DigitalInput(2);
+    private final DigitalInput TopLimit = new DigitalInput(3);
     
     public ExtensionMotor(){
       if(Constants.isUsingExt){

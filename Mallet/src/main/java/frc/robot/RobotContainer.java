@@ -14,9 +14,12 @@ import frc.robot.commands.DebugCommand;
 import frc.robot.commands.MoveExtenderBackwards;
 import frc.robot.commands.MoveExtenderForward;
 import frc.robot.commands.MovePivot;
+import frc.robot.commands.GraspClaw;
+import frc.robot.commands.ReleaseClaw;
 import frc.robot.commands.StopAllMotors;
 import frc.robot.subsystems.ExtensionMotor;
 import frc.robot.subsystems.PivotMotor;
+import frc.robot.subsystems.ClawMotor;
 // import frc.robot.commands.*;
 // import frc.robot.subsystems.*;
 
@@ -29,6 +32,7 @@ import frc.robot.subsystems.PivotMotor;
  */
 public class RobotContainer {
   public static Joystick m_controller = new Joystick(0);
+  public static JoystickButton m_grabber = new JoystickButton(m_controller, 1);
   public static JoystickButton m_emerStop = new JoystickButton(m_controller, 5);
   public static JoystickButton m_retract = new JoystickButton(m_controller, 2);
   public static JoystickButton m_extend = new JoystickButton(m_controller, 3);
@@ -38,6 +42,7 @@ public class RobotContainer {
   // public TestSub m_testSub = new TestSub();
   public ExtensionMotor m_extensionMotor = new ExtensionMotor();
   public PivotMotor m_pivotMotor = new PivotMotor();
+  public ClawMotor m_clawMotor = new ClawMotor();
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -57,10 +62,15 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor)); // Stops all arm action
+    m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
     m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor));     // Retracts Arm
     m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor,true)); 
-    m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
+    //m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
+    //m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
+    m_grabber.onTrue(new GraspClaw(m_clawMotor)); // Grabs with the claw
+    m_grabber.onFalse(new ReleaseClaw(m_clawMotor)); // Releases with the claw
+    //m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor));     // Retracts Arm
+    //m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor));        // Extends Arm
   }
 
   /**
