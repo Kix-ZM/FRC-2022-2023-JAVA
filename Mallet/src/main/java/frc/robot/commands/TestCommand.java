@@ -45,6 +45,7 @@ public class TestCommand extends CommandBase{
         }    
     }
 
+    // not called anywhere?
     public void extending(double delta){
         m_test.changeMovement(delta);
     }

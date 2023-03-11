@@ -10,15 +10,15 @@ public class TestSub extends SubsystemBase{
     // This is the Pivot Motor
     // Idle - Break
     private final CANSparkMax motor1 = new CANSparkMax(1, MotorType.kBrushless);
-    private double cMove = 1; 
-    private boolean change;
-    private boolean isStopped = false;
-
 
     // This is the Arm Extension Motor
     // Idle - Coast
-    private final CANSparkMax motor2 = new CANSparkMax(2, MotorType.kBrushless);    
+    private final CANSparkMax motor2 = new CANSparkMax(2, MotorType.kBrushless);
 
+    private double cMove = 1; 
+    private boolean change;
+    private boolean isStopped = false;
+    
     public TestSub(){
         motor1.setIdleMode(IdleMode.kBrake);
         motor2.setIdleMode(IdleMode.kCoast);
@@ -38,7 +38,7 @@ public class TestSub extends SubsystemBase{
 
     public void emergencyStop(){
       motor1.setIdleMode(IdleMode.kBrake);
-      motor1.setIdleMode(IdleMode.kBrake);
+      motor2.setIdleMode(IdleMode.kBrake);
       motor1.stopMotor();
       motor2.stopMotor();
     }

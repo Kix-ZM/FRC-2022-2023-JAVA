@@ -11,7 +11,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DebugCommand;
+import frc.robot.commands.MoveExtenderBackwards;
+import frc.robot.commands.MoveExtenderForward;
+import frc.robot.commands.MovePivot;
+import frc.robot.commands.StopAllMotors;
 import frc.robot.commands.TestCommand;
+import frc.robot.commands.ToggleBreak;
+import frc.robot.subsystems.ExtensionMotor;
+import frc.robot.subsystems.PivotMotor;
 import frc.robot.subsystems.TestSub;
 
 
@@ -22,15 +29,16 @@ import frc.robot.subsystems.TestSub;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  //
   public static Joystick m_controller = new Joystick(0);
   public static JoystickButton m_emerStop = new JoystickButton(m_controller, 2);
   public static JoystickButton m_swap = new JoystickButton(m_controller, 3);
 
-  public static JoystickButton m_lower = new JoystickButton(m_controller, 4);
-  public static JoystickButton m_raise = new JoystickButton(m_controller, 5);
+  public static JoystickButton m_retract = new JoystickButton(m_controller, 4);
+  public static JoystickButton m_extend = new JoystickButton(m_controller, 5);
   //Subsystems
-  public TestSub m_testSub = new TestSub();
+  // public TestSub m_testSub = new TestSub();
+  public ExtensionMotor m_extensionMotor = new ExtensionMotor();
+  public PivotMotor m_pivotMotor = new PivotMotor();
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -49,7 +57,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_testSub.setDefaultCommand(getTestCommand(1));
+    // m_testSub.setDefaultCommand(getTestCommand(1));
+    m_pivotMotor.setDefaultCommand(new MovePivot(m_pivotMotor, m_controller));
   }
 
   /**
@@ -60,11 +69,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    m_emerStop.onTrue(getTestCommand(2));
-    m_swap.onTrue(getTestCommand(3));
+    // m_emerStop.onTrue(getTestCommand(2));
+    m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor));
+
+    m_swap.onTrue(new ToggleBreak(m_pivotMotor, m_extensionMotor));
     // m_swap.toggleOnFalse(getTestCommand(3));
-    m_lower.onTrue(getTestCommand(4));
-    m_raise.onTrue(getTestCommand(5));
+    m_retract.onTrue(new MoveExtenderBackwards(m_extensionMotor));
+    m_extend.onTrue(new MoveExtenderForward(m_extensionMotor));
     // m_lower.toggleOnFalse(getTestCommand(5));
   }
 
@@ -81,9 +92,9 @@ public class RobotContainer {
     return new DebugCommand(m_controller);
   }
 
-  public Command getTestCommand(int opt){
-    return new TestCommand(m_testSub, m_controller, opt);
-  }
+  // public Command getTestCommand(int opt){
+  //   return new TestCommand(m_testSub, m_controller, opt);
+  // }
 
   /**
    * Use this to pass the teleop command to the main {@link Robot} class.
