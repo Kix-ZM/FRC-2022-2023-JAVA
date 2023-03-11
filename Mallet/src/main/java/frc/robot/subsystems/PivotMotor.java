@@ -32,9 +32,11 @@ public class PivotMotor extends SubsystemBase{
     private boolean isStopped = false;
     
     public PivotMotor(){
+      if(Constants.isUsingPivot){
         motor1.setIdleMode(IdleMode.kBrake);
         motor2.setIdleMode(IdleMode.kBrake);
         motor1.setInverted(true);
+      }
     }
 
     // Handles the movement of the motor.
