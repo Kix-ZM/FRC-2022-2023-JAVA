@@ -19,4 +19,9 @@ public final class Constants {
     public static final double tSpeed = 0.20;                 // Used in Drive Train for unique Process, not currently used in this branch
     public static final double minSpeed = 0.5;                // Minimum Speed in terms of Voltage
     public static final double maxSpeed = 5;                  // Maximum Speed in terms of Voltage
+
+    //Which subsystems to use
+    public static final boolean isUsingClaw = true;    //If is using the claw subsystem
+    public static final boolean isUsingPivot = true;   //If is using the pivot subsystem
+    public static final boolean isUsingExt = true;     //If is using the extension subsystem
 }
