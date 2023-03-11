@@ -74,8 +74,8 @@ public class RobotContainer {
 
     m_swap.onTrue(new ToggleBreak(m_pivotMotor, m_extensionMotor));
     // m_swap.toggleOnFalse(getTestCommand(3));
-    m_retract.onTrue(new MoveExtenderBackwards(m_extensionMotor));
-    m_extend.onTrue(new MoveExtenderForward(m_extensionMotor));
+    m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor));
+    m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor));
     // m_lower.toggleOnFalse(getTestCommand(5));
   }
 
