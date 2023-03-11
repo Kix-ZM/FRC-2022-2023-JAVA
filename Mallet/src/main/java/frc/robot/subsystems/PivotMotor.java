@@ -11,7 +11,9 @@ public class PivotMotor extends SubsystemBase{
     // Idle - Break
     private final CANSparkMax motor1 = new CANSparkMax(5, MotorType.kBrushless);
 
-    private final DigitalInput PivotLimit = new DigitalInput(2);
+    private final DigitalInput BtmLimit = new DigitalInput(2);
+    private final DigitalInput TopLimit = new DigitalInput(3);
+
     private double cMove = 1; 
     private boolean change;
     private boolean isStopped = false;
@@ -23,7 +25,7 @@ public class PivotMotor extends SubsystemBase{
       if(isStopped)
         emergencyStop();
       else{
-        if(speed > 0 || (speed < 0 && !PivotLimit.get())){
+        if((speed > 0 && TopLimit.get()) || (speed < 0 && BtmLimit.get())){
           if(Math.abs(speed)*2<Constants.minSpeed){motor1.setVoltage(0);}
           else if(Math.abs(speed)*2>Constants.maxSpeed){motor1.setVoltage(Constants.maxSpeed*cMove*(Math.abs(speed)/speed));}
           else{motor1.setVoltage(speed*2*cMove);}
@@ -33,7 +35,6 @@ public class PivotMotor extends SubsystemBase{
     }
 
     public void emergencyStop(){
-      motor1.setIdleMode(IdleMode.kBrake);
       motor1.stopMotor();
     }
 

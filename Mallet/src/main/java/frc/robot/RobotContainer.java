@@ -16,7 +16,6 @@ import frc.robot.commands.MoveExtenderForward;
 import frc.robot.commands.MovePivot;
 import frc.robot.commands.StopAllMotors;
 import frc.robot.commands.TestCommand;
-import frc.robot.commands.ToggleBreak;
 import frc.robot.subsystems.ExtensionMotor;
 import frc.robot.subsystems.PivotMotor;
 import frc.robot.subsystems.TestSub;
@@ -30,11 +29,9 @@ import frc.robot.subsystems.TestSub;
  */
 public class RobotContainer {
   public static Joystick m_controller = new Joystick(0);
-  public static JoystickButton m_emerStop = new JoystickButton(m_controller, 2);
-  public static JoystickButton m_swap = new JoystickButton(m_controller, 3);
-
-  public static JoystickButton m_retract = new JoystickButton(m_controller, 4);
-  public static JoystickButton m_extend = new JoystickButton(m_controller, 5);
+  public static JoystickButton m_emerStop = new JoystickButton(m_controller, 5);
+  public static JoystickButton m_retract = new JoystickButton(m_controller, 2);
+  public static JoystickButton m_extend = new JoystickButton(m_controller, 3);
   //Subsystems
   // public TestSub m_testSub = new TestSub();
   public ExtensionMotor m_extensionMotor = new ExtensionMotor();
@@ -69,14 +66,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    // m_emerStop.onTrue(getTestCommand(2));
     m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor));
 
-    m_swap.onTrue(new ToggleBreak(m_pivotMotor, m_extensionMotor));
-    // m_swap.toggleOnFalse(getTestCommand(3));
     m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor));
     m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor));
-    // m_lower.toggleOnFalse(getTestCommand(5));
   }
 
   /**
