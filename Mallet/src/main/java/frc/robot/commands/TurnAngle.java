@@ -4,32 +4,27 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.GyroScope;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class TurnAngle extends CommandBase{
-
+public class TurnAngle extends CommandBase
     private Drivetrain m_drivetrain;
     private GyroScope m_gyro;
-    private float startDes;
-    private float m_turnAmount;
-    private boolean m_isTurnningBy;
-    private int direction;
-    private float errorRange = 0.5f;
-    private boolean status;
-    /*drivetrain - the drivetrain being used
-    gyro - the gyro being used
-    turnAmount - the amount in degrees being turned
-    isTurnningBy - wether or not the turnAmount is a destination, or we the amount we are adding to
-    our current angle*/
-    public TurnAngle(Drivetrain drivetrain, GyroScope gyro, float turnAmount, boolean isTurnningBy){
 
-        m_drivetrain = drivetrain;
-        m_gyro = gyro;
+    private float m_startDes; 
+    private float m_turnAmount;
+    private boolean m_isTurnningBy; //determines if we want to match the given angle or not - true means we are turning by the angle rather than matching it
+    private int m_direction;
+    private boolean status;
+
+    public TurnAngle(Drivetrain p_drivetrain, GyroScope p_gyro, float p_turnAmount, boolean p_isTurnningBy){
+        m_drivetrain = p_drivetrain;
+        m_gyro = p_gyro;
         addRequirements(m_drivetrain);
         addRequirements(m_gyro);
 
-        m_isTurnningBy = isTurnningBy;
+        m_isTurnningBy = p_isTurnningBy;
         status = false;
+
         // Getting what the angle should be at the end
-        m_turnAmount = turnAmount;
+        m_turnAmount = p_turnAmount;
     }
 
     // Called when the command is initially scheduled.
@@ -40,8 +35,8 @@ public class TurnAngle extends CommandBase{
 
         if(m_isTurnningBy){
             //Converts gyro to 360 degrees
-            startDes = (m_gyro.getAngleZ()+360.0f)%360.0f;
-            m_turnAmount += startDes;
+            m_startDes = (m_gyro.getAngleZ()+360.0f)%360.0f;
+            m_turnAmount += m_startDes;
         }
 
         //Converts 360 degrees back to gyro
@@ -55,19 +50,19 @@ public class TurnAngle extends CommandBase{
     @Override
     public void execute() {
         System.out.println("Destination : " + m_turnAmount);
-        System.out.println("Start : " + startDes);
+        System.out.println("Start : " + m_startDes);
         System.out.println("Z : " + m_gyro.getAngleZ());
         /*If statements to check the distance it needs to go and if it is within a small margin or not
         and based of that, checks to see the direction to turn to (if it has already reached its destination,
         it will not move*/
-        if((m_turnAmount-m_gyro.getAngleZ()>errorRange) || m_turnAmount-m_gyro.getAngleZ() < -1*errorRange){
-            direction = 1;
+        if((m_turnAmount-m_gyro.getAngleZ()>Constants.K_TURN_ERROR_RANGE) || m_turnAmount-m_gyro.getAngleZ() < -1*Constants.K_TURN_ERROR_RANGE){
+            m_direction = 1;
         }else{
-            direction = 0;
+            m_direction = 0;
         }
         //Direction should only be 0 when the robot reaches the desired angle
-        status = (direction == 0);
-        m_drivetrain.arcadeDrive(0.0, Constants.K_SPEED*direction);
+        status = (m_direction == 0);
+        m_drivetrain.arcadeDrive(0.0, Constants.K_SPEED*m_direction);
     }
   
   
@@ -75,9 +70,9 @@ public class TurnAngle extends CommandBase{
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-      direction = 0;
+      m_direction = 0;
       System.out.println("Fin");
-      m_drivetrain.arcadeDrive(direction, direction);
+      m_drivetrain.arcadeDrive(m_direction, m_direction);
     }
   
     // Returns true when the command should end.
