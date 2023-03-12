@@ -4,7 +4,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,21 +32,18 @@ public class PivotSub
 
     // Determines if we got to stop all movement on the motor
     private boolean isStopped = false;
-
+    private double pivotSpeed = 2.2;
     private double desiredAngle = 0;
     
     public PivotSub(){
       if(Constants.isUsingPivot){
         motor1.setIdleMode(IdleMode.kBrake);
         motor2.setIdleMode(IdleMode.kBrake);
-        motor1.setInverted(true);
         // set conversion factor so getPosition returns degrees
         encoder1.setPositionConversionFactor((Constants.calibrateEndingAngle-Constants.calibrateStartingAngle) / Constants.calibrateAngleEncoderValue);
-        // encoder1.setPositionConversionFactor(1);
-        // encoder1.setPosition(0);
         desiredAngle = encoder1.getPosition();
+
         encoder2.setPosition(0);
-        
       }
     }
 
@@ -58,12 +54,12 @@ public class PivotSub
       if(isStopped)
         emergencyStop();
       else{
-        double calculatedVoltage = (-encoder1.getPosition() - desiredAngle)/3;
-        if (calculatedVoltage > 2.2) {calculatedVoltage = 2.2;}
-        if (calculatedVoltage < -2.2) {calculatedVoltage = -2.2;}
+        double calculatedVoltage = (desiredAngle - encoder1.getPosition())/3;
+        if (calculatedVoltage > pivotSpeed) {calculatedVoltage = pivotSpeed;}
+        if (calculatedVoltage < -pivotSpeed) {calculatedVoltage = -pivotSpeed;}
 
         boolean top = encoder1.getPosition()>100 ? false : true;
-        if ((calculatedVoltage < 0 && top) || (calculatedVoltage > 0 && BtmLimit.get())) {
+        if ((calculatedVoltage > 0 && top) || (calculatedVoltage < 0 && BtmLimit.get())) {
           motor1.setVoltage(calculatedVoltage);
         } else {
           motor1.setVoltage(0);
