@@ -1,17 +1,19 @@
-package frc.robot.commands;
+package frc.robot.commands.extend;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClawMotor;
+import frc.robot.subsystems.ExtensionMotor;
 
 
-public class ReleaseClaw extends CommandBase{
+public class MoveExtenderBackwards extends CommandBase{
 
     // Required Subsystem of Extension Motor
-    private ClawMotor m_claw;
+    private ExtensionMotor m_extender;
+    private boolean m_choice = false;
 
-    public ReleaseClaw(ClawMotor claw){
-        m_claw = claw;
-        addRequirements(m_claw);
+    public MoveExtenderBackwards(ExtensionMotor extender, boolean isUsingEncoders){        
+        m_choice = isUsingEncoders;
+        m_extender = extender;
+        addRequirements(m_extender);
     }
 
     // Called when the command is initially scheduled.
@@ -22,14 +24,20 @@ public class ReleaseClaw extends CommandBase{
     // Tells the Extension Motor to go Backwards
     @Override
     public void execute() {
-        m_claw.grabClaw(-1);
+        if(m_choice)
+        {
+            m_extender.moveWithEncoders(-1);
+        }
+        else
+            m_extender.moveMotor(-1);
+        
     }
 
     // Called once the command ends or is interrupted.
     // Tells the Extension Motor to Stop
     @Override
     public void end(boolean interrupted) {
-        m_claw.grabClaw(0);
+        m_extender.moveMotor(0);
     }
 
     // Returns true when the command should end.

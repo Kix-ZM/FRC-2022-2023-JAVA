@@ -1,15 +1,15 @@
-package frc.robot.commands;
+package frc.robot.commands.claw;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClawMotor;
 
 
-public class GraspClaw extends CommandBase{
+public class ReleaseClaw extends CommandBase{
 
     // Required Subsystem of Extension Motor
     private ClawMotor m_claw;
 
-    public GraspClaw(ClawMotor claw){
+    public ReleaseClaw(ClawMotor claw){
         m_claw = claw;
         addRequirements(m_claw);
     }
@@ -22,7 +22,7 @@ public class GraspClaw extends CommandBase{
     // Tells the Extension Motor to go Backwards
     @Override
     public void execute() {
-        m_claw.grabClaw(1);
+        m_claw.grabClaw(-1);
     }
 
     // Called once the command ends or is interrupted.
