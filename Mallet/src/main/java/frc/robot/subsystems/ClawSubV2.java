@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -33,12 +34,13 @@ public class ClawSubV2 extends SubsystemBase{
   public ClawSubV2(){
     if(K_ClawSub.isUsingClaw){
       motor.setIdleMode(IdleMode.kBrake);
-      motor.setInverted(true);
+      //motor.setInverted(true);
       // set conversion factor so getPosition returns degrees
       encoder.setPositionConversionFactor((K_ClawSub.calibrateEndingAngle-K_ClawSub.calibrateStartingAngle) / K_ClawSub.calibrateAngleEncoderValue);
-      desiredAngle = encoder.getPosition();
-      minAngle = desiredAngle;
-      maxAngle = desiredAngle + maxAngle;
+      desiredAngle = 15;
+      //desiredAngle = encoder.getPosition();
+      //minAngle = desiredAngle;
+      //maxAngle = desiredAngle + maxAngle;
     }
   }
 
@@ -52,6 +54,7 @@ public class ClawSubV2 extends SubsystemBase{
       double calculatedVoltage = (desiredAngle - encoder.getPosition());
       if (calculatedVoltage > K_ClawSub.clampSpeed) {calculatedVoltage = K_ClawSub.clampSpeed;}
       if (calculatedVoltage < -K_ClawSub.clampSpeed) {calculatedVoltage = -K_ClawSub.clampSpeed;}
+      if (Math.abs(calculatedVoltage)<0.01) calculatedVoltage = 0;
 
       if ((calculatedVoltage < 0 && clampLimit.get()) || calculatedVoltage > 0) {
         motor.setVoltage(calculatedVoltage);
@@ -82,6 +85,11 @@ public class ClawSubV2 extends SubsystemBase{
   // Changes angle to aim for
   // If change is too far in either direction revert the change
   public void changeAngle (double increment) {
+    SmartDashboard.putNumber("Increment",increment);
+    if(Math.abs(increment)>0.5)
+      increment = 0.5*Math.abs(increment)/increment;
+    if(Math.abs(increment)<0.1)
+      increment = 0;
     desiredAngle += increment;
     if (desiredAngle > maxAngle) 
       desiredAngle= maxAngle;
@@ -106,7 +114,9 @@ public class ClawSubV2 extends SubsystemBase{
   public void periodic() {
     SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
     SmartDashboard.putNumber("Claw Current", motor.getOutputCurrent());
-    SmartDashboard.putNumber("Desired ANgle", desiredAngle);
+    SmartDashboard.putNumber("Desired Angle", desiredAngle);
+    SmartDashboard.putNumber("Min Angle", minAngle);
+    SmartDashboard.putNumber("Max Angle",maxAngle);
 
   }
 }

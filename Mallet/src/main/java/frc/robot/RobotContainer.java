@@ -55,6 +55,7 @@ public class RobotContainer {
     configureButtonBindings();
     m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor, m_controller));
     m_pivotMotor.setDefaultCommand(new PivotMove(m_pivotMotor, m_controller));
+    
   }
 
   /**
@@ -65,12 +66,12 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    // m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
+    //m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
     m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor, false));  // Retracts Arm
     m_retracts.onTrue(new MoveExtenderBackwards(m_extensionMotor, true));
     m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor,false)); 
     m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
-    m_grabber.onTrue(new ClawClamp(m_clawMotor));
+    //m_grabber.onTrue(new ClawClamp(m_clawMotor));
     //m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
     // m_grabber.onTrue(new GraspClaw(m_clawMotor)); // Grabs with the claw
     // m_grabber.onFalse(new ReleaseClaw(m_clawMotor)); // Releases with the claw
