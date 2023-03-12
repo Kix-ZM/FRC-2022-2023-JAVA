@@ -1,24 +1,21 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PivotSub;
-import frc.robot.subsystems.ClawMotor;
-import frc.robot.subsystems.ExtensionMotor;
 
 
-public class StopAllMotors extends CommandBase{
+public class PivotMove extends CommandBase{
     // Required Subsystems
     private PivotSub m_pivot;
-    private ExtensionMotor m_extender;
-    private ClawMotor m_claw;
+    private Joystick m_joystick;
 
-    public StopAllMotors(PivotSub pivot, ExtensionMotor extender, ClawMotor claw){
+    // Creation Function of the Class
+    public PivotMove
+(PivotSub pivot, Joystick joystick){
         m_pivot = pivot;
-        m_extender = extender;
-        m_claw = claw;
+        m_joystick = joystick;
         addRequirements(m_pivot);
-        addRequirements(m_extender);
-        addRequirements(m_claw);
     }
 
     // Called when the command is initially scheduled.
@@ -26,22 +23,21 @@ public class StopAllMotors extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Literally Stops Everything, All Arm Motors will stop
+    // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
     @Override
     public void execute() {
-        m_pivot.emergencyStop();
-        m_extender.emergencyStop();   
-        m_claw.emergencyStop(); 
+        m_pivot.changeAngle(-m_joystick.getRawAxis(1)/1.4);
+        m_pivot.moveMotors();
     }
 
     // Called once the command ends or is interrupted.
-    // This is never to be interupted
+    // Nothing is called here as it is covered already in the subsystem to stop the motor.
     @Override
     public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 }
