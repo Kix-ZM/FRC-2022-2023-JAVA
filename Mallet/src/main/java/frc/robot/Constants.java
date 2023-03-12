@@ -1,7 +1,7 @@
 package frc.robot;
 
 public final class Constants {
-    public static final double K_SPEED = 0.25; //speed for turning
+    public static final double K_SPEED = 0.5; //speed for turning
     public static final double K_WHEEL_DIAMETER_INCH = 6; //diameter of the wheels in inches
     public static final double K_TICKS_PER_FEET = 40.964489;
 

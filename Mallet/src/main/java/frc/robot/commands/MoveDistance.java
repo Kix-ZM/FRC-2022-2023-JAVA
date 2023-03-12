@@ -1,23 +1,16 @@
 package frc.robot.commands;
 
-import frc.robot.Constants;
-//import frc.robot.Constants;
-//import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveDistance extends CommandBase{
     private boolean finishStatus = false;
     private Drivetrain m_Drivetrain;
-    
-    double forwardDist =  Constants.K_FORWARDS_FEET; //how far to move until start moving backwards
-    double backwardDist = Constants.K_BACKWARDS_FEET; //how far to move backwards until we stop
-    double distance;
-    boolean isBackwards;
-    double startDistance;
-    double speed = 0;
-    int factor = 1; //adjusts math and speed based on if going forwards or backwards
+    private double distance;
+    private boolean isBackwards;
+    private double startDistance;
+    private double speed = 0;
+    private int factor = 1; //adjusts math and speed based on if going forwards or backwards
 
     public MoveDistance(Drivetrain drivetrain, double newDistance, boolean backwards){
         m_Drivetrain  = drivetrain;
@@ -30,6 +23,7 @@ public class MoveDistance extends CommandBase{
         m_Drivetrain.resetEncoders();
         startDistance = m_Drivetrain.getAverageDistanceInch();
     }
+    
     public void execute(){
         if(isBackwards) factor = -1; //if moving backwards adjust math
         if(distance > factor*(m_Drivetrain.getAverageDistanceInch() - startDistance)){
@@ -41,12 +35,11 @@ public class MoveDistance extends CommandBase{
 
         m_Drivetrain.arcadeDrive(speed, 0);
     }
-
-        
     
     public void end(boolean interrupted){
         m_Drivetrain.arcadeDrive(0.0, 0.0);
     }
+
     public boolean isFinished(){
         return finishStatus;
     }

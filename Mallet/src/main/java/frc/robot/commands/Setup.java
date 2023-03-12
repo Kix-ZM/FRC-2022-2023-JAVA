@@ -5,6 +5,7 @@ import frc.robot.subsystems.GyroScope;
 public class Setup extends CommandBase{
     private GyroScope m_gyro;
     private boolean status;
+    
     public Setup(GyroScope gyro){
         m_gyro = gyro;
         status = false;
