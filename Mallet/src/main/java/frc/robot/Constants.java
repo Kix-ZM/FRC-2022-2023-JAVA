@@ -25,4 +25,11 @@ public final class Constants {
     public static final boolean isUsingClaw = true;    //If is using the claw subsystem
     public static final boolean isUsingPivot = true;   //If is using the pivot subsystem
     public static final boolean isUsingExt = true;     //If is using the extension subsystem
+
+
+    // pivot sub
+    public static final double calibrateStartingAngle = 7;
+    public static final double calibrateEndingAngle = 90;
+    public static final double calibrateAngleEncoderValue = -14.071446419;
+    
 }
