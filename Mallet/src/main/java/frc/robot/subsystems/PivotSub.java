@@ -14,13 +14,14 @@ public class PivotSub extends SubsystemBase{
   // These are the Pivot Motors
   // Idle - Break on both
   // ID's 5 & 6
-  private final CANSparkMax motor1 = new CANSparkMax(5, MotorType.kBrushless);
-  private final CANSparkMax motor2 = new CANSparkMax(6, MotorType.kBrushless);
-  private final RelativeEncoder encoder1 = motor1.getEncoder();
-  private final RelativeEncoder encoder2 = motor2.getEncoder();
+  private final CANSparkMax motor1;
+  private final CANSparkMax motor2;
+  
+  private final RelativeEncoder encoder1;
+  private final RelativeEncoder encoder2;
   // This is the motorControllerGroup of the 2 prior motors
   // Intended to make the Pivot Point Turn
-  private final MotorControllerGroup pivotMotors = new MotorControllerGroup(motor1, motor2);
+  private final MotorControllerGroup pivotMotors; 
 
   // Limit Switches
   // WARNING - MAKE SURE THE LIMITS ARE HAVING THE YELLOW IN GROUND!
@@ -28,6 +29,8 @@ public class PivotSub extends SubsystemBase{
   //           --> DEFAULT IS ALWAYS TRUE BUT WHEN HIT THEY RETURN FALSE!
   private final DigitalInput BtmLimit = new DigitalInput(0);
   private final DigitalInput TopLimit = new DigitalInput(1);
+
+  private boolean twoMotors = true;
 
   // Determines if we got to stop all movement on the motor
   private boolean isStopped = false;
@@ -37,6 +40,13 @@ public class PivotSub extends SubsystemBase{
   
   public PivotSub(){
     if(K_PivotSub.isUsingPivot){
+      motor1 = new CANSparkMax(5, MotorType.kBrushless);
+      motor2 = new CANSparkMax(6, MotorType.kBrushless);
+      // motor2.setInverted(true);
+      encoder1 = motor1.getEncoder();
+      encoder2 = motor2.getEncoder();
+      pivotMotors = new MotorControllerGroup(motor1, motor2);
+      // pivotMotors.setInverted(isStopped);
       motor1.setIdleMode(IdleMode.kBrake);
       motor2.setIdleMode(IdleMode.kBrake);
       // set conversion factor so getPosition returns degrees
@@ -57,9 +67,9 @@ public class PivotSub extends SubsystemBase{
       if (calculatedVoltage < -K_PivotSub.pivotSpeed) {calculatedVoltage = -K_PivotSub.pivotSpeed;}
 
       if ((calculatedVoltage > 0 && TopLimit.get()) || (calculatedVoltage < 0 && BtmLimit.get())) {
-        motor1.setVoltage(calculatedVoltage);
+        (twoMotors ? pivotMotors : motor1).setVoltage(calculatedVoltage);
       } else {
-        motor1.setVoltage(0);
+        (twoMotors ? pivotMotors : motor1).setVoltage(0);
         if (!TopLimit.get())
           maxAngle = encoder1.getPosition();
         else

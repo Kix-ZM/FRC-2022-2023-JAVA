@@ -1,20 +1,16 @@
 package frc.robot.commands.pivot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PivotSub;
 
 
-public class PivotMove extends CommandBase{
-    // Required Subsystems
-    private PivotSub m_pivot;
-    private Joystick m_joystick;
+public class PivotUp extends CommandBase{
 
-    // Creation Function of the Class
-    public PivotMove
-(PivotSub pivot, Joystick joystick){
+    // Required Subsystem of pivot motor
+    private PivotSub m_pivot;
+
+    public PivotUp(PivotSub pivot){        
         m_pivot = pivot;
-        m_joystick = joystick;
         addRequirements(m_pivot);
     }
 
@@ -23,18 +19,17 @@ public class PivotMove extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Tells the Pivot Motor to turn by joystick movement
+    // Tells the pivot motor to go up
     @Override
     public void execute() {
-        // Enable for joystick control
-        m_pivot.changeAngle(-m_joystick.getRawAxis(1)/1.4);
-        m_pivot.moveMotors();
+        m_pivot.changeAngle(.5);
     }
 
     // Called once the command ends or is interrupted.
-    // Nothing is called here as it is covered already in the subsystem to stop the motor.
+    // Tells the pivot motor to Stop
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+    }
 
     // Returns true when the command should end.
     @Override

@@ -69,8 +69,7 @@ public class RobotContainer {
     m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor,false)); 
     m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
     m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
-    // m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
-    m_emerStop.onTrue(new Pivot90(m_pivotMotor));
+    // m_emerStop.onTrue(new Pivot90(m_pivotMotor));
     //m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
     //m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
     m_grabber.onTrue(new GraspClaw(m_clawMotor)); // Grabs with the claw
