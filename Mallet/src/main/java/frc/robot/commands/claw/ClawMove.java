@@ -22,7 +22,7 @@ public class ClawMove extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
+    // Relatively change claw by joystick
     @Override
     public void execute() {
         m_claw.changeAngle(m_joystick.getRawAxis(1)/1.4);

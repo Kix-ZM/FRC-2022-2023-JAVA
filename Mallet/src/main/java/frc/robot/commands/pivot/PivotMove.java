@@ -23,7 +23,7 @@ public class PivotMove extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
+    // Tells the Pivot Motor to turn by joystick movement
     @Override
     public void execute() {
         m_pivot.changeAngle(-m_joystick.getRawAxis(1)/1.4);

@@ -19,8 +19,6 @@ public class ClawClamp extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
-
     // need to make target types work
     // Sets angle to clamp based on whether cone or cube
     @Override

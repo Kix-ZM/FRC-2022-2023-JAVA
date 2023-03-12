@@ -87,6 +87,6 @@ public class ClawSubV2 extends SubsystemBase{
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Claw Encoder 1", encoder.getPosition());
+    SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
   }
 }
