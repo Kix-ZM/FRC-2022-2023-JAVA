@@ -1,6 +1,7 @@
 package frc.robot.commands.claw;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.K_ClawSub;
 import frc.robot.subsystems.ClawSubV2;
 
 
@@ -23,7 +24,7 @@ public class ClawClamp extends CommandBase{
     // Sets angle to clamp based on whether cone or cube
     @Override
     public void execute() {
-        m_claw.setAngle(5);
+        m_claw.clamp();
     }
 
     // Called once the command ends or is interrupted.
@@ -34,6 +35,6 @@ public class ClawClamp extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return m_claw.getCurrent() > K_ClawSub.maxCurrent; 
     }
 }

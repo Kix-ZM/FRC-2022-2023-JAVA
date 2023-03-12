@@ -12,7 +12,7 @@ public class ClawSubV2 extends SubsystemBase{
   // This is the Claw Extension Motor
   // Idle - Break
   // ID - 8
-  private final CANSparkMax motor = new CANSparkMax(8, MotorType.kBrushless);
+  private final CANSparkMax motor = new CANSparkMax(5, MotorType.kBrushless);
   private final RelativeEncoder encoder = motor.getEncoder();
   
   // Limit Switch
@@ -24,18 +24,21 @@ public class ClawSubV2 extends SubsystemBase{
   // Calculation variables
   private double desiredAngle;
   // open further than default point
-  private double minAngle = -10;
+  private double minAngle = 0;
   // close close to full clamp point
-  private double maxAngle = 10;
+  private double maxAngle = 30;
 
   private boolean isStopped = false;
   
   public ClawSubV2(){
     if(K_ClawSub.isUsingClaw){
       motor.setIdleMode(IdleMode.kBrake);
+      motor.setInverted(true);
       // set conversion factor so getPosition returns degrees
       encoder.setPositionConversionFactor((K_ClawSub.calibrateEndingAngle-K_ClawSub.calibrateStartingAngle) / K_ClawSub.calibrateAngleEncoderValue);
       desiredAngle = encoder.getPosition();
+      minAngle = desiredAngle;
+      maxAngle = desiredAngle + maxAngle;
     }
   }
 
@@ -46,11 +49,11 @@ public class ClawSubV2 extends SubsystemBase{
     if(isStopped)
       emergencyStop();
     else{
-      double calculatedVoltage = (desiredAngle - encoder.getPosition())/3;
+      double calculatedVoltage = (desiredAngle - encoder.getPosition());
       if (calculatedVoltage > K_ClawSub.clampSpeed) {calculatedVoltage = K_ClawSub.clampSpeed;}
       if (calculatedVoltage < -K_ClawSub.clampSpeed) {calculatedVoltage = -K_ClawSub.clampSpeed;}
 
-      if ((calculatedVoltage > 0 && clampLimit.get())) {
+      if ((calculatedVoltage < 0 && clampLimit.get()) || calculatedVoltage > 0) {
         motor.setVoltage(calculatedVoltage);
       } else {
         motor.setVoltage(0);
@@ -60,6 +63,16 @@ public class ClawSubV2 extends SubsystemBase{
           minAngle = encoder.getPosition();
       }
     }
+  }
+
+  public void clamp() {
+    if (motor.getOutputCurrent() < K_ClawSub.maxCurrent && encoder.getPosition() > minAngle) {
+      motor.setVoltage(-.5);
+    } 
+    else {
+      desiredAngle = encoder.getPosition();
+    }
+  
   }
 
   public void setAngle (double angle) {
@@ -76,6 +89,10 @@ public class ClawSubV2 extends SubsystemBase{
       desiredAngle= minAngle;
   }
 
+  public double getCurrent() {
+    return motor.getOutputCurrent();
+  }
+
   public void zeroEncoder() {
     encoder.setPosition(0);
   }
@@ -88,5 +105,8 @@ public class ClawSubV2 extends SubsystemBase{
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
+    SmartDashboard.putNumber("Claw Current", motor.getOutputCurrent());
+    SmartDashboard.putNumber("Desired ANgle", desiredAngle);
+
   }
 }

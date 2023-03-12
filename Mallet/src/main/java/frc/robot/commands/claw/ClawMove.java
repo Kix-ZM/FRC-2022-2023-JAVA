@@ -25,7 +25,7 @@ public class ClawMove extends CommandBase{
     // Relatively change claw by joystick
     @Override
     public void execute() {
-        m_claw.changeAngle(m_joystick.getRawAxis(1)/1.4);
+        m_claw.changeAngle(m_joystick.getRawAxis(1)/8);
         m_claw.moveMotors();
     }
 

@@ -40,8 +40,8 @@ public class PivotSub extends SubsystemBase{
   
   public PivotSub(){
     if(K_PivotSub.isUsingPivot){
-      motor1 = new CANSparkMax(5, MotorType.kBrushless);
-      motor2 = new CANSparkMax(6, MotorType.kBrushless);
+      motor1 = new CANSparkMax(1, MotorType.kBrushless);
+      motor2 = new CANSparkMax(2, MotorType.kBrushless);
       // motor2.setInverted(true);
       encoder1 = motor1.getEncoder();
       encoder2 = motor2.getEncoder();

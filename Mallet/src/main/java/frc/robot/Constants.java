@@ -39,7 +39,8 @@ public final class Constants {
         public static final double calibrateStartingAngle = 1.5;
         public static final double calibrateEndingAngle = 90;
         public static final double calibrateAngleEncoderValue = 12.3572;
-        public static final double clampSpeed = 1;
+        public static final double clampSpeed = .4;
+        public static final double maxCurrent = .4;
     }
     
 }
