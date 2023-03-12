@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,6 +19,7 @@ public class GyroScope extends SubsystemBase {
         gScope = new AHRS(I2C.Port.kMXP);
         gScope.calibrate();
         SmartDashboard.putNumber("gyro y angle", getAngleY());
+        Shuffleboard.getTab("SmartDashboard").add("Gyro", gScope);
     }
 
     // returns the current displacement of the bot from initial calibration
@@ -59,7 +61,9 @@ public class GyroScope extends SubsystemBase {
     @Override
     public void periodic() {
         // System.out.println("x angle: " + getAngleX());
+        SmartDashboard.putNumber("gyro x angle", getAngleX());
         SmartDashboard.putNumber("gyro y angle", getAngleY());
+        SmartDashboard.putNumber("gyro z angle", getAngleZ());
         // System.out.println("z angle: " + getAngleZ());
         // This method will be called once per scheduler run
     }

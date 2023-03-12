@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class NextPipeline extends CommandBase {
     private final Limelight m_limelight;
-    private boolean done = false;
-
     public NextPipeline(Limelight limelight) {
         m_limelight = limelight;
         addRequirements(limelight);
@@ -27,7 +25,6 @@ public class NextPipeline extends CommandBase {
     @Override
     public void execute() {
         m_limelight.nextPipeline();
-        done=true;
         //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
     }
 
@@ -40,6 +37,6 @@ public class NextPipeline extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return done;
+        return true;
     }
 }

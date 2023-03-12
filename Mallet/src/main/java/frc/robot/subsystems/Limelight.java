@@ -97,7 +97,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public void nextPipeline() {
-    if (curIndex < pipelineMap.size()-1) {
+    if (curIndex < pipelineMap.size()) {
       setPipeline(curIndex + 1);
       curIndex++;
     } else {
