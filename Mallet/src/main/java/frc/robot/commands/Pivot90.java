@@ -1,19 +1,16 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PivotMotor;
+import frc.robot.subsystems.PivotSub;
 
 
-public class MovePivot extends CommandBase{
+public class Pivot90 extends CommandBase{
     // Required Subsystems
-    private PivotMotor m_pivot;
-    private Joystick m_joystick;
+    private PivotSub m_pivot;
 
     // Creation Function of the Class
-    public MovePivot(PivotMotor pivot, Joystick joystick){
+    public Pivot90(PivotSub pivot){
         m_pivot = pivot;
-        m_joystick = joystick;
         addRequirements(m_pivot);
     }
 
@@ -25,7 +22,7 @@ public class MovePivot extends CommandBase{
     // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
     @Override
     public void execute() {
-        m_pivot.moveMotors(-1*m_joystick.getRawAxis(1)*2);
+        m_pivot.setAngle(90);
     }
 
     // Called once the command ends or is interrupted.
@@ -36,6 +33,6 @@ public class MovePivot extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }

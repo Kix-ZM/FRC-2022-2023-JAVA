@@ -28,8 +28,10 @@ public final class Constants {
 
 
     // pivot sub
-    public static final double calibrateStartingAngle = 7;
+    public static final double calibrateStartingAngle = 1.5;
     public static final double calibrateEndingAngle = 90;
-    public static final double calibrateAngleEncoderValue = -14.071446419;
+    public static final double calibrateAngleEncoderValue = 12.3572;
+
+
     
 }
