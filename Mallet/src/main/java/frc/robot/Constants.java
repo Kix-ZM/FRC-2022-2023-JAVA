@@ -13,6 +13,9 @@ public final class Constants {
     public static final float K_TURN_ERROR_RANGE = 2f;
     public static final double K_DEC_TO_PI = 0.01745;
 
+    //Turn By
+    public static final double K_TURNING_SPEED = 0.7;
+
     //Balancing
     public static final double K_PLAT_DEGREE_THRESH = 10; //angle at which the robot is considered to be on the platform
     public static final double K_BALANCE_THRESH_DEG = 4.2; //angle at within which the robot is considered to be balanced

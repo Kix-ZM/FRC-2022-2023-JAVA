@@ -7,45 +7,46 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class TurnBy extends CommandBase {
     private Drivetrain m_drivetrain;
     private GyroScope m_gyro;
-    private double incrementBy;
-    private double desiredAngle;
-    
+    private double turnAmount; //angle we're turning by
+    private double finalAngle; //the final angle the robot should end at
+    private double turnDirection;
 
     public TurnBy (Drivetrain p_drivetrain, GyroScope p_gyro, double angle){
         m_drivetrain = p_drivetrain;
         m_gyro = p_gyro;
-        incrementBy = angle;
+        turnAmount = angle;
         addRequirements(m_drivetrain);
         addRequirements(m_gyro);
+    }
+
+    public float getGyroZ360(){ //return the gyro position in the range 0 to 359
+        float angle = m_gyro.getAngleZ();
+        if(angle<0) angle += 360;
+        return angle;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-       desiredAngle += incrementBy;
-       desiredAngle %= 360;
+        finalAngle = getGyroZ360() + turnAmount; //determine final angle based on current position and the angle to turn by
+        finalAngle = (finalAngle+360)%360; // Properly converts final angle to a positive number (ex: 45 degrees and goes counter-clockwise by 90 degrees would be 270 or -90)
+
+        turnDirection = -Math.signum(turnAmount);
     }
   
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double difference = desiredAngle - (m_gyro.getAngleZ()+180);
-        // div by 90 for scaling
-        m_drivetrain.arcadeDrive(0, difference > 0 ? -.4 : .4);
+        m_drivetrain.arcadeDrive(0, Constants.K_TURNING_SPEED*turnDirection);
     }
-  
-  
   
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-      
-    }
+    public void end(boolean interrupted) {}
   
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        System.out.print("FINISHED TURN ANGLE");
-      return Math.abs(desiredAngle-m_gyro.getAngleZ()) < Constants.K_TURN_ERROR_RANGE;
+        return Math.abs(finalAngle-getGyroZ360()) < Constants.K_TURN_ERROR_RANGE;
     }
 }

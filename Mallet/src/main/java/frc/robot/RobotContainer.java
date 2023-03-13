@@ -64,10 +64,9 @@ public class RobotContainer {
     l_controllerButtons.get("2").onTrue(turnAngleCommand(-90.0f, true));
     // set to 90 degrees
     l_controllerButtons.get("3").onTrue(turnAngleCommand(90.0f, false));
+    r_controllerButtons.get("4").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
+    r_controllerButtons.get("5").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
     l_controllerButtons.get("8").onTrue(new NextPipeline(m_limelight));
-    r_controllerButtons.get("8").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
-    r_controllerButtons.get("8").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
-
   }
 
   // At the beginning of auto
