@@ -51,15 +51,19 @@ public class ClawSubV2 extends SubsystemBase{
     if(isStopped)
       emergencyStop();
     else{
+      //Calculates voltage based on the distance between encoders
       double calculatedVoltage = (desiredAngle - encoder.getPosition());
+      //Makes sure encoders is not too far or too back
       if (calculatedVoltage > K_ClawSub.clampSpeed) {calculatedVoltage = K_ClawSub.clampSpeed;}
       if (calculatedVoltage < -K_ClawSub.clampSpeed) {calculatedVoltage = -K_ClawSub.clampSpeed;}
+      // Dead zone for voltage
       if (Math.abs(calculatedVoltage)<0.01) calculatedVoltage = 0;
-
+      //???Checks if the limit switches is not pressed along with the calculated voltage is going backwards or if the calculated voltage is going forwards
       if ((calculatedVoltage < 0 && clampLimit.get()) || calculatedVoltage > 0) {
         motor.setVoltage(calculatedVoltage);
       } else {
         motor.setVoltage(0);
+        //Checks whether or is too open or too close and sets the current position to max or min angle 
         if (!clampLimit.get())
           maxAngle = encoder.getPosition();
         else
@@ -69,6 +73,7 @@ public class ClawSubV2 extends SubsystemBase{
   }
 
   public void clamp() {
+    //If the motor is not met with resistence (aka not being closing sometihing) and it can still go backwards
     if (motor.getOutputCurrent() < K_ClawSub.maxCurrent && encoder.getPosition() > minAngle) {
       motor.setVoltage(-.5);
     } 
@@ -86,11 +91,15 @@ public class ClawSubV2 extends SubsystemBase{
   // If change is too far in either direction revert the change
   public void changeAngle (double increment) {
     SmartDashboard.putNumber("Increment",increment);
+    //???If the amount is too big, then make it +- .5 
     if(Math.abs(increment)>0.5)
       increment = 0.5*Math.abs(increment)/increment;
+    //If the increment amount is too little then disregarded it
     if(Math.abs(increment)<0.1)
       increment = 0;
+    //Increments
     desiredAngle += increment;
+    //Clamps the angle
     if (desiredAngle > maxAngle) 
       desiredAngle= maxAngle;
     if (desiredAngle < minAngle) 
@@ -117,6 +126,5 @@ public class ClawSubV2 extends SubsystemBase{
     SmartDashboard.putNumber("Desired Angle", desiredAngle);
     SmartDashboard.putNumber("Min Angle", minAngle);
     SmartDashboard.putNumber("Max Angle",maxAngle);
-
   }
 }
