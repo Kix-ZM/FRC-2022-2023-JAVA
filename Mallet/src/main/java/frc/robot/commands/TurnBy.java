@@ -37,7 +37,11 @@ public class TurnBy extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_drivetrain.arcadeDrive(0, Constants.K_TURNING_SPEED*turnDirection);
+        double distance = Math.abs(finalAngle - getGyroZ360()); //find distance from the target angle
+        if(distance > 180) distance = Math.abs(distance-360); //wrap around distance
+        double speed = 2*Math.max(Constants.K_MIN_TURNING_SPEED,Math.min(Constants.K_MAX_TURNING_SPEED, (.01*(distance-10)+.2))); //set speed dynamically to slow down as we approach the target angle
+
+        m_drivetrain.arcadeDrive(0, speed*turnDirection);
     }
   
     // Called once the command ends or is interrupted.

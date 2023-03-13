@@ -14,7 +14,8 @@ public final class Constants {
     public static final double K_DEC_TO_PI = 0.01745;
 
     //Turn By
-    public static final double K_TURNING_SPEED = 0.7;
+    public static final double K_MIN_TURNING_SPEED = 0.5; //minimum speed to turn at
+    public static final double K_MAX_TURNING_SPEED = 0.5; //maximum speed to turn at
 
     //Balancing
     public static final double K_PLAT_DEGREE_THRESH = 10; //angle at which the robot is considered to be on the platform
