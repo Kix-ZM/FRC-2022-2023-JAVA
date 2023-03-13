@@ -33,7 +33,7 @@ public class ExtensionMotor extends SubsystemBase{
     public void moveWithEncoders(double direction){
       System.out.println(m_Encoder.getPosition());
       if(Constants.isUsingExt){
-        if(Math.abs(m_Encoder.getPosition()) <= 85/*Put the real encoder value here */){
+        if(Math.abs(m_Encoder.getPosition()) <= 86/*Put the real encoder value here */){
           System.out.println(m_Encoder.getPosition());
           if(!BtmLimit.get()){
             m_Encoder.setPosition(0);
@@ -59,8 +59,7 @@ public class ExtensionMotor extends SubsystemBase{
     }
   }
 
-
-    // If limit switch is hit in direction of movement, stop movement in that direction
+      // If limit switch is hit in direction of movement, stop movement in that direction
     public void moveMotor(double direction) {
       System.out.println(m_Encoder.getPosition());
       if(Constants.isUsingExt){
