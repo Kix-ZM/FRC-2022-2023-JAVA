@@ -14,7 +14,7 @@ public final class Constants {
     public static final double K_DEC_TO_PI = 0.01745;
 
     //Turn By
-    public static final double K_MIN_TURNING_SPEED = 0.5; //minimum speed to turn at
+    public static final double K_MIN_TURNING_SPEED = 0.2; //minimum speed to turn at
     public static final double K_MAX_TURNING_SPEED = 0.5; //maximum speed to turn at
 
     //Balancing

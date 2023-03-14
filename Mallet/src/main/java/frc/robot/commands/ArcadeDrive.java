@@ -12,14 +12,12 @@ public class ArcadeDrive extends CommandBase {
 
   public ArcadeDrive(Drivetrain drivetrain) {
     m_drivetrain = drivetrain;
-    m_joystick = RobotContainer.m_lcontroller;
+    m_joystick = RobotContainer.getDriveController();
     addRequirements(drivetrain);
   }
 
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   @Override
   public void execute() {

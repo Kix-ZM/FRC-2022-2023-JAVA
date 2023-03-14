@@ -25,12 +25,12 @@ public class RobotContainer {
   private static final GyroScope m_gyro = new GyroScope();
 
   //INIT JOYSTICKS (NOTE: PLEASE RENAME TO LEFT/RIGHT)
-  public static Joystick m_lcontroller = new Joystick(0);
-  public static Joystick m_rcontroller = new Joystick(1);
+  public static Joystick m_controller_arm = new Joystick(0);
+  public static Joystick m_controller_drive = new Joystick(1);
 
   //INIT JOYSTICK ARRAYS
-  public static HashMap<String, Trigger> l_controllerButtons = new HashMap<String, Trigger>();
-  public static HashMap<String, Trigger> r_controllerButtons = new HashMap<String, Trigger>();
+  public static HashMap<String, Trigger> controllerButtons_arm = new HashMap<String, Trigger>();
+  public static HashMap<String, Trigger> controllerButtons_drive = new HashMap<String, Trigger>();
 
   //INIT SMARTDASHBOARD
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -48,25 +48,31 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
 
     // Add joystick buttons to maps
-    l_controllerButtons.put("trigger", new JoystickButton(m_lcontroller, 1));
-    r_controllerButtons.put("trigger", new JoystickButton(m_rcontroller, 1));
+    controllerButtons_drive.put("trigger", new JoystickButton(m_controller_drive, 1));
+    controllerButtons_arm.put("trigger", new JoystickButton(m_controller_arm, 1));
     for (int i = 2; i <= 11; i++)
     {
-      l_controllerButtons.put(Integer.toString(i), new JoystickButton(m_lcontroller, i));
-      r_controllerButtons.put(Integer.toString(i), new JoystickButton(m_rcontroller, i));
+      controllerButtons_arm.put(Integer.toString(i), new JoystickButton(m_controller_arm, i));
+      controllerButtons_drive.put(Integer.toString(i), new JoystickButton(m_controller_drive, i));
     }
 
+    //DRIVE CONTROLLER
     // rotate to target
-    l_controllerButtons.get("trigger").onTrue(new AimCommand(m_drivetrain, m_limelight));
+    controllerButtons_drive.get("trigger").onTrue(new AimCommand(m_drivetrain, m_limelight));
     // reset encoders
-    l_controllerButtons.get("11").onTrue(resetEncodersCommand());
-    // increment by 90 degrees
-    r_controllerButtons.get("2").onTrue(turnAngleCommand(-90.0f, true));
-    // set to 90 degrees
-    r_controllerButtons.get("3").onTrue(turnAngleCommand(90.0f, false));
-    l_controllerButtons.get("4").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
-    l_controllerButtons.get("5").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
-    r_controllerButtons.get("8").onTrue(new NextPipeline(m_limelight));
+    controllerButtons_drive.get("11").onTrue(resetEncodersCommand());
+    // turn to 180 degrees
+    controllerButtons_drive.get("2").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
+    // turn to 0 degrees
+    controllerButtons_drive.get("3").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 0));
+    // turn left 90 degrees
+    controllerButtons_drive.get("4").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
+    // turn left 90 degrees
+    controllerButtons_drive.get("5").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
+
+    //ARM CONTROLLER
+    // select next piece to target
+    controllerButtons_arm.get("8").onTrue(new NextPipeline(m_limelight));
   }
 
   // At the beginning of auto
@@ -112,7 +118,10 @@ public class RobotContainer {
     return new ResetEncoders(m_drivetrain);
   }
 
-  public static Command turnAngleCommand(float turnAmount, boolean isTurningBy){
-    return new TurnAngle(m_drivetrain, m_gyro, turnAmount, isTurningBy);
+  public static Joystick getDriveController(){
+    return m_controller_drive;
+  }
+  public static Joystick getArmController(){
+    return m_controller_arm;
   }
 }
