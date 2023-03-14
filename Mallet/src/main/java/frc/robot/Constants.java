@@ -22,16 +22,25 @@ public final class Constants {
     //public static final double inchesToGoForward = 2520.0; 
 
     //Which subsystems to use
-    public static final boolean isUsingClaw = true;    //If is using the claw subsystem
-    public static final boolean isUsingPivot = true;   //If is using the pivot subsystem
+       //If is using the pivot subsystem
     public static final boolean isUsingExt = true;     //If is using the extension subsystem
 
 
-    // pivot sub
-    public static final double calibrateStartingAngle = 1.5;
-    public static final double calibrateEndingAngle = 90;
-    public static final double calibrateAngleEncoderValue = 12.3572;
-
-
+    public static final class K_PivotSub {
+        public static final boolean isUsingPivot = true;
+        public static final double calibrateStartingAngle = 1.5;
+        public static final double calibrateEndingAngle = 90;
+        public static final double calibrateAngleEncoderValue = 12.3572;
+        public static final double pivotSpeed = 2.2;
+    }   
+    
+    public static final class K_ClawSub {
+        public static final boolean isUsingClaw = true;    //If is using the claw subsystem
+        public static final double calibrateStartingAngle = 1.5;
+        public static final double calibrateEndingAngle = 90;
+        public static final double calibrateAngleEncoderValue = 12.3572;
+        public static final double clampSpeed = .4;
+        public static final double maxCurrent = .4;
+    }
     
 }

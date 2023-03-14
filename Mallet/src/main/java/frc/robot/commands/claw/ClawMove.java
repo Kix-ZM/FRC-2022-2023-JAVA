@@ -1,17 +1,20 @@
-package frc.robot.commands;
+package frc.robot.commands.claw;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PivotSub;
+import frc.robot.subsystems.ClawSubV2;
 
 
-public class Pivot90 extends CommandBase{
+public class ClawMove extends CommandBase{
     // Required Subsystems
-    private PivotSub m_pivot;
+    private ClawSubV2 m_claw;
+    private Joystick m_joystick;
 
     // Creation Function of the Class
-    public Pivot90(PivotSub pivot){
-        m_pivot = pivot;
-        addRequirements(m_pivot);
+    public ClawMove(ClawSubV2 claw, Joystick joystick){
+        m_claw = claw;
+        m_joystick = joystick;
+        addRequirements(m_claw);
     }
 
     // Called when the command is initially scheduled.
@@ -19,10 +22,11 @@ public class Pivot90 extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
+    // Relatively change claw by joystick
     @Override
     public void execute() {
-        m_pivot.setAngle(90);
+        m_claw.changeAngle(m_joystick.getRawAxis(1)/5);
+        m_claw.moveMotors();
     }
 
     // Called once the command ends or is interrupted.
@@ -33,6 +37,6 @@ public class Pivot90 extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 }

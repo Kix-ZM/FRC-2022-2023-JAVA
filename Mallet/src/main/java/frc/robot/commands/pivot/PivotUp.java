@@ -1,17 +1,17 @@
-package frc.robot.commands;
+package frc.robot.commands.pivot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClawMotor;
+import frc.robot.subsystems.PivotSub;
 
 
-public class ReleaseClaw extends CommandBase{
+public class PivotUp extends CommandBase{
 
-    // Required Subsystem of Extension Motor
-    private ClawMotor m_claw;
+    // Required Subsystem of pivot motor
+    private PivotSub m_pivot;
 
-    public ReleaseClaw(ClawMotor claw){
-        m_claw = claw;
-        addRequirements(m_claw);
+    public PivotUp(PivotSub pivot){        
+        m_pivot = pivot;
+        addRequirements(m_pivot);
     }
 
     // Called when the command is initially scheduled.
@@ -19,17 +19,16 @@ public class ReleaseClaw extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Tells the Extension Motor to go Backwards
+    // Tells the pivot motor to go up
     @Override
     public void execute() {
-        m_claw.grabClaw(-1);
+        m_pivot.changeAngle(.5);
     }
 
     // Called once the command ends or is interrupted.
-    // Tells the Extension Motor to Stop
+    // Tells the pivot motor to Stop
     @Override
     public void end(boolean interrupted) {
-        m_claw.grabClaw(0);
     }
 
     // Returns true when the command should end.
