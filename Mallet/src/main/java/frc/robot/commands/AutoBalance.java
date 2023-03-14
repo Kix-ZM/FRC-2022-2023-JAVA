@@ -64,7 +64,7 @@ public class AutoBalance extends CommandBase {
           toAdjustSpeed = pitchAngleDegrees < 0 // if tilted backwards
               ? -Constants.K_ADJUST_SPEED // go forward
               : Constants.K_ADJUST_SPEED; // if tilted forwards go backwards
-      while (Math.abs(yawAngleDegrees) > Constants.K_BALANCE_THRESH_DEG)
+      if (Math.abs(yawAngleDegrees) > Constants.K_BALANCE_THRESH_DEG)
           toAdjustRotate = yawAngleDegrees < 0 // if tilted left
               ? Constants.K_ADJUST_ROTATE  // go right
               : -Constants.K_ADJUST_ROTATE; // go left

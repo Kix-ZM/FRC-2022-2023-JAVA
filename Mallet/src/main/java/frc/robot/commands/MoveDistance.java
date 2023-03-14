@@ -1,46 +1,38 @@
 package frc.robot.commands;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.hal.simulation.ConstBufferCallback;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class MoveDistance extends CommandBase{
-    private boolean finishStatus = false;
     private Drivetrain m_Drivetrain;
-    private double distance;
-    private boolean isBackwards;
-    private double startDistance;
-    private double speed = 0;
-    private int factor = 1; //adjusts math and speed based on if going forwards or backwards
-
-    public MoveDistance(Drivetrain drivetrain, double newDistance, boolean backwards){
+    private double endDistance;
+    private double m_newFeet;
+    
+    public MoveDistance(Drivetrain drivetrain, double newFeet, boolean backwards){
+        System.out.println("constructor");
         m_Drivetrain  = drivetrain;
-        distance = newDistance;
-        isBackwards = backwards;
+        m_Drivetrain.resetEncoders();
+        m_newFeet = newFeet * Constants.K_TICKS_PER_FEET;
+        endDistance = m_Drivetrain.getAverageDistanceInch() + newFeet;
         addRequirements(drivetrain);
     }
     
-    public void initialize(){
+    public void initialize() {
+        System.out.println("initialize");
         m_Drivetrain.resetEncoders();
-        startDistance = m_Drivetrain.getAverageDistanceInch();
+        endDistance = m_Drivetrain.getAverageDistanceInch() + m_newFeet;
     }
-    
-    public void execute(){
-        if(isBackwards) factor = -1; //if moving backwards adjust math
-        if(distance > factor*(m_Drivetrain.getAverageDistanceInch() - startDistance)){
-            speed = 0.4*factor;
-        }else{
-            speed = 0.0;
-            finishStatus = true;
-        }
 
-        m_Drivetrain.arcadeDrive(speed, 0);
+    public void execute() {
+        m_Drivetrain.arcadeDrive(.4, 0);
     }
     
     public void end(boolean interrupted){
         m_Drivetrain.arcadeDrive(0.0, 0.0);
     }
-
     public boolean isFinished(){
-        return finishStatus;
+        //return Math.abs(m_Drivetrain.getAverageDistanceInch() - endDistance) < 1;
+        return endDistance < m_Drivetrain.getAverageDistanceInch();
     }
 }

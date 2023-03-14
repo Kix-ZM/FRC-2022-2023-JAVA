@@ -25,6 +25,7 @@ public class ArcadeDrive extends CommandBase {
     if (Math.abs(m_joystick.getRawAxis(1)) < 0.1)
       startTime = System.currentTimeMillis() / 1000;
     currentTime = System.currentTimeMillis() / 1000;
+    //System.out.println(getSpeed(-m_joystick.getRawAxis(1)));
     m_drivetrain.arcadeDrive(getSpeed(-m_joystick.getRawAxis(1)), -m_joystick.getRawAxis(0));
   }
 
