@@ -32,10 +32,10 @@ public class RobotContainer {
   public static Joystick m_controller = new Joystick(0);
   public static JoystickButton m_grabber = new JoystickButton(m_controller, 1);
   public static JoystickButton m_emerStop = new JoystickButton(m_controller, 5);
-  public static JoystickButton m_retract = new JoystickButton(m_controller, 2);
-  public static JoystickButton m_retracts = new JoystickButton(m_controller,7);
   public static JoystickButton m_extend = new JoystickButton(m_controller, 3);
+  public static JoystickButton m_retract = new JoystickButton(m_controller, 2);
   public static JoystickButton m_extends = new JoystickButton(m_controller,6);
+  public static JoystickButton m_retracts = new JoystickButton(m_controller,7);
 
   //Subsystems
   // public TestSub m_testSub = new TestSub();
