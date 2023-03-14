@@ -44,7 +44,7 @@ public class ArcadeDrive extends CommandBase {
     *0.8 is used to get the x-int of 0.2 in order to have a dead zone as any speed below 0.1 doesn't work
     */
     double speed = (Math.pow(2, (currentTime - startTime) / 3) - .8) * xaxisSpeed / Math.abs(xaxisSpeed);
-    //Prevents the speed from going over the given joystick speed
+    //Prevents the speed from going over the given joystick speed both negative and positibe
     if (Math.abs(speed) > Math.abs(xaxisSpeed))
       speed = xaxisSpeed;
     return speed;
