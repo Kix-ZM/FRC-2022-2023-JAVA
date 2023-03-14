@@ -6,20 +6,20 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.K_ClawSub;;
+import frc.robot.Constants.K_ClawSub;
 
 public class ClawSub extends SubsystemBase{
   // This is the Claw Extension Motor
   // Idle - Break
   // ID - 8
-  private final CANSparkMax motor = new CANSparkMax(6, MotorType.kBrushless);
+  private final CANSparkMax motor = new CANSparkMax(7, MotorType.kBrushless);
   private final RelativeEncoder encoder = motor.getEncoder();
   
   // Limit Switch
   // WARNING - MAKE SURE THE LIMITS ARE HAVING THE YELLOW IN GROUND!
   //           YES IT LOOKS WRONG BUT BLAME ELECTRICAL FOR THEIR WIRING!
   //           --> DEFAULT IS ALWAYS TRUE BUT WHEN HIT THEY RETURN FALSE!
-  private final DigitalInput clampLimit = new DigitalInput(4);
+  private final DigitalInput clampLimit = new DigitalInput(5);
 
   // Calculation variables
   private double desiredAngle = 0;
@@ -114,7 +114,7 @@ public class ClawSub extends SubsystemBase{
         desiredAngle = encoder.getPosition()-4;
       }
     }
-    SmartDashboard.putNumber("increment", increment);
+    SmartDashboard.putNumber("Claw Increment", increment);
   }
 
   // returns current through motor
@@ -141,8 +141,7 @@ public class ClawSub extends SubsystemBase{
   public void periodic() {
     SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
     SmartDashboard.putNumber("Claw Current", motor.getOutputCurrent());
-    SmartDashboard.putNumber("Desired Angle", desiredAngle);
-    SmartDashboard.putBoolean("Inverted", motor.getInverted());
+    SmartDashboard.putNumber("Claw Desired Angle", desiredAngle);
     SmartDashboard.putBoolean("Claw Open", isOpen);
 
   }

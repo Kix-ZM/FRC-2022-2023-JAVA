@@ -1,17 +1,17 @@
-package frc.robot.commands.pivot;
+package frc.robot.commands.extend;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PivotSub;
+import frc.robot.subsystems.ExtensionSub2;
 
 
-public class PivotUp extends CommandBase{
+public class MoveExtenderBackwards2 extends CommandBase{
 
-    // Required Subsystem of pivot motor
-    private PivotSub m_pivot;
+    // Required Subsystem of Extension Motor
+    private ExtensionSub2 m_extender;
 
-    public PivotUp(PivotSub pivot){        
-        m_pivot = pivot;
-        addRequirements(m_pivot);
+    public MoveExtenderBackwards2(ExtensionSub2 extender){        
+        m_extender = extender;
+        addRequirements(m_extender);
     }
 
     // Called when the command is initially scheduled.
@@ -19,15 +19,15 @@ public class PivotUp extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Tells the pivot motor to go up
+    // Tells the Extension Motor to go Backwards
     @Override
     public void execute() {
-        m_pivot.changeAngle(.5);
-        m_pivot.moveMotors();
+        m_extender.changePosition(.07);
+        m_extender.moveMotors();
     }
 
     // Called once the command ends or is interrupted.
-    // Tells the pivot motor to Stop
+    // Tells the Extension Motor to Stop
     @Override
     public void end(boolean interrupted) {
     }

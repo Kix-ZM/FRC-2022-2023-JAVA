@@ -1,21 +1,17 @@
-package frc.robot.commands.pivot;
+package frc.robot.commands.extend;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PivotSub;
+import frc.robot.subsystems.ExtensionSub2;
 
 
-public class PivotMove extends CommandBase{
+public class ExtenderMove extends CommandBase{
     // Required Subsystems
-    private PivotSub m_pivot;
-    private Joystick m_joystick;
+    private ExtensionSub2 m_extender;
 
     // Creation Function of the Class
-    public PivotMove
-(PivotSub pivot, Joystick joystick){
-        m_pivot = pivot;
-        m_joystick = joystick;
-        addRequirements(m_pivot);
+    public ExtenderMove(ExtensionSub2 ext){
+        m_extender = ext;
+        addRequirements(m_extender);
     }
 
     // Called when the command is initially scheduled.
@@ -23,12 +19,11 @@ public class PivotMove extends CommandBase{
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Tells the Pivot Motor to turn by joystick movement
+    // Tells the extension motor to maintain position
     @Override
     public void execute() {
         // Enable for joystick control
-        m_pivot.changeAngle(-m_joystick.getRawAxis(0)/1.4);
-        m_pivot.moveMotors();
+        m_extender.moveMotors();
     }
 
     // Called once the command ends or is interrupted.

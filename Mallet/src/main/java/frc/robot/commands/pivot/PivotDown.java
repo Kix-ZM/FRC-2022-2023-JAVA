@@ -23,6 +23,7 @@ public class PivotDown extends CommandBase{
     @Override
     public void execute() {
         m_pivot.changeAngle(-.5);
+        m_pivot.moveMotors();
     }
 
     // Called once the command ends or is interrupted.

@@ -11,10 +11,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.claw.ClawClampToggle;
 import frc.robot.commands.claw.ClawMove;
+import frc.robot.commands.extend.ExtenderMove;
 import frc.robot.commands.extend.MoveExtenderBackwards;
+import frc.robot.commands.extend.MoveExtenderBackwards2;
 import frc.robot.commands.extend.MoveExtenderForward;
+import frc.robot.commands.extend.MoveExtenderForward2;
 import frc.robot.commands.pivot.PivotMove;
 import frc.robot.subsystems.ExtensionSub;
+import frc.robot.subsystems.ExtensionSub2;
 import frc.robot.subsystems.PivotSub;
 import frc.robot.subsystems.ClawSub;
 
@@ -35,10 +39,12 @@ public class RobotContainer {
   public static JoystickButton m_extends = new JoystickButton(m_controller,6);
 
   //Subsystems
-  public ExtensionSub m_extensionMotor = new ExtensionSub();
+  // public ExtensionSub m_extensionMotor = new ExtensionSub();
   public PivotSub m_pivotMotor = new PivotSub();
-
   public ClawSub m_clawMotor = new ClawSub();
+
+  public ExtensionSub2 m_extensionMotor2 = new ExtensionSub2();
+
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -48,6 +54,7 @@ public class RobotContainer {
     configureButtonBindings();
     m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor, m_controller));
     m_pivotMotor.setDefaultCommand(new PivotMove(m_pivotMotor, m_controller));
+    m_extensionMotor2.setDefaultCommand(new ExtenderMove(m_extensionMotor2));
   }
 
   /**
@@ -57,10 +64,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor, false));  // Retracts Arm
-    m_retracts.onTrue(new MoveExtenderBackwards(m_extensionMotor, true));
-    m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor,false)); 
-    m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
+    // brent v2
+    m_retract.whileTrue(new MoveExtenderBackwards2(m_extensionMotor2));  // Retracts Arm
+    m_extend.whileTrue(new MoveExtenderForward2(m_extensionMotor2)); 
+
+    // m_retracts.onTrue(new MoveExtenderBackwards(m_extensionMotor, true));
+    // m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
     m_grabber.onTrue(new ClawClampToggle(m_clawMotor));
   }
 

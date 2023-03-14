@@ -30,27 +30,38 @@ public class PivotSub extends SubsystemBase{
   private final DigitalInput BtmLimit = new DigitalInput(0);
   private final DigitalInput TopLimit = new DigitalInput(1);
 
-  private boolean twoMotors = true;
+  private boolean twoMotors = false;
 
   // Determines if we got to stop all movement on the motor
   private boolean isStopped = false;
-  private double desiredAngle = 0;
-  private double maxAngle = 100;
+  private double desiredAngle = 5;
+  private double maxAngle = 110;
   private double minAngle = 0;
   
   public PivotSub(){
     if(K_PivotSub.isUsingPivot){
-      motor1 = new CANSparkMax(1, MotorType.kBrushless);
-      motor2 = new CANSparkMax(2, MotorType.kBrushless);
+      motor1 = new CANSparkMax(5, MotorType.kBrushless);
+      if (twoMotors) {
+        motor2 = new CANSparkMax(10, MotorType.kBrushless);
+        encoder2 = motor2.getEncoder();
+        motor2.setIdleMode(IdleMode.kBrake);
+        pivotMotors = new MotorControllerGroup(motor1, motor2);
+      } else {
+        motor2 = null;
+        encoder2 = null;
+        pivotMotors = null;
+      }
       // motor2.setInverted(true);
       encoder1 = motor1.getEncoder();
-      encoder2 = motor2.getEncoder();
-      pivotMotors = new MotorControllerGroup(motor1, motor2);
       // pivotMotors.setInverted(isStopped);
       motor1.setIdleMode(IdleMode.kBrake);
-      motor2.setIdleMode(IdleMode.kBrake);
+
       // set conversion factor so getPosition returns degrees
       encoder1.setPositionConversionFactor((K_PivotSub.calibrateEndingAngle-K_PivotSub.calibrateStartingAngle) / K_PivotSub.calibrateAngleEncoderValue);
+      // set conversion ratio to 1 ONLY FOR CALIBRATING FOR ANGLE
+      // encoder1.setPositionConversionFactor(1);
+
+      encoder1.setPosition(5);
       desiredAngle = encoder1.getPosition();
     }
   }
@@ -78,12 +89,14 @@ public class PivotSub extends SubsystemBase{
     }
   }
 
+  // sets the desired angle to set angle to
+  // 0 - 100 degrees
   public void setAngle (double angle) {
     desiredAngle = angle;
   }
 
   // Changes angle to aim for
-  // If change is too far in either direction revert the change
+  // If change is past min or max in either direction revert the change
   public void changeAngle (double increment) {
     desiredAngle += increment;
     if (desiredAngle > maxAngle) 
@@ -97,14 +110,15 @@ public class PivotSub extends SubsystemBase{
   }
 
   // Stops the motor in case of emergency
-  public void emergencyStop(){
+  public void emergencyStop() {
     pivotMotors.stopMotor();
   }
 
-  // peak angle 85 needs adjustment
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Pivot Encoder 1", encoder1.getPosition());
-    SmartDashboard.putNumber("Pivot Encoder 2", encoder2.getPosition());
+    if (twoMotors)
+      SmartDashboard.putNumber("Pivot Encoder 2", encoder2.getPosition());
+    SmartDashboard.putNumber("Pivot Desired Angle", desiredAngle);
   }
 }

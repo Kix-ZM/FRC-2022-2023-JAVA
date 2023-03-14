@@ -23,8 +23,16 @@ public final class Constants {
 
     //Which subsystems to use
        //If is using the pivot subsystem
+
     public static final boolean isUsingExt = true;     //If is using the extension subsystem
 
+    public static final class K_ExtSub {
+        public static final boolean isUsingExt = true;     //If is using the extension subsystem
+        public static final double calibrateStartingAngle = 0;
+        public static final double calibrateEndingAngle = 9;
+        public static final double calibrateAngleEncoderValue = 90.9325180053;
+        public static final double extSpeed = 2.2;
+    }
 
     public static final class K_PivotSub {
         public static final boolean isUsingPivot = true;

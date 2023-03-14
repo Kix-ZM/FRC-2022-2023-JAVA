@@ -13,7 +13,7 @@ public class ExtensionSub extends SubsystemBase{
 
     // Idle - Break 
     // ID - 7
-    private final CANSparkMax motor2 = new CANSparkMax(7, MotorType.kBrushless);
+    private final CANSparkMax motor2 = new CANSparkMax(12, MotorType.kBrushless);
     private final RelativeEncoder m_Encoder = motor2.getEncoder();
     // Limits are true when open
     // WARNING - MAKE SURE THE LIMITS ARE HAVING THE YELLOW IN GROUND!
