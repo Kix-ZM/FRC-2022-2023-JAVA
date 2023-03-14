@@ -31,7 +31,7 @@ public class TurnToMatch extends CommandBase {
         finalAngle = turnDestination; //determine final angle based on current position and the angle to turn by
         finalAngle = (finalAngle+360)%360; // Properly converts final angle to a positive number (ex: 45 degrees and goes counter-clockwise by 90 degrees would be 270 or -90)
 
-        turnDirection = -Math.signum(turnDestination);
+        turnDirection = Math.signum(getGyroZ360()-turnDestination);
     }
   
     // Called every time the scheduler runs while the command is scheduled.

@@ -29,17 +29,17 @@ public class ArcadeDrive extends CommandBase {
   }
 
   @Override
-  public void end(boolean interrupted) {
-    
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {
     return false;
   }
+  
   //Computes the speed based on time held
   public double getSpeed(double xaxisSpeed) {
-    /*Uses an exponential function (can plug this into desmos): 
+    /*
+    Uses an exponential function (can plug this into desmos): 
     f(x) = 2^(x/3)-0.8
     *0.8 is used to get the x-int of 0.2 in order to have a dead zone as any speed below 0.1 doesn't work
     */
