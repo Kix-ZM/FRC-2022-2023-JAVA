@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 
-public class ExtensionMotor extends SubsystemBase{
+public class ExtensionSub extends SubsystemBase{
     // This is the Arm Extension Motor
 
     // Idle - Break 
@@ -22,7 +22,7 @@ public class ExtensionMotor extends SubsystemBase{
     private final DigitalInput BtmLimit = new DigitalInput(2);
     private final DigitalInput TopLimit = new DigitalInput(3);
     
-    public ExtensionMotor(){
+    public ExtensionSub(){
       if(Constants.isUsingExt){
         motor2.setIdleMode(IdleMode.kBrake);
       }
@@ -33,7 +33,7 @@ public class ExtensionMotor extends SubsystemBase{
     public void moveWithEncoders(double direction){
       System.out.println(m_Encoder.getPosition());
       if(Constants.isUsingExt){
-        if(Math.abs(m_Encoder.getPosition()) <= 86/*Put the real encoder value here */){
+        if(Math.abs(m_Encoder.getPosition()) <= 85/*Put the real encoder value here */){
           System.out.println(m_Encoder.getPosition());
           if(!BtmLimit.get()){
             m_Encoder.setPosition(0);
@@ -59,7 +59,8 @@ public class ExtensionMotor extends SubsystemBase{
     }
   }
 
-      // If limit switch is hit in direction of movement, stop movement in that direction
+
+    // If limit switch is hit in direction of movement, stop movement in that direction
     public void moveMotor(double direction) {
       System.out.println(m_Encoder.getPosition());
       if(Constants.isUsingExt){

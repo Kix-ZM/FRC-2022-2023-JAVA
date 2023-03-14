@@ -1,29 +1,38 @@
 package frc.robot.commands.claw;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClawSubV2;
+import frc.robot.subsystems.ClawSub;
 
 
-public class ClawOpen extends CommandBase{
+public class ClawClampToggle extends CommandBase{
     // Required Subsystems
-    private ClawSubV2 m_claw;
+    private ClawSub m_claw;
+    private boolean done;
 
     // Creation Function of the Class
-    public ClawOpen(ClawSubV2 claw){
+    public ClawClampToggle(ClawSub claw){
         m_claw = claw;
         addRequirements(m_claw);
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+        done = false;
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     // need to make target types work
-    // Sets angle to open state to be ready for pickup
+    // Clamps until certain amount of pressure (measured by amount current) and then finishes
     @Override
     public void execute() {
-        m_claw.setAngle(-5);
+        if (m_claw.isOpen()) {
+            done = m_claw.clamp();
+        }
+        else {
+            m_claw.openClaw();
+            done = true;
+        }
     }
 
     // Called once the command ends or is interrupted.
@@ -34,6 +43,6 @@ public class ClawOpen extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return done; 
     }
 }

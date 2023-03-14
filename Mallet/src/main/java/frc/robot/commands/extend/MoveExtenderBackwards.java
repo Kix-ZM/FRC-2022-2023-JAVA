@@ -1,16 +1,16 @@
 package frc.robot.commands.extend;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ExtensionMotor;
+import frc.robot.subsystems.ExtensionSub;
 
 
 public class MoveExtenderBackwards extends CommandBase{
 
     // Required Subsystem of Extension Motor
-    private ExtensionMotor m_extender;
+    private ExtensionSub m_extender;
     private boolean m_choice = false;
 
-    public MoveExtenderBackwards(ExtensionMotor extender, boolean isUsingEncoders){        
+    public MoveExtenderBackwards(ExtensionSub extender, boolean isUsingEncoders){        
         m_choice = isUsingEncoders;
         m_extender = extender;
         addRequirements(m_extender);

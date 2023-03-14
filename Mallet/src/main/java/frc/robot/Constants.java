@@ -36,11 +36,11 @@ public final class Constants {
     
     public static final class K_ClawSub {
         public static final boolean isUsingClaw = true;    //If is using the claw subsystem
-        public static final double calibrateStartingAngle = 1.5;
-        public static final double calibrateEndingAngle = 90;
-        public static final double calibrateAngleEncoderValue = 12.3572;
-        public static final double clampSpeed = .4;
-        public static final double maxCurrent = .4;
+        public static final double calibrateStartingAngle = 90;
+        public static final double calibrateEndingAngle = 180;
+        public static final double calibrateAngleEncoderValue = 9.57146931;
+        public static final double clampSpeed = 2.5;
+        public static final double maxCurrent = 28;
     }
     
 }

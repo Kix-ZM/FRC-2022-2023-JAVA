@@ -9,20 +9,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DebugCommand;
-import frc.robot.commands.StopAllMotors;
-import frc.robot.commands.claw.ClawClamp;
+import frc.robot.commands.claw.ClawClampToggle;
 import frc.robot.commands.claw.ClawMove;
-import frc.robot.commands.claw.GraspClaw;
-import frc.robot.commands.claw.ReleaseClaw;
 import frc.robot.commands.extend.MoveExtenderBackwards;
 import frc.robot.commands.extend.MoveExtenderForward;
-import frc.robot.commands.pivot.Pivot90;
 import frc.robot.commands.pivot.PivotMove;
-import frc.robot.subsystems.ExtensionMotor;
+import frc.robot.subsystems.ExtensionSub;
 import frc.robot.subsystems.PivotSub;
-import frc.robot.subsystems.ClawMotor;
-import frc.robot.subsystems.ClawSubV2;
+import frc.robot.subsystems.ClawSub;
 
 
 /**
@@ -35,17 +29,16 @@ public class RobotContainer {
   public static Joystick m_controller = new Joystick(0);
   public static JoystickButton m_grabber = new JoystickButton(m_controller, 1);
   public static JoystickButton m_emerStop = new JoystickButton(m_controller, 5);
-  public static JoystickButton m_extend = new JoystickButton(m_controller, 3);
   public static JoystickButton m_retract = new JoystickButton(m_controller, 2);
-  public static JoystickButton m_extends = new JoystickButton(m_controller,6);
   public static JoystickButton m_retracts = new JoystickButton(m_controller,7);
+  public static JoystickButton m_extend = new JoystickButton(m_controller, 3);
+  public static JoystickButton m_extends = new JoystickButton(m_controller,6);
 
   //Subsystems
-  // public TestSub m_testSub = new TestSub();
-  public ExtensionMotor m_extensionMotor = new ExtensionMotor();
+  public ExtensionSub m_extensionMotor = new ExtensionSub();
   public PivotSub m_pivotMotor = new PivotSub();
 
-  public ClawSubV2 m_clawMotor = new ClawSubV2();
+  public ClawSub m_clawMotor = new ClawSub();
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -55,7 +48,6 @@ public class RobotContainer {
     configureButtonBindings();
     m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor, m_controller));
     m_pivotMotor.setDefaultCommand(new PivotMove(m_pivotMotor, m_controller));
-    
   }
 
   /**
@@ -65,18 +57,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
-    //m_emerStop.onTrue(new StopAllMotors(m_pivotMotor, m_extensionMotor, m_clawMotor)); // Stops all arm action
     m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor, false));  // Retracts Arm
     m_retracts.onTrue(new MoveExtenderBackwards(m_extensionMotor, true));
     m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor,false)); 
     m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
-    //m_grabber.onTrue(new ClawClamp(m_clawMotor));
-    //m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
-    // m_grabber.onTrue(new GraspClaw(m_clawMotor)); // Grabs with the claw
-    // m_grabber.onFalse(new ReleaseClaw(m_clawMotor)); // Releases with the claw
-    //m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor));     // Retracts Arm
-    //m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor));        // Extends Arm
+    m_grabber.onTrue(new ClawClampToggle(m_clawMotor));
   }
 
   /**
@@ -87,14 +72,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
   }
-
-  public Command getDebugCommand(){
-    return new DebugCommand(m_controller);
-  }
-
-  // public Command getTestCommand(int opt){
-  //   return new TestCommand(m_testSub, m_controller, opt);
-  // }
 
   /**
    * Use this to pass the teleop command to the main {@link Robot} class.
