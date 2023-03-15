@@ -27,4 +27,29 @@ public final class Constants {
     // Vision constants 
     public static final double K_LIMELIGHT_MOUNT_ANG_DEG = 25.0; // LIMELIGHT ANGLE FROM VERTICAL! NOT ANGLE OF ATTACK!
     public static final double K_LIMELIGHT_LENS_HEIGHT_INCH = 20.0; // HEIGHT FROM FLOOR OF LIMELIGHT
+
+    public static final class K_ExtSub {
+        public static final boolean isUsingExt = true;     //If is using the extension subsystem
+        public static final double calibrateStartingAngle = 0;
+        public static final double calibrateEndingAngle = 9;
+        public static final double calibrateAngleEncoderValue = 90.9325180053;
+        public static final double extSpeed = 2.2;
+    }
+
+    public static final class K_PivotSub {
+        public static final boolean isUsingPivot = true;
+        public static final double calibrateStartingAngle = 1.5;
+        public static final double calibrateEndingAngle = 90;
+        public static final double calibrateAngleEncoderValue = 12.3572;
+        public static final double pivotSpeed = 4.3;
+    }   
+    
+    public static final class K_ClawSub {
+        public static final boolean isUsingClaw = true;    //If is using the claw subsystem
+        public static final double calibrateStartingAngle = 90;
+        public static final double calibrateEndingAngle = 180;
+        public static final double calibrateAngleEncoderValue = 9.57146931;
+        public static final double clampSpeed = 2.5;
+        public static final double maxCurrent = 28;
+    }
 }

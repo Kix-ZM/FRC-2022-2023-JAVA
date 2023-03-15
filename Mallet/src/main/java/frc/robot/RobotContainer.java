@@ -10,6 +10,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoGroups.AutoGroup_Balance;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
+import frc.robot.commands.claw.ClawClampToggle;
+import frc.robot.commands.extend.MoveExtenderBackwards;
+import frc.robot.commands.extend.MoveExtenderForward;
+import frc.robot.commands.pivot.PivotDown;
+import frc.robot.commands.pivot.PivotUp;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_Default;
 import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommAndBalance;
@@ -23,6 +28,9 @@ public class RobotContainer {
   private static final Drivetrain m_drivetrain = new Drivetrain();
   private static final Limelight m_limelight = new Limelight();
   private static final GyroScope m_gyro = new GyroScope();
+  private static final PivotSub m_pivotMotor = new PivotSub();
+  private static final ClawSub m_clawMotor = new ClawSub();
+  private static final ExtensionSub m_extensionMotor = new ExtensionSub();
 
   //INIT JOYSTICKS (NOTE: PLEASE RENAME TO LEFT/RIGHT)
   public static Joystick m_controller_arm = new Joystick(0);
@@ -65,18 +73,29 @@ public class RobotContainer {
     controllerButtons_drive.get("2").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
     // turn to 0 degrees
     controllerButtons_drive.get("3").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 0));
+    // moves pivot down
+    controllerButtons_drive.get("4").onTrue(new PivotDown(m_pivotMotor));
+    // moves pivot up
+    controllerButtons_drive.get("4").onTrue(new PivotUp(m_pivotMotor));
     // turn left 90 degrees
-    controllerButtons_drive.get("4").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
+    controllerButtons_drive.get("8").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
     // turn left 90 degrees
-    controllerButtons_drive.get("5").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
+    controllerButtons_drive.get("9").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
 
     //ARM CONTROLLER
     // select next piece to target
     controllerButtons_arm.get("8").onTrue(new NextPipeline(m_limelight));
+    // toggle claw clamp
+    controllerButtons_arm.get("1").onTrue(new ClawClampToggle(m_clawMotor));
+    // retracts arm
+    controllerButtons_arm.get("2").whileTrue(new MoveExtenderForward(m_extensionMotor));
+    // extends arm
+    controllerButtons_arm.get("3").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
+
   }
 
   // At the beginning of auto
-  public Command autoInput(){
+  public Command getAutoInput(){
     String autoName = SmartDashboard.getString("Auto Selector", "Default"); //Make "Default" the default option
     System.out.println("Cal");
     
