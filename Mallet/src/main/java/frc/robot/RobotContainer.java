@@ -58,7 +58,7 @@ public class RobotContainer {
     // Add joystick buttons to maps
     controllerButtons_drive.put("trigger", new JoystickButton(m_controller_drive, 1));
     controllerButtons_arm.put("trigger", new JoystickButton(m_controller_arm, 1));
-    for (int i = 2; i <= 11; i++)
+    for (int i = 1; i <= 11; i++)
     {
       controllerButtons_arm.put(Integer.toString(i), new JoystickButton(m_controller_arm, i));
       controllerButtons_drive.put(Integer.toString(i), new JoystickButton(m_controller_drive, i));

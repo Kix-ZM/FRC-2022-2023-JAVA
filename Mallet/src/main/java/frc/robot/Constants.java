@@ -29,7 +29,7 @@ public final class Constants {
     public static final double K_LIMELIGHT_LENS_HEIGHT_INCH = 20.0; // HEIGHT FROM FLOOR OF LIMELIGHT
 
     public static final class K_ExtSub {
-        public static final boolean isUsingExt = true;     //If is using the extension subsystem
+        public static final boolean isUsingExt = false;     //If is using the extension subsystem
         public static final double calibrateStartingAngle = 0;
         public static final double calibrateEndingAngle = 9;
         public static final double calibrateAngleEncoderValue = 90.9325180053;
@@ -37,7 +37,7 @@ public final class Constants {
     }
 
     public static final class K_PivotSub {
-        public static final boolean isUsingPivot = true;
+        public static final boolean isUsingPivot = false;
         public static final double calibrateStartingAngle = 1.5;
         public static final double calibrateEndingAngle = 90;
         public static final double calibrateAngleEncoderValue = 12.3572;
@@ -45,7 +45,7 @@ public final class Constants {
     }   
     
     public static final class K_ClawSub {
-        public static final boolean isUsingClaw = true;    //If is using the claw subsystem
+        public static final boolean isUsingClaw = false;    //If is using the claw subsystem
         public static final double calibrateStartingAngle = 90;
         public static final double calibrateEndingAngle = 180;
         public static final double calibrateAngleEncoderValue = 9.57146931;
