@@ -19,14 +19,13 @@ public class ClawSub extends SubsystemBase{
   // WARNING - MAKE SURE THE LIMITS ARE HAVING THE YELLOW IN GROUND!
   //           YES IT LOOKS WRONG BUT BLAME ELECTRICAL FOR THEIR WIRING!
   //           --> DEFAULT IS ALWAYS TRUE BUT WHEN HIT THEY RETURN FALSE!
-  private final DigitalInput clampLimit = new DigitalInput(5);
+  private final DigitalInput clampLimit = new DigitalInput(2);
 
   // Calculation variables
   private double desiredAngle = 0;
-  // open further than default point
-  private double minAngle = 0;
+
   // close close to full clamp point
-  private double maxAngle = 60;
+  private double maxAngle = 150;
 
   private boolean isOpen = true;
 
@@ -42,8 +41,6 @@ public class ClawSub extends SubsystemBase{
       // encoder.setPositionConversionFactor(1);
       encoder.setPosition(0);
       motor.setInverted(true);
-      minAngle = desiredAngle;
-      maxAngle = desiredAngle + maxAngle;
     }
   }
 
@@ -69,8 +66,6 @@ public class ClawSub extends SubsystemBase{
         // if at a limit switch, then set maximum or minimum
         if (!clampLimit.get())
           maxAngle = encoder.getPosition();
-        else
-          minAngle = encoder.getPosition();
       }
     }
   }
@@ -85,11 +80,11 @@ public class ClawSub extends SubsystemBase{
     // otherwise maintain position and say it's done
     else {
       desiredAngle = encoder.getPosition()-2;
-      isOpen = false;
       return true;
     }
   }
 
+  // set to specific angle (not that accurate because we might end up starting at different positions)
   public void setAngle (double angle) {
     desiredAngle = angle;
   }
@@ -104,7 +99,7 @@ public class ClawSub extends SubsystemBase{
   // If change is too far in either direction revert the change
   public void changeAngle (double increment) {
     // controller deadzone
-    if (Math.abs(increment) > .05) {
+    if (Math.abs(increment) > .05 && desiredAngle < maxAngle) {
       if (motor.getOutputCurrent() < K_ClawSub.maxCurrent  || increment > 0) {
         desiredAngle += increment;
         if (increment > 0)
@@ -112,6 +107,8 @@ public class ClawSub extends SubsystemBase{
       }
       else {
         desiredAngle = encoder.getPosition()-4;
+        isOpen = false;
+        maxAngle = encoder.getPosition()+150;
       }
     }
     SmartDashboard.putNumber("Claw Increment", increment);

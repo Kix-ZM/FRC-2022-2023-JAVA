@@ -39,7 +39,7 @@ public final class Constants {
         public static final double calibrateStartingAngle = 1.5;
         public static final double calibrateEndingAngle = 90;
         public static final double calibrateAngleEncoderValue = 12.3572;
-        public static final double pivotSpeed = 2.2;
+        public static final double pivotSpeed = 4.3;
     }   
     
     public static final class K_ClawSub {

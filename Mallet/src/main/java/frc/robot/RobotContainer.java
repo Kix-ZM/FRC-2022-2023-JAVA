@@ -13,12 +13,9 @@ import frc.robot.commands.claw.ClawClampToggle;
 import frc.robot.commands.claw.ClawMove;
 import frc.robot.commands.extend.ExtenderMove;
 import frc.robot.commands.extend.MoveExtenderBackwards;
-import frc.robot.commands.extend.MoveExtenderBackwards2;
 import frc.robot.commands.extend.MoveExtenderForward;
-import frc.robot.commands.extend.MoveExtenderForward2;
 import frc.robot.commands.pivot.PivotMove;
 import frc.robot.subsystems.ExtensionSub;
-import frc.robot.subsystems.ExtensionSub2;
 import frc.robot.subsystems.PivotSub;
 import frc.robot.subsystems.ClawSub;
 
@@ -30,20 +27,20 @@ import frc.robot.subsystems.ClawSub;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  public static Joystick m_controller = new Joystick(0);
-  public static JoystickButton m_grabber = new JoystickButton(m_controller, 1);
-  public static JoystickButton m_emerStop = new JoystickButton(m_controller, 5);
-  public static JoystickButton m_retract = new JoystickButton(m_controller, 2);
-  public static JoystickButton m_retracts = new JoystickButton(m_controller,7);
-  public static JoystickButton m_extend = new JoystickButton(m_controller, 3);
-  public static JoystickButton m_extends = new JoystickButton(m_controller,6);
+  public static Joystick m_rcontroller = new Joystick(0);
+  public static JoystickButton m_grabber = new JoystickButton(m_rcontroller, 1);
+  public static JoystickButton m_emerStop = new JoystickButton(m_rcontroller, 5);
+  public static JoystickButton m_retract = new JoystickButton(m_rcontroller, 2);
+  public static JoystickButton m_retracts = new JoystickButton(m_rcontroller,7);
+  public static JoystickButton m_extend = new JoystickButton(m_rcontroller, 3);
+  public static JoystickButton m_extends = new JoystickButton(m_rcontroller,6);
 
   //Subsystems
   // public ExtensionSub m_extensionMotor = new ExtensionSub();
   public PivotSub m_pivotMotor = new PivotSub();
   public ClawSub m_clawMotor = new ClawSub();
 
-  public ExtensionSub2 m_extensionMotor2 = new ExtensionSub2();
+  public ExtensionSub m_extensionMotor2 = new ExtensionSub();
 
   // Create SmartDashboard chooser for autonomous routines
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -52,8 +49,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor, m_controller));
-    m_pivotMotor.setDefaultCommand(new PivotMove(m_pivotMotor, m_controller));
+    m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor, m_rcontroller));
+    m_pivotMotor.setDefaultCommand(new PivotMove(m_pivotMotor, m_rcontroller));
     m_extensionMotor2.setDefaultCommand(new ExtenderMove(m_extensionMotor2));
   }
 
@@ -65,11 +62,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // brent v2
-    m_retract.whileTrue(new MoveExtenderBackwards2(m_extensionMotor2));  // Retracts Arm
-    m_extend.whileTrue(new MoveExtenderForward2(m_extensionMotor2)); 
-
-    // m_retracts.onTrue(new MoveExtenderBackwards(m_extensionMotor, true));
-    // m_extends.onTrue(new MoveExtenderForward(m_extensionMotor, true));     // Extends Arm
+    m_retract.whileTrue(new MoveExtenderBackwards(m_extensionMotor2));  // Retracts Arm
+    m_extend.whileTrue(new MoveExtenderForward(m_extensionMotor2)); 
     m_grabber.onTrue(new ClawClampToggle(m_clawMotor));
   }
 

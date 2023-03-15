@@ -27,7 +27,7 @@ public class PivotMove extends CommandBase{
     @Override
     public void execute() {
         // Enable for joystick control
-        m_pivot.changeAngle(-m_joystick.getRawAxis(0)/1.4);
+        m_pivot.changeAngle(-m_joystick.getRawAxis(1)/1.4);
         m_pivot.moveMotors();
     }
 

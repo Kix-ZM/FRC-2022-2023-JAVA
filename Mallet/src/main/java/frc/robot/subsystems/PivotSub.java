@@ -35,7 +35,7 @@ public class PivotSub extends SubsystemBase{
   // Determines if we got to stop all movement on the motor
   private boolean isStopped = false;
   private double desiredAngle = 5;
-  private double maxAngle = 110;
+  private double maxAngle = 125;
   private double minAngle = 0;
   
   public PivotSub(){
@@ -120,5 +120,6 @@ public class PivotSub extends SubsystemBase{
     if (twoMotors)
       SmartDashboard.putNumber("Pivot Encoder 2", encoder2.getPosition());
     SmartDashboard.putNumber("Pivot Desired Angle", desiredAngle);
+    SmartDashboard.putNumber("Pivot Max Angle", maxAngle);
   }
 }

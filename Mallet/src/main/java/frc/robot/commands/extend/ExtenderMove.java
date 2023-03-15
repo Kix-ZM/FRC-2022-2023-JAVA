@@ -1,15 +1,15 @@
 package frc.robot.commands.extend;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ExtensionSub2;
+import frc.robot.subsystems.ExtensionSub;
 
 
 public class ExtenderMove extends CommandBase{
     // Required Subsystems
-    private ExtensionSub2 m_extender;
+    private ExtensionSub m_extender;
 
     // Creation Function of the Class
-    public ExtenderMove(ExtensionSub2 ext){
+    public ExtenderMove(ExtensionSub ext){
         m_extender = ext;
         addRequirements(m_extender);
     }

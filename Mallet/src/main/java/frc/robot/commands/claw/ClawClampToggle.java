@@ -23,7 +23,7 @@ public class ClawClampToggle extends CommandBase{
 
     // Called every time the scheduler runs while the command is scheduled.
     // need to make target types work
-    // Clamps until certain amount of pressure (measured by amount current) and then finishes
+    // Clamps until certain amount of pressure (measured by amount current)
     @Override
     public void execute() {
         if (m_claw.isOpen()) {
