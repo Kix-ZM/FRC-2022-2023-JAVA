@@ -73,14 +73,10 @@ public class RobotContainer {
     controllerButtons_drive.get("2").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
     // turn to 0 degrees
     controllerButtons_drive.get("3").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 0));
-    // moves pivot down
-    controllerButtons_drive.get("4").onTrue(new PivotDown(m_pivotMotor));
-    // moves pivot up
-    controllerButtons_drive.get("4").onTrue(new PivotUp(m_pivotMotor));
     // turn left 90 degrees
-    controllerButtons_drive.get("8").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
+    controllerButtons_drive.get("4").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
     // turn left 90 degrees
-    controllerButtons_drive.get("9").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
+    controllerButtons_drive.get("5").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
 
     //ARM CONTROLLER
     // select next piece to target
@@ -91,6 +87,10 @@ public class RobotContainer {
     controllerButtons_arm.get("2").whileTrue(new MoveExtenderForward(m_extensionMotor));
     // extends arm
     controllerButtons_arm.get("3").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
+    // moves pivot down
+    controllerButtons_arm.get("4").onTrue(new PivotDown(m_pivotMotor));
+    // moves pivot up
+    controllerButtons_arm.get("5").onTrue(new PivotUp(m_pivotMotor));
 
   }
 
