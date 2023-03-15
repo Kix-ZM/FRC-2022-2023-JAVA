@@ -33,14 +33,26 @@ public class RobotContainer {
   public static HashMap<String, Trigger> controllerButtons_drive = new HashMap<String, Trigger>();
 
   //INIT SMARTDASHBOARD
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
   SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
-  SequentialCommandGroup m_autoGroup = new SequentialCommandGroup();
 
   public RobotContainer() {
     configureButtonBindings();
-    String[] autoList = {"Leave Community", "Place and Leave", "Balance", "Place and Balance", "Leave and Balance", "Move Test", "Default"};
-    SmartDashboard.putStringArray("Auto List", autoList);
+    //Default auto
+    m_autoChooser.setDefaultOption("Default", new AutoGroup_Default(m_drivetrain));
+    //drive forwards and leave the community
+    m_autoChooser.addOption("Leave Community", new AutoGroup_LeaveCommunity(m_drivetrain));
+    //place a game piece and leave the community
+    m_autoChooser.addOption("Place and Leave", new AutoGroup_PlaceAndLeave(m_drivetrain));
+    //Drive forward until it reaches the platform then balance
+    m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain, m_gyro));
+    //Place a game piece then drive forward and balance
+    m_autoChooser.addOption("Place and Balance", new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro));
+    //Leave the community over the Charge station and get back on and balance
+    m_autoChooser.addOption("Leave and Balance", new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro));
+    //A autogroup for testing
+    m_autoChooser.addOption("Move Test", new AutoGroup_MoveTest(m_drivetrain, m_gyro));
+    //Puts options in Smartdashboard
+    SmartDashboard.putData("Select Auto", m_autoChooser);
   }
 
   //assign button functions
@@ -76,42 +88,8 @@ public class RobotContainer {
   }
 
   // At the beginning of auto
-  public Command autoInput(){
-    String autoName = SmartDashboard.getString("Auto Selector", "Default"); //Make "Default" the default option
-    System.out.println("Cal");
-    
-    Command activeAutoGroup;
-    switch(autoName) { //switch between autonomous modes
-      //drive forwards and leave the community
-      case "Leave Community":
-        activeAutoGroup = new AutoGroup_LeaveCommunity(m_drivetrain);
-        break;
-      //place a game piece and leave the community
-      case "Place and Leave":
-        activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain);
-        break;
-      //Drive forward until it reaches the platform then balance
-      case "Balance":
-        activeAutoGroup = new AutoGroup_Balance(m_drivetrain, m_gyro);
-        break;
-      //Place a game piece then drive forward and balance
-      case "Place and Balance":
-        activeAutoGroup = new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro);
-        break;
-      //Leave the community over the Charge station and get back on and balance
-      case "Leave and Balance":
-          activeAutoGroup = new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro);
-        break;
-      case "Move Test":
-        activeAutoGroup = new AutoGroup_MoveTest(m_drivetrain, m_gyro);
-        break;
-      //Default auto
-      default:
-        activeAutoGroup = new AutoGroup_Default(m_drivetrain);  
-        break;
-    }
-
-    return activeAutoGroup;
+  public Command getAutoInput(){
+    return m_autoChooser.getSelected();
   }
 
   public Command resetEncodersCommand(){
