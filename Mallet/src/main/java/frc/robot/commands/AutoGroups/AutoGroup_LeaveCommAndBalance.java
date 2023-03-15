@@ -1,34 +1,26 @@
 package frc.robot.commands.AutoGroups;
-import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.GyroScope;
-// import frc.robot.commands.ResetEncoders;
+import frc.robot.commands.ResetEncoders;
 import frc.robot.commands.AutoBalance;
-//import frc.robot.commands.MoveDistance;
+import frc.robot.commands.DriveTillPlatform;
+import frc.robot.commands.DriveOffPlatform;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
 public class AutoGroup_LeaveCommAndBalance extends SequentialCommandGroup {
-    //Variables
+    private Drivetrain m_drivetrain;
+    private GyroScope m_gyro;
+
     public AutoGroup_LeaveCommAndBalance(Drivetrain drivetrain, GyroScope gyro){
-        //Adding a drivetrain
-        //Adding Order of commands
-        double pitchAngleDegrees = gyro.getAngleY();
+        m_drivetrain = drivetrain;
+        m_gyro = gyro;
 
-        drivetrain.resetEncoders();
-        drivetrain.arcadeDrive(Constants.K_FWD_SPEED, 0);
-
-        if (Math.abs(pitchAngleDegrees) == 0) //Math.abs(pitchAngleDegrees) > 0 && Math.abs(pitchAngleDegrees) < 1
-            new AutoBalance(drivetrain,gyro,true);
-
-
-        // addCommands(
-        //     new ResetEncoders(drivetrain),
-            
-        //     new MoveDistance(drivetrain, 18, false),
-        //     // balance
-        //     new AutoBalance(drivetrain, gyro, true)
-
-        // );
+        addCommands(
+             new ResetEncoders(m_drivetrain),
+             new DriveTillPlatform(m_drivetrain, m_gyro),
+             new DriveOffPlatform(m_drivetrain, m_gyro),
+             new AutoBalance(m_drivetrain, m_gyro, true)
+         );
     }
 }

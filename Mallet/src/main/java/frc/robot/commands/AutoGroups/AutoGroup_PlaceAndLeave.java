@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutoGroup_PlaceAndLeave extends SequentialCommandGroup {
     //Variables
-    Drivetrain m_Drivetrain;
+    private Drivetrain m_Drivetrain;
     public AutoGroup_PlaceAndLeave(Drivetrain drivetrain){
         //Adding a drivetrain
         m_Drivetrain = drivetrain;

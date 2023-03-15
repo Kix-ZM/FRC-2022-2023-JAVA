@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutoGroup_PlaceAndBalance extends SequentialCommandGroup {
     //Variables
-    Drivetrain m_Drivetrain;
+    private Drivetrain m_Drivetrain;
     public AutoGroup_PlaceAndBalance(Drivetrain drivetrain, GyroScope gyro){
         //Adding a drivetrain
         m_Drivetrain = drivetrain;
