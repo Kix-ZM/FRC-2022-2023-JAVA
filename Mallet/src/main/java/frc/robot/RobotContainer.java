@@ -88,7 +88,7 @@ public class RobotContainer {
         break;
       //place a game piece and leave the community
       case "Place and Leave":
-        activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain);
+        activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro);
         break;
       //Drive forward until it reaches the platform then balance
       case "Balance":
