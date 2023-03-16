@@ -45,7 +45,7 @@ public class AutoGroup_Place extends SequentialCommandGroup {
             ),
             new ParallelRaceGroup(
                 new ClawOpen(m_Claw),
-                new PivotIdle(m_Pivot),
+                new PivotIdle(m_Pivot)
             )           
         );
     }
