@@ -13,6 +13,7 @@ import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
 import frc.robot.commands.claw.ClawClampToggle;
 import frc.robot.commands.extend.MoveExtenderBackwards;
 import frc.robot.commands.extend.MoveExtenderForward;
+import frc.robot.commands.pivot.PivotAngle;
 import frc.robot.commands.pivot.PivotDown;
 import frc.robot.commands.pivot.PivotUp;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
@@ -67,8 +68,6 @@ public class RobotContainer {
     //DRIVE CONTROLLER
     // rotate to target
     controllerButtons_drive.get("trigger").onTrue(new AimCommand(m_drivetrain, m_limelight));
-    // reset encoders
-    controllerButtons_drive.get("11").onTrue(resetEncodersCommand());
     // turn to 180 degrees
     controllerButtons_drive.get("2").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
     // turn to 0 degrees
@@ -77,10 +76,10 @@ public class RobotContainer {
     controllerButtons_drive.get("4").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
     // turn left 90 degrees
     controllerButtons_drive.get("5").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
+    // reset encoders
+    controllerButtons_drive.get("11").onTrue(resetEncodersCommand());
 
     //ARM CONTROLLER
-    // select next piece to target
-    controllerButtons_arm.get("8").onTrue(new NextPipeline(m_limelight));
     // toggle claw clamp
     controllerButtons_arm.get("1").onTrue(new ClawClampToggle(m_clawMotor));
     // retracts arm
@@ -91,6 +90,13 @@ public class RobotContainer {
     controllerButtons_arm.get("4").onTrue(new PivotDown(m_pivotMotor));
     // moves pivot up
     controllerButtons_arm.get("5").onTrue(new PivotUp(m_pivotMotor));
+    // select next piece to target
+    controllerButtons_arm.get("8").onTrue(new NextPipeline(m_limelight));
+    // move arm to have a 30 degree with the floor
+    controllerButtons_arm.get("10").onTrue(new PivotAngle(m_pivotMotor, 30));
+    // move arm to have a 90 degree with the floor
+    controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
+
 
   }
 
