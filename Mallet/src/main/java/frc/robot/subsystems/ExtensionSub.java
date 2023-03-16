@@ -4,7 +4,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.K_ExtSub;
 
@@ -43,9 +42,12 @@ public class ExtensionSub extends SubsystemBase{
       // encoder.setPositionConversionFactor(1);
       encoder.setPosition(0);
       motor.setInverted(true);
-      SmartDashboard.putNumber("Ext Encoder", encoder.getPosition());
-      SmartDashboard.putNumber("Ext Desired Angle", desiredPosition);
     }
+  }
+
+  //Return the encoder
+  public RelativeEncoder getEncoder(){
+    return encoder;
   }
 
   // Handles motor movement

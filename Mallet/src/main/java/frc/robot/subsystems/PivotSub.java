@@ -6,8 +6,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.K_PivotSub;
 
@@ -64,10 +62,17 @@ public class PivotSub extends SubsystemBase{
 
       encoder1.setPosition(5);
       desiredAngle = encoder1.getPosition();
-      SmartDashboard.putNumber("Pivot Encoder 1", encoder1.getPosition());
-      SmartDashboard.putNumber("Pivot Desired Angle", desiredAngle);
-      SmartDashboard.putNumber("Pivot Max Angle", maxAngle);
     }
+  }
+
+  //Return the encoder
+  public RelativeEncoder getEncoder1(){
+    return encoder1;
+  }
+
+  //Return the maxAngle
+  public double getMaxAngle(){
+    return maxAngle;
   }
 
   // Handles motor movement

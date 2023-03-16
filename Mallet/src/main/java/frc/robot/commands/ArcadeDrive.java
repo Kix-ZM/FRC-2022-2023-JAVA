@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -10,9 +9,9 @@ public class ArcadeDrive extends CommandBase {
   private Joystick m_joystick;
   private double startTime, currentTime;
 
-  public ArcadeDrive(Drivetrain drivetrain) {
+  public ArcadeDrive(Drivetrain drivetrain, Joystick joystick) {
     m_drivetrain = drivetrain;
-    m_joystick = RobotContainer.getDriveController();
+    m_joystick = joystick;
     addRequirements(drivetrain);
   }
 
