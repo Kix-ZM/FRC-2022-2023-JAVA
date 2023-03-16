@@ -104,6 +104,22 @@ public class ClawSub extends SubsystemBase{
     }
   }
 
+  //Returns the current angle of the motor
+  public double getCurrentAngle(){
+    if(K_ClawSub.isUsingClaw){
+      return encoder.getPosition();
+    }
+    return 0.0;
+  }
+
+  //Return the intended angle of the motor
+  public double getDesiredAngle(){
+    if(K_ClawSub.isUsingClaw){
+      return desiredAngle;
+    }
+    return 0.0;
+  }
+
   // opens claw by 30 degrees to open it
   public void openClaw() {
     if(K_PivotSub.isUsingPivot){

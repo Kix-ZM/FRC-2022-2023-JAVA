@@ -105,6 +105,25 @@ public class PivotSub extends SubsystemBase{
     }
   }
 
+  //Returns the current angle of the pivot
+  public double getCurentAngle(){
+    if(K_PivotSub.isUsingPivot){
+      if(twoMotors){
+        return (encoder1.getPosition() + encoder2.getPosition())/2;
+      }
+      return encoder1.getPosition();
+    }
+    return 0.0;
+  }
+
+  //Returns the current desired angle
+  public double getDesiredAngle(){
+    if(K_PivotSub.isUsingPivot){
+      return desiredAngle;
+    }
+    return 0.0;
+  }
+
   // Changes angle to aim for
   // If change is past min or max in either direction revert the change
   public void changeAngle (double increment) {
