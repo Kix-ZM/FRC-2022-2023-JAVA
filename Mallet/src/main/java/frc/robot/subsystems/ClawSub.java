@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.K_ClawSub;
-import frc.robot.Constants.K_PivotSub;
 
 public class ClawSub extends SubsystemBase{
   // This is the Claw Extension Motor
@@ -56,7 +55,7 @@ public class ClawSub extends SubsystemBase{
   // Adjusts voltage / motor speed based on difference between current and desired angle
   // - voltage is close claw
   public void moveMotors(){
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       if(isStopped)
         emergencyStop();
       else{
@@ -81,7 +80,7 @@ public class ClawSub extends SubsystemBase{
   }
 
   public boolean clamp() {
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       // if current not at max (current increases when motor experiences resistance / is clamped on something)
       // then keep clamping down
       if (motor.getOutputCurrent() < K_ClawSub.maxCurrent) {
@@ -99,7 +98,7 @@ public class ClawSub extends SubsystemBase{
 
   // set to specific angle (not that accurate because we might end up starting at different positions)
   public void setAngle (double angle) {
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       desiredAngle = angle;
     }
   }
@@ -122,7 +121,7 @@ public class ClawSub extends SubsystemBase{
 
   // opens claw by 30 degrees to open it
   public void openClaw() {
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       desiredAngle+=50;
       isOpen = true;
     }
@@ -131,7 +130,7 @@ public class ClawSub extends SubsystemBase{
   // Changes angle to aim for
   // If change is too far in either direction revert the change
   public void changeAngle (double increment) {
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       // controller deadzone
       if (Math.abs(increment) > .05 && desiredAngle < maxAngle) {
         if (motor.getOutputCurrent() < K_ClawSub.maxCurrent  || increment > 0) {
@@ -151,7 +150,7 @@ public class ClawSub extends SubsystemBase{
 
   // returns current through motor
   public double getCurrent() {
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       return motor.getOutputCurrent();
     }
     return 0.0;
@@ -159,14 +158,14 @@ public class ClawSub extends SubsystemBase{
 
   // sets current position here
   public void zeroEncoder() {
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       encoder.setPosition(0);
       desiredAngle = 0;
     }
   }
 
   public boolean isOpen() {
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       return isOpen;
     }
     return false;
@@ -174,14 +173,14 @@ public class ClawSub extends SubsystemBase{
 
   // Stops the motor in case of emergency
   public void emergencyStop(){
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       motor.stopMotor();
     }
   }
 
   @Override
   public void periodic() {
-    if(K_PivotSub.isUsingPivot){
+    if(K_ClawSub.isUsingClaw){
       SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
       SmartDashboard.putNumber("Claw Current", motor.getOutputCurrent());
       SmartDashboard.putNumber("Claw Desired Angle", desiredAngle);
