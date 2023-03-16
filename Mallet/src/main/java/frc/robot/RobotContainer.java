@@ -14,7 +14,6 @@ import frc.robot.commands.claw.ClawClampToggle;
 import frc.robot.commands.extend.MoveExtenderBackwards;
 import frc.robot.commands.extend.MoveExtenderForward;
 import frc.robot.commands.pivot.PivotDown;
-import frc.robot.commands.pivot.PivotToAngle;
 import frc.robot.commands.pivot.PivotUp;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_Default;
@@ -23,7 +22,6 @@ import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommunity;
 import frc.robot.commands.AutoGroups.AutoGroup_MoveTest;
 import frc.robot.subsystems.*;
 import java.util.HashMap;
-import java.util.ResourceBundle.Control;
 
 public class RobotContainer {
   //INIT SUBSYSTEMS
@@ -79,31 +77,20 @@ public class RobotContainer {
     controllerButtons_drive.get("4").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
     // turn left 90 degrees
     controllerButtons_drive.get("5").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
-    
 
     //ARM CONTROLLER
     // select next piece to target
     controllerButtons_arm.get("8").onTrue(new NextPipeline(m_limelight));
     // toggle claw clamp
     controllerButtons_arm.get("1").onTrue(new ClawClampToggle(m_clawMotor));
-    // retracts arm manually
-    controllerButtons_arm.get("3").whileTrue(new MoveExtenderForward(m_extensionMotor, false));
-    // extends arm manually
-    controllerButtons_arm.get("2").whileTrue(new MoveExtenderBackwards(m_extensionMotor, false));
-    //extends arm with encoders (forwards)
-    controllerButtons_arm.get("6").onTrue(new MoveExtenderForward(m_extensionMotor, true));
-    //Extends arm with encoders (backwards)
-    controllerButtons_arm.get("7").onTrue(new MoveExtenderBackwards(m_extensionMotor, true)); 
-
+    // retracts arm
+    controllerButtons_arm.get("2").whileTrue(new MoveExtenderForward(m_extensionMotor));
+    // extends arm
+    controllerButtons_arm.get("3").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
     // moves pivot down
     controllerButtons_arm.get("4").onTrue(new PivotDown(m_pivotMotor));
     // moves pivot up
     controllerButtons_arm.get("5").onTrue(new PivotUp(m_pivotMotor));
-    //Move pivot up to 30 degrees
-    controllerButtons_arm.get("10").onTrue(new PivotToAngle(m_pivotMotor, 30));
-    //Move pivot up to 90 degrees
-    controllerButtons_arm.get("11").onTrue(new PivotToAngle(m_pivotMotor, 90));
-
 
   }
 

@@ -7,9 +7,7 @@ import frc.robot.subsystems.ExtensionSub;
 public class MoveExtenderForward extends CommandBase{
     // Required Subsystem
     private ExtensionSub m_extender;
-        private boolean m_choice = false;
-        public MoveExtenderForward(ExtensionSub extender, boolean isUsingEncoders){        
-        m_choice = isUsingEncoders;       
+    public MoveExtenderForward(ExtensionSub extender) {        
         m_extender = extender;
         addRequirements(m_extender);
     }
@@ -22,19 +20,15 @@ public class MoveExtenderForward extends CommandBase{
     // Tells the Extension Motor to go Forwards
     @Override
     public void execute() {
-        if(m_choice)
-            m_extender.moveWithEncoders(1);
-        else{
-            m_extender.changePosition(-.07);
-            m_extender.moveMotor(1); 
-        }   
-
+        m_extender.changePosition(-.07);
+        m_extender.moveMotors();
     }
 
     // Called once the command ends or is interrupted.
     // Tells the Extension Motor to Stop
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+    }
 
     // Returns true when the command should end.
     @Override
