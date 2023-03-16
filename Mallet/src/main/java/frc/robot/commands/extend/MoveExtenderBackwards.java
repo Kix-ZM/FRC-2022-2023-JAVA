@@ -5,11 +5,12 @@ import frc.robot.subsystems.ExtensionSub;
 
 
 public class MoveExtenderBackwards extends CommandBase{
-
     // Required Subsystem of Extension Motor
     private ExtensionSub m_extender;
+    private boolean m_choice = false;
 
-    public MoveExtenderBackwards(ExtensionSub extender){        
+    public MoveExtenderBackwards(ExtensionSub extender, boolean isUsingEncoders){        
+        m_choice = isUsingEncoders;       
         m_extender = extender;
         addRequirements(m_extender);
     }
@@ -22,15 +23,19 @@ public class MoveExtenderBackwards extends CommandBase{
     // Tells the Extension Motor to go Backwards
     @Override
     public void execute() {
-        m_extender.changePosition(.07);
-        m_extender.moveMotors();
+        if(m_choice)
+            m_extender.moveWithEncoders(-1);
+        else{
+            m_extender.changePosition(-.07);
+            m_extender.moveMotor(-1); 
+        }   
+
     }
 
     // Called once the command ends or is interrupted.
     // Tells the Extension Motor to Stop
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override

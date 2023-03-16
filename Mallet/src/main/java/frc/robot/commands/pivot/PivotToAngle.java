@@ -4,14 +4,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PivotSub;
 
 
-public class Pivot90 extends CommandBase{
+public class PivotToAngle extends CommandBase{
     // Required Subsystems
     private PivotSub m_pivot;
+    private double finalAngle;
 
     // Creation Function of the Class
-    public Pivot90(PivotSub pivot){
+    public PivotToAngle(PivotSub pivot, double targetAngle){
         m_pivot = pivot;
         addRequirements(m_pivot);
+        finalAngle = targetAngle;
     }
 
     // Called when the command is initially scheduled.
@@ -22,7 +24,7 @@ public class Pivot90 extends CommandBase{
     // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
     @Override
     public void execute() {
-        m_pivot.setAngle(90);
+        m_pivot.setAngle(finalAngle);
     }
 
     // Called once the command ends or is interrupted.
