@@ -63,6 +63,12 @@ public class PivotSub extends SubsystemBase{
 
       encoder1.setPosition(5);
       desiredAngle = encoder1.getPosition();
+    }else{
+      motor1 = null;
+      encoder1 = null;
+      motor2 = null;
+      encoder2 = null;
+      pivotMotors = null;
     }
   }
 
@@ -70,21 +76,23 @@ public class PivotSub extends SubsystemBase{
   // Adjusts voltage / motor speed based on difference between current and desired angle
   // Maintains 
   public void moveMotors(){
-    if(isStopped)
-      emergencyStop();
-    else{
-      double calculatedVoltage = (desiredAngle - encoder1.getPosition())/3;
-      if (calculatedVoltage > K_PivotSub.pivotSpeed) {calculatedVoltage = K_PivotSub.pivotSpeed;}
-      if (calculatedVoltage < -K_PivotSub.pivotSpeed) {calculatedVoltage = -K_PivotSub.pivotSpeed;}
+    if(K_PivotSub.isUsingPivot){
+      if(isStopped)
+        emergencyStop();
+      else{
+        double calculatedVoltage = (desiredAngle - encoder1.getPosition())/3;
+        if (calculatedVoltage > K_PivotSub.pivotSpeed) {calculatedVoltage = K_PivotSub.pivotSpeed;}
+        if (calculatedVoltage < -K_PivotSub.pivotSpeed) {calculatedVoltage = -K_PivotSub.pivotSpeed;}
 
-      if ((calculatedVoltage > 0 && TopLimit.get()) || (calculatedVoltage < 0 && BtmLimit.get())) {
-        (twoMotors ? pivotMotors : motor1).setVoltage(calculatedVoltage);
-      } else {
-        (twoMotors ? pivotMotors : motor1).setVoltage(0);
-        if (!TopLimit.get())
-          maxAngle = encoder1.getPosition();
-        else
-          minAngle = encoder1.getPosition();
+        if ((calculatedVoltage > 0 && TopLimit.get()) || (calculatedVoltage < 0 && BtmLimit.get())) {
+          (twoMotors ? pivotMotors : motor1).setVoltage(calculatedVoltage);
+        } else {
+          (twoMotors ? pivotMotors : motor1).setVoltage(0);
+          if (!TopLimit.get())
+            maxAngle = encoder1.getPosition();
+          else
+            minAngle = encoder1.getPosition();
+        }
       }
     }
   }
@@ -92,34 +100,63 @@ public class PivotSub extends SubsystemBase{
   // sets the desired angle to set angle to
   // 0 - 100 degrees
   public void setAngle (double angle) {
-    desiredAngle = angle;
+    if(K_PivotSub.isUsingPivot){
+      desiredAngle = angle;
+    }
+  }
+
+  //Returns the current angle of the pivot
+  public double getCurentAngle(){
+    if(K_PivotSub.isUsingPivot){
+      if(twoMotors){
+        return (encoder1.getPosition() + encoder2.getPosition())/2;
+      }
+      return encoder1.getPosition();
+    }
+    return 0.0;
+  }
+
+  //Returns the current desired angle
+  public double getDesiredAngle(){
+    if(K_PivotSub.isUsingPivot){
+      return desiredAngle;
+    }
+    return 0.0;
   }
 
   // Changes angle to aim for
   // If change is past min or max in either direction revert the change
   public void changeAngle (double increment) {
-    desiredAngle += increment;
-    if (desiredAngle > maxAngle) 
-      desiredAngle= maxAngle;
-    if (desiredAngle < minAngle) 
-      desiredAngle= minAngle;
+    if(K_PivotSub.isUsingPivot){
+      desiredAngle += increment;
+      if (desiredAngle > maxAngle) 
+        desiredAngle= maxAngle;
+      if (desiredAngle < minAngle) 
+        desiredAngle= minAngle;
+    }
   }
 
   public void zeroEncoder() {
-    encoder1.setPosition(0);
+    if(K_PivotSub.isUsingPivot){
+      encoder1.setPosition(0);
+    }
   }
 
   // Stops the motor in case of emergency
   public void emergencyStop() {
-    pivotMotors.stopMotor();
+    if(K_PivotSub.isUsingPivot){
+      pivotMotors.stopMotor();
+    }
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Pivot Encoder 1", encoder1.getPosition());
-    if (twoMotors)
-      SmartDashboard.putNumber("Pivot Encoder 2", encoder2.getPosition());
-    SmartDashboard.putNumber("Pivot Desired Angle", desiredAngle);
-    SmartDashboard.putNumber("Pivot Max Angle", maxAngle);
+    if(K_PivotSub.isUsingPivot){
+      SmartDashboard.putNumber("Pivot Encoder 1", encoder1.getPosition());
+      if (twoMotors)
+        SmartDashboard.putNumber("Pivot Encoder 2", encoder2.getPosition());
+      SmartDashboard.putNumber("Pivot Desired Angle", desiredAngle);
+      SmartDashboard.putNumber("Pivot Max Angle", maxAngle);
+    }
   }
 }

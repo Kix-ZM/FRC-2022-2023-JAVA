@@ -13,6 +13,7 @@ import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
 import frc.robot.commands.claw.ClawClampToggle;
 import frc.robot.commands.extend.MoveExtenderBackwards;
 import frc.robot.commands.extend.MoveExtenderForward;
+import frc.robot.commands.pivot.PivotAngle;
 import frc.robot.commands.pivot.PivotDown;
 import frc.robot.commands.pivot.PivotUp;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
@@ -58,7 +59,7 @@ public class RobotContainer {
     // Add joystick buttons to maps
     controllerButtons_drive.put("trigger", new JoystickButton(m_controller_drive, 1));
     controllerButtons_arm.put("trigger", new JoystickButton(m_controller_arm, 1));
-    for (int i = 2; i <= 11; i++)
+    for (int i = 1; i <= 11; i++)
     {
       controllerButtons_arm.put(Integer.toString(i), new JoystickButton(m_controller_arm, i));
       controllerButtons_drive.put(Integer.toString(i), new JoystickButton(m_controller_drive, i));
@@ -67,30 +68,35 @@ public class RobotContainer {
     //DRIVE CONTROLLER
     // rotate to target
     controllerButtons_drive.get("trigger").onTrue(new AimCommand(m_drivetrain, m_limelight));
-    // reset encoders
-    controllerButtons_drive.get("11").onTrue(resetEncodersCommand());
     // turn to 180 degrees
     controllerButtons_drive.get("2").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
     // turn to 0 degrees
     controllerButtons_drive.get("3").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 0));
-    // moves pivot down
-    controllerButtons_drive.get("4").onTrue(new PivotDown(m_pivotMotor));
-    // moves pivot up
-    controllerButtons_drive.get("4").onTrue(new PivotUp(m_pivotMotor));
     // turn left 90 degrees
-    controllerButtons_drive.get("8").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
+    controllerButtons_drive.get("4").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
     // turn left 90 degrees
-    controllerButtons_drive.get("9").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
+    controllerButtons_drive.get("5").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
+    // reset encoders
+    controllerButtons_drive.get("11").onTrue(resetEncodersCommand());
 
     //ARM CONTROLLER
-    // select next piece to target
-    controllerButtons_arm.get("8").onTrue(new NextPipeline(m_limelight));
     // toggle claw clamp
     controllerButtons_arm.get("1").onTrue(new ClawClampToggle(m_clawMotor));
     // retracts arm
     controllerButtons_arm.get("2").whileTrue(new MoveExtenderForward(m_extensionMotor));
     // extends arm
     controllerButtons_arm.get("3").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
+    // moves pivot down
+    controllerButtons_arm.get("4").onTrue(new PivotDown(m_pivotMotor));
+    // moves pivot up
+    controllerButtons_arm.get("5").onTrue(new PivotUp(m_pivotMotor));
+    // select next piece to target
+    controllerButtons_arm.get("8").onTrue(new NextPipeline(m_limelight));
+    // move arm to have a 30 degree with the floor
+    controllerButtons_arm.get("10").onTrue(new PivotAngle(m_pivotMotor, 30));
+    // move arm to have a 90 degree with the floor
+    controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
+
 
   }
 

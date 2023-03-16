@@ -4,25 +4,35 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PivotSub;
 
 
-public class Pivot90 extends CommandBase{
+public class PivotMoveToAngle extends CommandBase{
     // Required Subsystems
     private PivotSub m_pivot;
+    private double m_finalAngle;
 
     // Creation Function of the Class
-    public Pivot90(PivotSub pivot){
+    public PivotMoveToAngle(PivotSub pivot){
         m_pivot = pivot;
+        m_finalAngle = m_pivot.getDesiredAngle();
+        addRequirements(m_pivot);
+    }
+
+    public PivotMoveToAngle(PivotSub pivot, double angle){
+        m_pivot = pivot;
+        m_finalAngle = angle;
         addRequirements(m_pivot);
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+        m_pivot.setAngle(m_finalAngle);
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
-    // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
     @Override
     public void execute() {
-        m_pivot.setAngle(90);
+        // Move motor to stabalize or go to
+        m_pivot.moveMotors();
     }
 
     // Called once the command ends or is interrupted.
@@ -33,6 +43,7 @@ public class Pivot90 extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        //Checks to see if the motor is close to the desired angle
+        return Math.abs(m_pivot.getCurentAngle() - m_pivot.getDesiredAngle()) < 2;
     }
 }
