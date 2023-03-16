@@ -4,7 +4,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.K_ClawSub;
 
@@ -47,11 +46,17 @@ public class ClawSub extends SubsystemBase{
       // encoder.setPositionConversionFactor(1);
       encoder.setPosition(0);
       motor.setInverted(true);
-      SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
-      SmartDashboard.putNumber("Claw Current", motor.getOutputCurrent());
-      SmartDashboard.putNumber("Claw Desired Angle", desiredAngle);
-      SmartDashboard.putBoolean("Claw Open", isOpen);
     }
+  }
+
+  //Return the encoder
+  public RelativeEncoder getClawEncoder(){
+    return encoder;
+  }
+
+  //Return if the claw is open
+  public boolean getIsOpen(){
+    return isOpen;
   }
 
   // Handles motor movement

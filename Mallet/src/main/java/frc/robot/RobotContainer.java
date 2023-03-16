@@ -1,5 +1,9 @@
 package frc.robot;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoGroups.AutoGroup_Balance;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
-// import frc.robot.commands.claw.ClawClampToggle;
 import frc.robot.commands.claw.ClawMove;
 import frc.robot.commands.extend.ExtenderMove;
 import frc.robot.commands.extend.MoveExtenderBackwards;
@@ -45,10 +48,36 @@ public class RobotContainer {
   public static HashMap<String, Trigger> controllerButtons_arm = new HashMap<String, Trigger>();
   public static HashMap<String, Trigger> controllerButtons_drive = new HashMap<String, Trigger>();
 
-  //INIT SMARTDASHBOARD
+  //SMARTDASHBOARD
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
   SequentialCommandGroup m_autoGroup = new SequentialCommandGroup();
+
+  //SHUFFLEBOARD
+  ShuffleboardTab main = Shuffleboard.getTab("Driver's Tab");
+    //GYRO INFO
+    private GenericEntry entry_GyroX = 
+        main.add("Gyro X Angle", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    private GenericEntry entry_GyroY = 
+        main.add("Gyro Y Angle", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    private GenericEntry entry_GyroZ = 
+        main.add("Gyro Z Angle", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    //CLAW INFO
+    private GenericEntry entry_ClawEncoder = 
+        main.add("Claw Encoder", 0).withWidget(BuiltInWidgets.kEncoder).getEntry();
+    //PIVOT INFO
+    private GenericEntry entry_PivotEncoder = 
+      main.add("Pivot Encoder", 0).withWidget(BuiltInWidgets.kEncoder).getEntry();
+    private GenericEntry entry_PivotMaxAngle = 
+      main.add("Pivot Max Angle", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
+    //EXTENSION INFO
+    private GenericEntry entry_ExtEncoder = 
+      main.add("Ext Encoder", 0).withWidget(BuiltInWidgets.kEncoder).getEntry();
+    //LIMELIGHT INFO
+    private GenericEntry entry_LimelightXOffset =
+      main.add("LimelightXOffset", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
+    private GenericEntry entry_LimelightYOffset =
+      main.add("LimelightYOffset", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
 
   public RobotContainer() {
     configureButtonBindings();
@@ -56,9 +85,31 @@ public class RobotContainer {
     SmartDashboard.putStringArray("Auto List", autoList);
   }
 
+  //update shuffleboard layout
+  public void updateShuffleboard(){
+    //GYRO
+    entry_GyroX.setDouble(m_gyro.getAngleX());
+    entry_GyroY.setDouble(m_gyro.getAngleY());
+    entry_GyroZ.setDouble(m_gyro.getAngleZ());
+
+    //CLAW
+    entry_ClawEncoder.setDouble(m_clawMotor.getClawEncoder().getPosition());
+
+    //PIVOT
+    entry_PivotEncoder.setDouble(m_pivotMotor.getEncoder1().getPosition());
+    entry_PivotMaxAngle.setDouble(m_pivotMotor.getMaxAngle());
+
+    //EXTENSION INFO
+    entry_ExtEncoder.setDouble(m_extensionMotor.getEncoder().getPosition());
+
+    //LIMELIGHT INFO
+    entry_LimelightXOffset.setDouble(m_limelight.getXOffset());
+    entry_LimelightYOffset.setDouble(m_limelight.getYOffset());
+  }
+
   //assign button functions
   private void configureButtonBindings() {
-    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_controller_drive));
     m_extensionMotor.setDefaultCommand(new ExtenderMove(m_extensionMotor));
     m_pivotMotor.setDefaultCommand(new PivotMove(m_pivotMotor));
     m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor, m_controller_arm));
@@ -106,8 +157,6 @@ public class RobotContainer {
     controllerButtons_arm.get("10").onTrue(new PivotAngle(m_pivotMotor, 30));
     // move arm to have a 90 degree with the floor
     controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
-
-
   }
 
   // At the beginning of auto

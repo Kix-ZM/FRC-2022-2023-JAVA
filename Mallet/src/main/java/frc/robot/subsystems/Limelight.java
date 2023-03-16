@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 import java.util.HashMap;
 
 import edu.wpi.first.networktables.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -48,12 +47,6 @@ public class Limelight extends SubsystemBase {
     //set pipeline to cone and cube
     setPipeline(pipelineMap.get("coneAndCube"));
     curIndex = pipelineMap.get("coneAndCube");
-
-    // initialize values on smartdashboard
-    SmartDashboard.putBoolean("LimelightTarget", isTarget());
-    SmartDashboard.putNumber("Current Index", curIndex); // change so it displays key not value
-    SmartDashboard.putNumber("LimelightXOffset", getXOffset());
-    SmartDashboard.putNumber("LimelightYOffset", getYOffset());
   }
 
   // get x angle offset in degrees
