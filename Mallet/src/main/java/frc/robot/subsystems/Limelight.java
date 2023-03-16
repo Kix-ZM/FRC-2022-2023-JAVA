@@ -113,9 +113,5 @@ public class Limelight extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("LimelightTarget", isTarget());
-    SmartDashboard.putNumber("Current Index", curIndex); // change so it displays key not value
-    SmartDashboard.putNumber("LimelightXOffset", getXOffset());
-    SmartDashboard.putNumber("LimelightYOffset", getYOffset());
   }
 }

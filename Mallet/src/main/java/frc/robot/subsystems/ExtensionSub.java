@@ -43,10 +43,8 @@ public class ExtensionSub extends SubsystemBase{
       // encoder.setPositionConversionFactor(1);
       encoder.setPosition(0);
       motor.setInverted(true);
-    }else{
-      motor = null;
-      encoder = null;
-      clampLimit = null;
+      SmartDashboard.putNumber("Ext Encoder", encoder.getPosition());
+      SmartDashboard.putNumber("Ext Desired Angle", desiredPosition);
     }
   }
 
@@ -111,7 +109,6 @@ public class ExtensionSub extends SubsystemBase{
         desiredPosition= maxPosition;
       else if (desiredPosition < minPosition) 
         desiredPosition= minPosition;
-      SmartDashboard.putNumber("Ext Increment", increment);
     }
   }
 
@@ -132,11 +129,5 @@ public class ExtensionSub extends SubsystemBase{
 
   @Override
   public void periodic() {
-    if(K_ExtSub.isUsingExt){
-      SmartDashboard.putNumber("Ext Encoder", encoder.getPosition());
-      SmartDashboard.putNumber("Ext Current", motor.getOutputCurrent());
-      SmartDashboard.putNumber("Ext Desired Angle", desiredPosition);
-      SmartDashboard.putBoolean("Ext Inverted", motor.getInverted());
-    }
   }
 }

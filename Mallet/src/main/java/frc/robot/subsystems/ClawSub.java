@@ -30,6 +30,10 @@ public class ClawSub extends SubsystemBase{
   private boolean isOpen = true;
 
   private boolean isStopped = false;
+
+  // 0 is cube
+  // 1 is cone
+  private int targetType = 1;
   
   public ClawSub(){
     if(K_ClawSub.isUsingClaw){
@@ -39,15 +43,14 @@ public class ClawSub extends SubsystemBase{
       motor.setIdleMode(IdleMode.kBrake);
       // set conversion factor so getPosition returns degrees
       encoder.setPositionConversionFactor((K_ClawSub.calibrateEndingAngle-K_ClawSub.calibrateStartingAngle) / K_ClawSub.calibrateAngleEncoderValue);
-      
       // code to set default to find conversion factor
       // encoder.setPositionConversionFactor(1);
       encoder.setPosition(0);
       motor.setInverted(true);
-    }else{
-      motor = null;
-      encoder = null;
-      clampLimit = null;
+      SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
+      SmartDashboard.putNumber("Claw Current", motor.getOutputCurrent());
+      SmartDashboard.putNumber("Claw Desired Angle", desiredAngle);
+      SmartDashboard.putBoolean("Claw Open", isOpen);
     }
   }
 
@@ -56,6 +59,7 @@ public class ClawSub extends SubsystemBase{
   // - voltage is close claw
   public void moveMotors(){
     if(K_ClawSub.isUsingClaw){
+      isOpen = true;
       if(isStopped)
         emergencyStop();
       else{
@@ -64,8 +68,8 @@ public class ClawSub extends SubsystemBase{
         if (Math.abs(calculatedVoltage) < 0.01)
           calculatedVoltage = 0;
         // If calculated voltage too high reset it to within +- maximum clamp seed
-        if (Math.abs(calculatedVoltage) > K_ClawSub.clampSpeed)
-          calculatedVoltage = calculatedVoltage > 0 ? K_ClawSub.clampSpeed : -K_ClawSub.clampSpeed;
+        if (Math.abs(calculatedVoltage) > K_ClawSub.clampVoltage)
+          calculatedVoltage = calculatedVoltage > 0 ? K_ClawSub.clampVoltage : -K_ClawSub.clampVoltage;
         // Makes sure only moving if not triggering limit switches
         if ((calculatedVoltage < 0 && clampLimit.get()) || calculatedVoltage > 0) {
           motor.setVoltage(calculatedVoltage);
@@ -83,8 +87,8 @@ public class ClawSub extends SubsystemBase{
     if(K_ClawSub.isUsingClaw){
       // if current not at max (current increases when motor experiences resistance / is clamped on something)
       // then keep clamping down
-      if (motor.getOutputCurrent() < K_ClawSub.maxCurrent) {
-        motor.setVoltage(-K_ClawSub.clampSpeed);
+      if (motor.getOutputCurrent() < K_ClawSub.coneMaxCurrent) {
+        motor.setVoltage(-K_ClawSub.clampVoltage);
         return false;
       } 
       // otherwise maintain position and say it's done
@@ -94,6 +98,28 @@ public class ClawSub extends SubsystemBase{
       }
     }
     return false;
+  }
+
+  public void clamp2() {
+    double currentLimit = targetType == 1 ? K_ClawSub.coneMaxCurrent : K_ClawSub.cubeMaxCurrent;
+    if(K_ClawSub.isUsingClaw){
+      // if current not at max (current increases when motor experiences resistance / is clamped on something)
+      // then keep clamping down
+      if (motor.getOutputCurrent() < currentLimit) {
+        motor.setVoltage(K_ClawSub.clampVoltage);
+      } 
+      if (motor.getOutputCurrent() >= currentLimit - 10) {
+        zeroEncoder();
+        desiredAngle = encoder.getPosition() + 90;
+      }
+      isOpen = false;
+    }
+  }
+
+  // 0 is cube
+  // 1 is cone
+  public void setTargetType(int index) {
+    targetType = index;
   }
 
   // set to specific angle (not that accurate because we might end up starting at different positions)
@@ -119,13 +145,6 @@ public class ClawSub extends SubsystemBase{
     return 0.0;
   }
 
-  // opens claw by 30 degrees to open it
-  public void openClaw() {
-    if(K_ClawSub.isUsingClaw){
-      desiredAngle+=50;
-      isOpen = true;
-    }
-  }
 
   // Changes angle to aim for
   // If change is too far in either direction revert the change
@@ -133,7 +152,7 @@ public class ClawSub extends SubsystemBase{
     if(K_ClawSub.isUsingClaw){
       // controller deadzone
       if (Math.abs(increment) > .05 && desiredAngle < maxAngle) {
-        if (motor.getOutputCurrent() < K_ClawSub.maxCurrent  || increment > 0) {
+        if (motor.getOutputCurrent() < K_ClawSub.coneMaxCurrent  || increment > 0) {
           desiredAngle += increment;
           if (increment > 0)
             isOpen = true;
@@ -144,7 +163,6 @@ public class ClawSub extends SubsystemBase{
           maxAngle = encoder.getPosition()+150;
         }
       }
-      SmartDashboard.putNumber("Claw Increment", increment);
     }
   }
 
@@ -180,11 +198,5 @@ public class ClawSub extends SubsystemBase{
 
   @Override
   public void periodic() {
-    if(K_ClawSub.isUsingClaw){
-      SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
-      SmartDashboard.putNumber("Claw Current", motor.getOutputCurrent());
-      SmartDashboard.putNumber("Claw Desired Angle", desiredAngle);
-      SmartDashboard.putBoolean("Claw Open", isOpen);
-    }
   }
 }

@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.K_PivotSub;
@@ -63,12 +64,9 @@ public class PivotSub extends SubsystemBase{
 
       encoder1.setPosition(5);
       desiredAngle = encoder1.getPosition();
-    }else{
-      motor1 = null;
-      encoder1 = null;
-      motor2 = null;
-      encoder2 = null;
-      pivotMotors = null;
+      SmartDashboard.putNumber("Pivot Encoder 1", encoder1.getPosition());
+      SmartDashboard.putNumber("Pivot Desired Angle", desiredAngle);
+      SmartDashboard.putNumber("Pivot Max Angle", maxAngle);
     }
   }
 
@@ -138,7 +136,8 @@ public class PivotSub extends SubsystemBase{
 
   public void zeroEncoder() {
     if(K_PivotSub.isUsingPivot){
-      encoder1.setPosition(0);
+      encoder1.setPosition(5);
+      desiredAngle = 5;
     }
   }
 
@@ -151,12 +150,5 @@ public class PivotSub extends SubsystemBase{
 
   @Override
   public void periodic() {
-    if(K_PivotSub.isUsingPivot){
-      SmartDashboard.putNumber("Pivot Encoder 1", encoder1.getPosition());
-      if (twoMotors)
-        SmartDashboard.putNumber("Pivot Encoder 2", encoder2.getPosition());
-      SmartDashboard.putNumber("Pivot Desired Angle", desiredAngle);
-      SmartDashboard.putNumber("Pivot Max Angle", maxAngle);
-    }
   }
 }

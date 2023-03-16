@@ -18,8 +18,10 @@ public class GyroScope extends SubsystemBase {
     public GyroScope() {
         gScope = new AHRS(I2C.Port.kMXP);
         gScope.calibrate();
-        SmartDashboard.putNumber("gyro y angle", getAngleY());
         Shuffleboard.getTab("SmartDashboard").add("Gyro", gScope);
+        SmartDashboard.putNumber("gyro x angle", getAngleX());
+        SmartDashboard.putNumber("gyro y angle", getAngleY());
+        SmartDashboard.putNumber("gyro z angle", getAngleZ());
     }
 
     // returns the current displacement of the bot from initial calibration
@@ -58,13 +60,9 @@ public class GyroScope extends SubsystemBase {
     public void calibrateGyro(){
         gScope.calibrate();
     }
+
+    // This method will be called once per scheduler run
     @Override
     public void periodic() {
-        // System.out.println("x angle: " + getAngleX());
-        SmartDashboard.putNumber("gyro x angle", getAngleX());
-        SmartDashboard.putNumber("gyro y angle", getAngleY());
-        SmartDashboard.putNumber("gyro z angle", getAngleZ());
-        // System.out.println("z angle: " + getAngleZ());
-        // This method will be called once per scheduler run
     }
 }

@@ -4,17 +4,21 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoGroups.AutoGroup_Balance;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
-import frc.robot.commands.claw.ClawClampToggle;
+// import frc.robot.commands.claw.ClawClampToggle;
+import frc.robot.commands.claw.ClawMove;
+import frc.robot.commands.extend.ExtenderMove;
 import frc.robot.commands.extend.MoveExtenderBackwards;
 import frc.robot.commands.extend.MoveExtenderForward;
 import frc.robot.commands.pivot.PivotAngle;
 import frc.robot.commands.pivot.PivotDown;
+import frc.robot.commands.pivot.PivotMove;
 import frc.robot.commands.pivot.PivotUp;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_Default;
@@ -55,6 +59,9 @@ public class RobotContainer {
   //assign button functions
   private void configureButtonBindings() {
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain));
+    m_extensionMotor.setDefaultCommand(new ExtenderMove(m_extensionMotor));
+    m_pivotMotor.setDefaultCommand(new PivotMove(m_pivotMotor));
+    m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor, m_controller_arm));
 
     // Add joystick buttons to maps
     controllerButtons_drive.put("trigger", new JoystickButton(m_controller_drive, 1));
@@ -81,17 +88,20 @@ public class RobotContainer {
 
     //ARM CONTROLLER
     // toggle claw clamp
-    controllerButtons_arm.get("1").onTrue(new ClawClampToggle(m_clawMotor));
+    // controllerButtons_arm.get("1").onTrue(new ClawClampToggle(m_clawMotor));
+    controllerButtons_arm.get("1").toggleOnTrue(Commands.startEnd(m_clawMotor::clamp2, m_clawMotor::moveMotors, m_clawMotor));
     // retracts arm
-    controllerButtons_arm.get("2").whileTrue(new MoveExtenderForward(m_extensionMotor));
+    controllerButtons_arm.get("2").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
     // extends arm
-    controllerButtons_arm.get("3").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
+    controllerButtons_arm.get("3").whileTrue(new MoveExtenderForward(m_extensionMotor));
     // moves pivot down
-    controllerButtons_arm.get("4").onTrue(new PivotDown(m_pivotMotor));
+    controllerButtons_arm.get("4").whileTrue(new PivotDown(m_pivotMotor));
     // moves pivot up
-    controllerButtons_arm.get("5").onTrue(new PivotUp(m_pivotMotor));
-    // select next piece to target
-    controllerButtons_arm.get("8").onTrue(new NextPipeline(m_limelight));
+    controllerButtons_arm.get("5").whileTrue(new PivotUp(m_pivotMotor));
+    // select cube mode
+    controllerButtons_arm.get("7").onTrue(new SetConeMode(m_limelight, m_clawMotor));
+    // select cube mode
+    controllerButtons_arm.get("8").onTrue(new SetCubeMode(m_limelight, m_clawMotor));
     // move arm to have a 30 degree with the floor
     controllerButtons_arm.get("10").onTrue(new PivotAngle(m_pivotMotor, 30));
     // move arm to have a 90 degree with the floor
@@ -148,5 +158,9 @@ public class RobotContainer {
   }
   public static Joystick getArmController(){
     return m_controller_arm;
+  }
+  // resetting pivot position to current for when teleop inits
+  public static void resetPivotPosition() {
+    m_pivotMotor.zeroEncoder();
   }
 }
