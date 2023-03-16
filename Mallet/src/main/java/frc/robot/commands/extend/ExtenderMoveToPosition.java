@@ -7,16 +7,25 @@ import frc.robot.subsystems.ExtensionSub;
 public class ExtenderMoveToPosition extends CommandBase{
     // Required Subsystems
     private ExtensionSub m_extender;
+    private double m_finalAngle;
 
     // Creation Function of the Class
     public ExtenderMoveToPosition(ExtensionSub ext){
         m_extender = ext;
+        m_finalAngle = m_extender.getDesiredAngle();
+        addRequirements(m_extender);
+    }
+    public ExtenderMoveToPosition(ExtensionSub ext, double angle){
+        m_extender = ext;
+        m_finalAngle = angle;
         addRequirements(m_extender);
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+        m_extender.setAngle(m_finalAngle);
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     // Tells the extender motor to either move to it's angle or stablize

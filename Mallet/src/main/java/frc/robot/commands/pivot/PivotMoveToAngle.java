@@ -7,16 +7,26 @@ import frc.robot.subsystems.PivotSub;
 public class PivotMoveToAngle extends CommandBase{
     // Required Subsystems
     private PivotSub m_pivot;
+    private double m_finalAngle;
 
     // Creation Function of the Class
     public PivotMoveToAngle(PivotSub pivot){
         m_pivot = pivot;
+        m_finalAngle = m_pivot.getDesiredAngle();
+        addRequirements(m_pivot);
+    }
+
+    public PivotMoveToAngle(PivotSub pivot, double angle){
+        m_pivot = pivot;
+        m_finalAngle = angle;
         addRequirements(m_pivot);
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+        m_pivot.setAngle(m_finalAngle);
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
