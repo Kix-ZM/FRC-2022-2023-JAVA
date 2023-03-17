@@ -2,6 +2,7 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.GyroScope;
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoBalance extends CommandBase {
@@ -9,6 +10,7 @@ public class AutoBalance extends CommandBase {
   private final Drivetrain m_drivetrain;
   private boolean startBalancing;
   private boolean onPlatform;
+  private boolean isBackwards;
   private int backwardsScaler;
   
   /**
@@ -25,7 +27,7 @@ public class AutoBalance extends CommandBase {
 
     // if starting from other side of charger, go backwards and change which side is other side
     backwardsScaler = backwards ? -1 : 1; 
-
+    isBackwards = backwards;
     m_gyro = gyro;
     m_drivetrain = drivetrain;
     addRequirements(gyro);
@@ -36,7 +38,7 @@ public class AutoBalance extends CommandBase {
   @Override
   public void initialize() {
     System.out.print("initializing");
-
+    SmartDashboard.putBoolean("Balancing", false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -51,28 +53,15 @@ public class AutoBalance extends CommandBase {
         onPlatform = true;
       
       // if on platform and tilted to the other side of the charger
-      if (onPlatform && (backwardsScaler == 1 ? pitchAngleDegrees < 0 : pitchAngleDegrees > 0)) 
+      if (onPlatform && (backwardsScaler == 1 ? pitchAngleDegrees < 0 : pitchAngleDegrees > 0)) {
+        m_drivetrain.setBalanceToCurrentPos(isBackwards);
         startBalancing = true;
+      }
     }
     else {
-      double yawAngleDegrees = m_gyro.getAngleZ();
-      double toAdjustSpeed = 0;
-      double toAdjustRotate = 0;
-      // if angle positive, go forwards
-      // if angle negative, go backwards
-      if (Math.abs(pitchAngleDegrees) > Constants.K_BALANCE_THRESH_DEG)
-          toAdjustSpeed = pitchAngleDegrees > 0 // if tilted backwards
-              ? -Constants.K_ADJUST_SPEED // go forward
-              : Constants.K_ADJUST_SPEED; // if tilted forwards go backwards
-
-      if (Math.abs(yawAngleDegrees) > Constants.K_BALANCE_THRESH_DEG)
-          toAdjustRotate = yawAngleDegrees < 0 // if tilted left
-              ? Constants.K_ADJUST_ROTATE  // go right
-              : -Constants.K_ADJUST_ROTATE; // go left
-      m_drivetrain.arcadeDrive(-toAdjustSpeed, -toAdjustRotate);
+      m_drivetrain.balance();
+      SmartDashboard.putBoolean("Balancing", true);
     }
-    System.out.println("Angle X: " + m_gyro.getAngleX());
-    System.out.println("Accel X: " + m_gyro.getAccelX());
   }
 
   // Called once the command ends or is interrupted.

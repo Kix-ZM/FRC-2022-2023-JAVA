@@ -87,8 +87,9 @@ public class RobotContainer {
     configureButtonBindings();
     main.add("Limelight", "CameraServer", "http://10.44.70.11:5800");
     main.add("Webcam", "CameraServer", "http://wpilibpi.local/1181");
-    String[] autoList = {"Leave Community", "Place and Leave", "Balance", "Place and Balance", "Leave and Balance", "Move Test", "Default"};
+    String[] autoList = {"Place and Leave", "Place and Balance", "Leave and Balance", "Do Nothing"};
     SmartDashboard.putStringArray("Auto List", autoList);
+    initializeAutoChooser();
   }
 
   //update shuffleboard layout
@@ -159,26 +160,24 @@ public class RobotContainer {
     controllerButtons_arm.get("6").onTrue(new SetConeMode(m_limelight, m_clawMotor));
     // select cube mode
     controllerButtons_arm.get("7").onTrue(new SetCubeMode(m_limelight, m_clawMotor));
-    
+    //close claw
     controllerButtons_arm.get("8").whileTrue(new ClawClose(m_clawMotor));
-
+    //open claw
     controllerButtons_arm.get("9").whileTrue(new ClawOpen(m_clawMotor));
-
-
     // move arm to have a 30 degree with the floor
     controllerButtons_arm.get("10").onTrue(new PivotAngle(m_pivotMotor, 30));
     // move arm to have a 90 degree with the floor
     controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
   }
 
-  public void initializeAutoChooer() {
+  public void initializeAutoChooser() {
     m_autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
-    m_autoChooser.addOption("Leave Community", new AutoGroup_LeaveCommunity(m_drivetrain));
+    //m_autoChooser.addOption("Leave Community", new AutoGroup_LeaveCommunity(m_drivetrain));
     m_autoChooser.addOption("Place and Leave", new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro));
-    m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain, m_gyro));
+    //m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain, m_gyro));
     m_autoChooser.addOption("Place and Balance", new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro));
     m_autoChooser.addOption("Leave and Balance", new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro));
-    m_autoChooser.addOption("Move Test", new AutoGroup_MoveTest(m_drivetrain, m_gyro));
+    //m_autoChooser.addOption("Move Test", new AutoGroup_MoveTest(m_drivetrain, m_gyro));
     main.add(m_autoChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
   }
 
@@ -212,6 +211,7 @@ public class RobotContainer {
         activeAutoGroup = new AutoGroup_MoveTest(m_drivetrain, m_gyro);
         break;
       //Default auto
+      case "Do Nothing":
       default:
         activeAutoGroup = new AutoGroup_Default(m_drivetrain);  
         break;
