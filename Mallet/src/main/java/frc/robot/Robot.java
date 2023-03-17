@@ -23,7 +23,9 @@ public class Robot extends TimedRobot {
 
   //called when the robot is disabled
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    RobotContainer.resetDesiredAngle();
+  }
 
   //called continuously while robot is disabled
   @Override
@@ -32,7 +34,7 @@ public class Robot extends TimedRobot {
   //called when auto is selected
   @Override
   public void autonomousInit() {
-    m_robotContainer.getAutoInput().schedule();
+    m_robotContainer.getAutoCommand().schedule();
   }
 
   //called periodically when robot is in auto
