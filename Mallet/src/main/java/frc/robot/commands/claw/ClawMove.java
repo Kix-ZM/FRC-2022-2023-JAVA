@@ -1,6 +1,4 @@
 package frc.robot.commands.claw;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClawSub;
 
@@ -8,12 +6,10 @@ import frc.robot.subsystems.ClawSub;
 public class ClawMove extends CommandBase{
     // Required Subsystems
     private ClawSub m_claw;
-    private Joystick m_joystick;
 
     // Creation Function of the Class
-    public ClawMove(ClawSub claw, Joystick joystick){
+    public ClawMove(ClawSub claw){
         m_claw = claw;
-        m_joystick = joystick;
         addRequirements(m_claw);
     }
 
@@ -25,7 +21,6 @@ public class ClawMove extends CommandBase{
     // Relatively change claw by joystick
     @Override
     public void execute() {
-        m_claw.changeAngle(m_joystick.getRawAxis(0));
         m_claw.moveMotors();
     }
 

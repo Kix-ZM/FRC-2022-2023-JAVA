@@ -22,8 +22,7 @@ public class ClawClose extends CommandBase{
     // Relatively change claw by joystick
     @Override
     public void execute() {
-        m_claw.changeAngle(-1);
-        m_claw.moveMotors();
+        m_claw.clamp2();
     }
 
     // Called once the command ends or is interrupted.

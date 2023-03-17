@@ -131,7 +131,7 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_controller_drive));
     m_extensionMotor.setDefaultCommand(new ExtenderMove(m_extensionMotor));
     m_pivotMotor.setDefaultCommand(new PivotMove(m_pivotMotor));
-    m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor, m_controller_arm));
+    m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor));
 
     // Add joystick buttons to maps
     controllerButtons_drive.put("trigger", new JoystickButton(m_controller_drive, 1));
