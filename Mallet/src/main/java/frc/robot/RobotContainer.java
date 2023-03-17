@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoGroups.AutoGroup_Balance;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
+import frc.robot.commands.claw.ClawClose;
 import frc.robot.commands.claw.ClawMove;
+import frc.robot.commands.claw.ClawOpen;
 import frc.robot.commands.extend.ExtenderMove;
 import frc.robot.commands.extend.MoveExtenderBackwards;
 import frc.robot.commands.extend.MoveExtenderForward;
@@ -142,17 +144,23 @@ public class RobotContainer {
     // controllerButtons_arm.get("1").onTrue(new ClawClampToggle(m_clawMotor));
     controllerButtons_arm.get("1").toggleOnTrue(Commands.startEnd(m_clawMotor::clamp2, m_clawMotor::moveMotors, m_clawMotor));
     // retracts arm
-    controllerButtons_arm.get("2").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
+    controllerButtons_arm.get("4").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
     // extends arm
-    controllerButtons_arm.get("3").whileTrue(new MoveExtenderForward(m_extensionMotor));
+    controllerButtons_arm.get("5").whileTrue(new MoveExtenderForward(m_extensionMotor));
     // moves pivot down
-    controllerButtons_arm.get("4").whileTrue(new PivotDown(m_pivotMotor));
+    controllerButtons_arm.get("2").whileTrue(new PivotDown(m_pivotMotor));
     // moves pivot up
-    controllerButtons_arm.get("5").whileTrue(new PivotUp(m_pivotMotor));
+    controllerButtons_arm.get("3").whileTrue(new PivotUp(m_pivotMotor));
     // select cube mode
-    controllerButtons_arm.get("7").onTrue(new SetConeMode(m_limelight, m_clawMotor));
+    controllerButtons_arm.get("6").onTrue(new SetConeMode(m_limelight, m_clawMotor));
     // select cube mode
-    controllerButtons_arm.get("8").onTrue(new SetCubeMode(m_limelight, m_clawMotor));
+    controllerButtons_arm.get("7").onTrue(new SetCubeMode(m_limelight, m_clawMotor));
+    
+    controllerButtons_arm.get("8").whileTrue(new ClawClose(m_clawMotor));
+
+    controllerButtons_arm.get("9").whileTrue(new ClawOpen(m_clawMotor));
+
+
     // move arm to have a 30 degree with the floor
     controllerButtons_arm.get("10").onTrue(new PivotAngle(m_pivotMotor, 30));
     // move arm to have a 90 degree with the floor
