@@ -85,8 +85,14 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
+<<<<<<< Updated upstream
     main.add("Limelight", "CameraServer", "http://10.44.70.11:5800");
     main.add("Webcam", "CameraServer", "http://wpilibpi.local/1181");
+=======
+    initializeAutoChooer();
+    main.add("Limelight", "limelight", "http://10.44.70.11:5800");
+    main.add("Webcam", "Camera 0", "http://wpilibpi.local/1181");
+>>>>>>> Stashed changes
     String[] autoList = {"Leave Community", "Place and Leave", "Balance", "Place and Balance", "Leave and Balance", "Move Test", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
   }
@@ -182,6 +188,44 @@ public class RobotContainer {
     main.add(m_autoChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
   }
 
+  public Command getAutoInput(){
+    String autoName = SmartDashboard.getString("Auto Selector", "Default"); //Make "Default" the default option
+    System.out.println("Cal");
+    
+    Command activeAutoGroup;
+    switch(autoName) { //switch between autonomous modes
+      //drive forwards and leave the community
+      case "Leave Community":
+        activeAutoGroup = new AutoGroup_LeaveCommunity(m_drivetrain);
+        break;
+      //place a game piece and leave the community
+      case "Place and Leave":
+        activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro);
+        break;
+      //Drive forward until it reaches the platform then balance
+      case "Balance":
+        activeAutoGroup = new AutoGroup_Balance(m_drivetrain, m_gyro);
+        break;
+      //Place a game piece then drive forward and balance
+      case "Place and Balance":
+        activeAutoGroup = new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro);
+        break;
+      //Leave the community over the Charge station and get back on and balance
+      case "Leave and Balance":
+          activeAutoGroup = new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro);
+        break;
+      case "Move Test":
+        activeAutoGroup = new AutoGroup_MoveTest(m_drivetrain, m_gyro);
+        break;
+      //Default auto
+      default:
+        activeAutoGroup = new AutoGroup_Default(m_drivetrain);  
+        break;
+    }
+
+    return activeAutoGroup;
+  }
+  
   // At the beginning of auto
   public Command getAutoCommand(){
     return m_autoChooser.getSelected();

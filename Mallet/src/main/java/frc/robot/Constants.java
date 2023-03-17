@@ -20,8 +20,8 @@ public final class Constants {
     //Balancing
     public static final double K_PLAT_DEGREE_THRESH = 10; //angle at which the robot is considered to be on the platform
     public static final double K_BALANCE_THRESH_DEG = 4.2; //angle at within which the robot is considered to be balanced
-    public static final double K_FWD_SPEED = 0.35; //starting speed towards platform
-    public static final double K_ADJUST_SPEED = 0.2;  //speed to adjust angle or brake
+    public static final double K_FWD_SPEED = 0.3; //starting speed towards platform
+    public static final double K_ADJUST_SPEED = 0.22;  //speed to adjust angle or brake
     public static final double K_ADJUST_ROTATE = 0.1; //ask brent what this does
 
     // Vision constants 
