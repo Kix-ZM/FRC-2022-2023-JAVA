@@ -18,7 +18,7 @@ public class AutoGroup_Balance extends SequentialCommandGroup {
 
             // balance
             // new AutoBalance(drivetrain, gyro, false)
-            new AutoBalance(drivetrain, gyro, false)
+            new AutoBalanceV2(drivetrain, gyro, false)
         );
     }
 }

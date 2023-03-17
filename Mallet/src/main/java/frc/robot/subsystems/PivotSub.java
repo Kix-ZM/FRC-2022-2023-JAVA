@@ -35,7 +35,7 @@ public class PivotSub extends SubsystemBase{
   // Determines if we got to stop all movement on the motor
   private boolean isStopped = false;
   private double desiredAngle = 5;
-  private double maxAngle = 125;
+  private double maxAngle = 175;
   private double minAngle = 0;
   
   public PivotSub(){
@@ -93,10 +93,10 @@ public class PivotSub extends SubsystemBase{
           (twoMotors ? pivotMotors : motor1).setVoltage(calculatedVoltage);
         } else {
           (twoMotors ? pivotMotors : motor1).setVoltage(0);
-          if (!TopLimit.get())
-            maxAngle = encoder1.getPosition();
-          if (!BtmLimit.get())
-            minAngle = encoder1.getPosition();
+          // if (!TopLimit.get())
+          //   maxAngle = encoder1.getPosition();
+          // if (!BtmLimit.get())
+          //   minAngle = encoder1.getPosition();
         }
       }
     }

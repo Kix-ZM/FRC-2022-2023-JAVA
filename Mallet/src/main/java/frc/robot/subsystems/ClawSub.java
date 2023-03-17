@@ -4,6 +4,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.K_ClawSub;
 
@@ -46,6 +47,7 @@ public class ClawSub extends SubsystemBase{
       // encoder.setPositionConversionFactor(1);
       encoder.setPosition(0);
       motor.setInverted(true);
+      motor.setSmartCurrentLimit(8, 100);
     }
   }
 
@@ -110,13 +112,11 @@ public class ClawSub extends SubsystemBase{
     if(K_ClawSub.isUsingClaw){
       // if current not at max (current increases when motor experiences resistance / is clamped on something)
       // then keep clamping down
-      if (motor.getOutputCurrent() < currentLimit) {
-        motor.setVoltage(K_ClawSub.clampVoltage);
-      } 
-      if (motor.getOutputCurrent() >= currentLimit - 10) {
-        zeroEncoder();
-        desiredAngle = encoder.getPosition() + 90;
-      }
+      motor.setVoltage(K_ClawSub.clampVoltage);
+      // if (motor.getOutputCurrent() >= currentLimit - 10) {
+      //   zeroEncoder();
+      //   desiredAngle = encoder.getPosition() + 90;
+      // }
       isOpen = false;
     }
   }
@@ -203,5 +203,6 @@ public class ClawSub extends SubsystemBase{
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Claw Current", motor.getOutputCurrent());
   }
 }
