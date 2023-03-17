@@ -1,4 +1,4 @@
-.package frc.robot.commands.AutoGroups;
+package frc.robot.commands.AutoGroups;
 
 import frc.robot.subsystems.ClawSub;
 import frc.robot.subsystems.Drivetrain;
