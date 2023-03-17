@@ -46,7 +46,7 @@ public class ClawSub extends SubsystemBase{
       // encoder.setPositionConversionFactor(1);
       encoder.setPosition(0);
       motor.setInverted(true);
-      motor.setSmartCurrentLimit(8, 100);
+      motor.setSmartCurrentLimit(9, 100);
     }
   }
 
