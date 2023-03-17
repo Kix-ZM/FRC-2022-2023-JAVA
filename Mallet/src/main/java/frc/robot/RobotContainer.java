@@ -2,6 +2,7 @@ package frc.robot;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.subsystems.Drivetrain;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
@@ -51,12 +53,11 @@ public class RobotContainer {
   public static HashMap<String, Trigger> controllerButtons_drive = new HashMap<String, Trigger>();
 
   //SMARTDASHBOARD
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
-  SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
-  SequentialCommandGroup m_autoGroup = new SequentialCommandGroup();
+  private SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
+  private SequentialCommandGroup m_autoGroup = new SequentialCommandGroup();
 
   //SHUFFLEBOARD
-  ShuffleboardTab main = Shuffleboard.getTab("Driver's Tab");
+  private ShuffleboardTab main = Shuffleboard.getTab("Driver's Tab");
     //GYRO INFO
     private GenericEntry entry_GyroX = 
         main.add("Pitch (Up/Down)", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
@@ -67,22 +68,25 @@ public class RobotContainer {
     //CLAW INFO
      private GenericEntry entry_ClawEncoder = 
          main.add("Claw Encoder", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
-    // //PIVOT INFO
+    //PIVOT INFO
     private GenericEntry entry_PivotEncoder = 
       main.add("Pivot Encoder", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
     private GenericEntry entry_PivotMaxAngle = 
       main.add("Pivot Max Angle", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
-    // //EXTENSION INFO
+    //EXTENSION INFO
     private GenericEntry entry_ExtEncoder = 
       main.add("Ext Encoder", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
-    // //LIMELIGHT INFO
+    //LIMELIGHT INFO
     private GenericEntry entry_LimelightXOffset =
       main.add("LimelightXOffset", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
     private GenericEntry entry_LimelightYOffset =
       main.add("LimelightYOffset", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
+  
 
   public RobotContainer() {
     configureButtonBindings();
+    main.addCamera("Limelight", "limelight", "10.44.70.11:5800");
+    main.addCamera("Webcam", "webcam", "10.44.70.240:1181");
     String[] autoList = {"Leave Community", "Place and Leave", "Balance", "Place and Balance", "Leave and Balance", "Move Test", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
   }
@@ -167,43 +171,20 @@ public class RobotContainer {
     controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
   }
 
-  // At the beginning of auto
-  public Command getAutoInput(){
-    String autoName = SmartDashboard.getString("Auto Selector", "Default"); //Make "Default" the default option
-    System.out.println("Cal");
-    
-    Command activeAutoGroup;
-    switch(autoName) { //switch between autonomous modes
-      //drive forwards and leave the community
-      case "Leave Community":
-        activeAutoGroup = new AutoGroup_LeaveCommunity(m_drivetrain);
-        break;
-      //place a game piece and leave the community
-      case "Place and Leave":
-        activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro);
-        break;
-      //Drive forward until it reaches the platform then balance
-      case "Balance":
-        activeAutoGroup = new AutoGroup_Balance(m_drivetrain, m_gyro);
-        break;
-      //Place a game piece then drive forward and balance
-      case "Place and Balance":
-        activeAutoGroup = new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro);
-        break;
-      //Leave the community over the Charge station and get back on and balance
-      case "Leave and Balance":
-          activeAutoGroup = new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro);
-        break;
-      case "Move Test":
-        activeAutoGroup = new AutoGroup_MoveTest(m_drivetrain, m_gyro);
-        break;
-      //Default auto
-      default:
-        activeAutoGroup = new AutoGroup_Default(m_drivetrain);  
-        break;
-    }
+  public void initializeAutoChooer() {
+    m_autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
+    m_autoChooser.addOption("Leave Community", new AutoGroup_LeaveCommunity(m_drivetrain));
+    m_autoChooser.addOption("Place and Leave", new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro));
+    m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain, m_gyro));
+    m_autoChooser.addOption("Place and Balance", new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro));
+    m_autoChooser.addOption("Leave and Balance", new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro));
+    m_autoChooser.addOption("Move Test", new AutoGroup_MoveTest(m_drivetrain, m_gyro));
+    main.add(m_autoChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+  }
 
-    return activeAutoGroup;
+  // At the beginning of auto
+  public Command getAutoCommand(){
+    return m_autoChooser.getSelected();
   }
 
   public Command resetEncodersCommand(){

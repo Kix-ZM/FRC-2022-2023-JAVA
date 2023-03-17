@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
   //called when auto is selected
   @Override
   public void autonomousInit() {
-    m_robotContainer.getAutoInput().schedule();
+    m_robotContainer.getAutoCommand().schedule();
   }
 
   //called periodically when robot is in auto
