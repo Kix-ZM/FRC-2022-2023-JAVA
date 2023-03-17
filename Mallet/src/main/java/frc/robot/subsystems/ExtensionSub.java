@@ -79,14 +79,14 @@ public class ExtensionSub extends SubsystemBase{
     }
   }
 
-  public void setAngle (double angle) {
+  public void setPosition (double angle) {
     if(K_ExtSub.isUsingExt){
       desiredPosition = angle;
     }
   }
 
   //Returns the current angle
-  public double getCurentAngle(){
+  public double getCurrentPosition(){
     if(K_ExtSub.isUsingExt){
       return encoder.getPosition();
     }
@@ -94,7 +94,7 @@ public class ExtensionSub extends SubsystemBase{
   }
 
   //Returns the desired angle
-  public double getDesiredAngle(){
+  public double getDesiredPosition(){
     if(K_ExtSub.isUsingExt){
       return desiredPosition;
     }

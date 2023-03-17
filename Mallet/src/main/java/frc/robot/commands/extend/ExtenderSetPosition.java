@@ -7,12 +7,12 @@ import frc.robot.subsystems.ExtensionSub;
 public class ExtenderSetPosition extends CommandBase{
     // Required Subsystems
     private ExtensionSub m_extender;
-    private double m_finalAngle;
+    private double m_finalPosition;
 
     // Creation Function of the Class
-    public ExtenderSetPosition(ExtensionSub ext, double angle){
+    public ExtenderSetPosition(ExtensionSub ext, double position){
         m_extender = ext;
-        m_finalAngle = angle;
+        m_finalPosition = position;
         addRequirements(m_extender);
     }
 
@@ -20,7 +20,8 @@ public class ExtenderSetPosition extends CommandBase{
     //Sets the angle of the extender
     @Override
     public void initialize() {
-        m_extender.setAngle(m_finalAngle);
+        m_extender.setPosition(m_finalPosition);
+        m_extender.moveMotors();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

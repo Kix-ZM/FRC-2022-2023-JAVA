@@ -4,27 +4,27 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ExtensionSub;
 
 
-public class ExtenderMoveToPosition extends CommandBase{
+public class ExtenderSetPositionWaitForComplete extends CommandBase{
     // Required Subsystems
     private ExtensionSub m_extender;
-    private double m_finalAngle;
+    private double m_finalPosition;
 
     // Creation Function of the Class
-    public ExtenderMoveToPosition(ExtensionSub ext){
+    public ExtenderSetPositionWaitForComplete(ExtensionSub ext){
         m_extender = ext;
-        m_finalAngle = m_extender.getDesiredAngle();
+        m_finalPosition = m_extender.getDesiredPosition();
         addRequirements(m_extender);
     }
-    public ExtenderMoveToPosition(ExtensionSub ext, double angle){
+    public ExtenderSetPositionWaitForComplete(ExtensionSub ext, double position){
         m_extender = ext;
-        m_finalAngle = angle;
+        m_finalPosition = position;
         addRequirements(m_extender);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_extender.setAngle(m_finalAngle);
+        m_extender.setPosition(m_finalPosition);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -40,8 +40,9 @@ public class ExtenderMoveToPosition extends CommandBase{
     public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
+    // may backfire if extender due to voltage cannot reach within range
     @Override
     public boolean isFinished() {
-        return Math.abs(m_extender.getCurentAngle()-m_extender.getDesiredAngle()) < 2;
+        return Math.abs(m_extender.getCurrentPosition()-m_extender.getDesiredPosition()) < 1;
     }
 }
