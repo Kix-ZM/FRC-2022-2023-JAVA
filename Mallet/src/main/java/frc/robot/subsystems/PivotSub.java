@@ -150,6 +150,10 @@ public class PivotSub extends SubsystemBase{
     }
   }
 
+  public void resetDesiredToMin() {
+    desiredAngle = minAngle;
+  }
+
   // Stops the motor in case of emergency
   public void emergencyStop() {
     if(K_PivotSub.isUsingPivot){

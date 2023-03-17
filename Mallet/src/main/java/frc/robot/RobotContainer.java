@@ -220,4 +220,8 @@ public class RobotContainer {
   public static void resetPivotPosition() {
     m_pivotMotor.zeroEncoder();
   }
+
+  public static void resetDesiredAngle() {
+    m_pivotMotor.resetDesiredToMin();
+  }
 }

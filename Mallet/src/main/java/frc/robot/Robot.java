@@ -23,7 +23,9 @@ public class Robot extends TimedRobot {
 
   //called when the robot is disabled
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    RobotContainer.resetDesiredAngle();
+  }
 
   //called continuously while robot is disabled
   @Override
