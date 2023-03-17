@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.K_PivotSub;
 
@@ -84,6 +85,7 @@ public class PivotSub extends SubsystemBase{
         emergencyStop();
       else{
         double calculatedVoltage = (desiredAngle - encoder1.getPosition())/3;
+        System.out.println("Calced Voltage: " + calculatedVoltage);
         if (calculatedVoltage > K_PivotSub.pivotSpeed) {calculatedVoltage = K_PivotSub.pivotSpeed;}
         if (calculatedVoltage < -K_PivotSub.pivotSpeed) {calculatedVoltage = -K_PivotSub.pivotSpeed;}
 
@@ -93,7 +95,7 @@ public class PivotSub extends SubsystemBase{
           (twoMotors ? pivotMotors : motor1).setVoltage(0);
           if (!TopLimit.get())
             maxAngle = encoder1.getPosition();
-          else
+          if (!BtmLimit.get())
             minAngle = encoder1.getPosition();
         }
       }
@@ -131,7 +133,9 @@ public class PivotSub extends SubsystemBase{
   // If change is past min or max in either direction revert the change
   public void changeAngle (double increment) {
     if(K_PivotSub.isUsingPivot){
-      desiredAngle += increment;
+      if ((increment > 0 && TopLimit.get()) || (increment < 0 && BtmLimit.get())) {
+        desiredAngle += increment;
+      }
       if (desiredAngle > maxAngle) 
         desiredAngle= maxAngle;
       if (desiredAngle < minAngle) 
@@ -155,5 +159,8 @@ public class PivotSub extends SubsystemBase{
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("Bottom Limit", BtmLimit.get());
+
+    SmartDashboard.putBoolean("Top Limit", TopLimit.get());
   }
 }

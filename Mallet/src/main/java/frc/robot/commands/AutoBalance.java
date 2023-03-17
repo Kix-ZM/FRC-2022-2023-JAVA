@@ -13,7 +13,7 @@ public class AutoBalance extends CommandBase {
   
   /**
    * Creates a new AutoBalance. This command balances the robot on the charging station. 
-   * THIS WILL ONLY WORK IF THE ROBOT'S Y ANGLE STARTS OFF NEGATIVE (IMU orientation)
+   * THIS WILL ONLY WORK IF THE ROBOT'S X ANGLE STARTS OFF POSITIVE (IMU orientation)
    * This command does not terminate.
    *
    * @param drivetrain The drivetrain subsystem on which this command will run
@@ -42,7 +42,7 @@ public class AutoBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double pitchAngleDegrees = m_gyro.getAngleY();
+    double pitchAngleDegrees = m_gyro.getAngleX();
     if (!startBalancing)
     {
       m_drivetrain.arcadeDrive(backwardsScaler*Constants.K_FWD_SPEED, 0);
@@ -51,17 +51,17 @@ public class AutoBalance extends CommandBase {
         onPlatform = true;
       
       // if on platform and tilted to the other side of the charger
-      if (onPlatform && (backwardsScaler == 1 ? pitchAngleDegrees > 0 : pitchAngleDegrees < 0)) 
+      if (onPlatform && (backwardsScaler == 1 ? pitchAngleDegrees < 0 : pitchAngleDegrees > 0)) 
         startBalancing = true;
     }
     else {
       double yawAngleDegrees = m_gyro.getAngleZ();
       double toAdjustSpeed = 0;
       double toAdjustRotate = 0;
-      // if angle negative, go forwards
-      // if angle positive, go backwards
+      // if angle positive, go forwards
+      // if angle negative, go backwards
       if (Math.abs(pitchAngleDegrees) > Constants.K_BALANCE_THRESH_DEG)
-          toAdjustSpeed = pitchAngleDegrees < 0 // if tilted backwards
+          toAdjustSpeed = pitchAngleDegrees > 0 // if tilted backwards
               ? -Constants.K_ADJUST_SPEED // go forward
               : Constants.K_ADJUST_SPEED; // if tilted forwards go backwards
       if (Math.abs(yawAngleDegrees) > Constants.K_BALANCE_THRESH_DEG)

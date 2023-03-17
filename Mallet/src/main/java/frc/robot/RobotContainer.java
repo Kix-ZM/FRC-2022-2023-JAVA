@@ -57,23 +57,23 @@ public class RobotContainer {
   ShuffleboardTab main = Shuffleboard.getTab("Driver's Tab");
     //GYRO INFO
     private GenericEntry entry_GyroX = 
-        main.add("Gyro X Angle", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
-    private GenericEntry entry_GyroY = 
-        main.add("Gyro Y Angle", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+        main.add("Pitch (Up/Down)", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+    /*private GenericEntry entry_GyroY = 
+        main.add("Roll", 0).withWidget(BuiltInWidgets.kGyro).getEntry();*/
     private GenericEntry entry_GyroZ = 
-        main.add("Gyro Z Angle", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
+        main.add("Yaw (Side to Side)", 0).withWidget(BuiltInWidgets.kGyro).getEntry();
     //CLAW INFO
-    private GenericEntry entry_ClawEncoder = 
-        main.add("Claw Encoder", 0).withWidget(BuiltInWidgets.kEncoder).getEntry();
-    //PIVOT INFO
+     private GenericEntry entry_ClawEncoder = 
+         main.add("Claw Encoder", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
+    // //PIVOT INFO
     private GenericEntry entry_PivotEncoder = 
-      main.add("Pivot Encoder", 0).withWidget(BuiltInWidgets.kEncoder).getEntry();
+      main.add("Pivot Encoder", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
     private GenericEntry entry_PivotMaxAngle = 
       main.add("Pivot Max Angle", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
-    //EXTENSION INFO
+    // //EXTENSION INFO
     private GenericEntry entry_ExtEncoder = 
-      main.add("Ext Encoder", 0).withWidget(BuiltInWidgets.kEncoder).getEntry();
-    //LIMELIGHT INFO
+      main.add("Ext Encoder", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
+    // //LIMELIGHT INFO
     private GenericEntry entry_LimelightXOffset =
       main.add("LimelightXOffset", 0).withWidget(BuiltInWidgets.kTextView).getEntry();
     private GenericEntry entry_LimelightYOffset =
@@ -89,20 +89,20 @@ public class RobotContainer {
   public void updateShuffleboard(){
     //GYRO
     entry_GyroX.setDouble(m_gyro.getAngleX());
-    entry_GyroY.setDouble(m_gyro.getAngleY());
+    //entry_GyroY.setDouble(m_gyro.getAngleY()); DONT NEED ROLL - WILL LEAVE JUST IN CASE
     entry_GyroZ.setDouble(m_gyro.getAngleZ());
 
     //CLAW
     entry_ClawEncoder.setDouble(m_clawMotor.getClawEncoder().getPosition());
 
-    //PIVOT
+    // //PIVOT
     entry_PivotEncoder.setDouble(m_pivotMotor.getEncoder1().getPosition());
     entry_PivotMaxAngle.setDouble(m_pivotMotor.getMaxAngle());
 
-    //EXTENSION INFO
+    // //EXTENSION INFO
     entry_ExtEncoder.setDouble(m_extensionMotor.getEncoder().getPosition());
 
-    //LIMELIGHT INFO
+    // //LIMELIGHT INFO
     entry_LimelightXOffset.setDouble(m_limelight.getXOffset());
     entry_LimelightYOffset.setDouble(m_limelight.getYOffset());
   }
@@ -125,7 +125,7 @@ public class RobotContainer {
 
     //DRIVE CONTROLLER
     // rotate to target
-    controllerButtons_drive.get("trigger").onTrue(new AimCommand(m_drivetrain, m_limelight));
+    controllerButtons_drive.get("trigger").onTrue(new TurnToTarget(m_drivetrain, m_gyro, m_limelight));
     // turn to 180 degrees
     controllerButtons_drive.get("2").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
     // turn to 0 degrees
