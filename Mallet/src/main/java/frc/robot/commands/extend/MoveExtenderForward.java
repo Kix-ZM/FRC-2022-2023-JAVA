@@ -20,7 +20,7 @@ public class MoveExtenderForward extends CommandBase{
     // Tells the Extension Motor to go Forwards
     @Override
     public void execute() {
-        m_extender.changePosition(-.07);
+        m_extender.changePosition(-.3);
         m_extender.moveMotors();
     }
 

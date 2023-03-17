@@ -22,6 +22,7 @@ import frc.robot.commands.claw.ClawClose;
 import frc.robot.commands.claw.ClawMove;
 import frc.robot.commands.claw.ClawOpen;
 import frc.robot.commands.extend.ExtenderMove;
+import frc.robot.commands.extend.ExtenderMoveToZero;
 import frc.robot.commands.extend.MoveExtenderBackwards;
 import frc.robot.commands.extend.MoveExtenderForward;
 import frc.robot.commands.pivot.PivotAngle;
@@ -145,15 +146,15 @@ public class RobotContainer {
     // rotate to target
     controllerButtons_drive.get("trigger").onTrue(new TurnToTarget(m_drivetrain, m_gyro, m_limelight));
     // turn to 180 degrees
-    controllerButtons_drive.get("2").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
+    controllerButtons_drive.get("7").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
     // turn to 0 degrees
-    controllerButtons_drive.get("3").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 0));
+    controllerButtons_drive.get("6").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 0));
     // turn left 90 degrees
-    controllerButtons_drive.get("4").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
+    controllerButtons_drive.get("11").onTrue(new TurnBy(m_drivetrain, m_gyro, -90));
     // turn left 90 degrees
-    controllerButtons_drive.get("5").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
+    controllerButtons_drive.get("10").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
     // reset encoders
-    controllerButtons_drive.get("11").onTrue(resetEncodersCommand());
+    controllerButtons_drive.get("8").onTrue(resetEncodersCommand());
 
     //ARM CONTROLLER
     // toggle claw clamp
@@ -176,7 +177,7 @@ public class RobotContainer {
     //open claw
     controllerButtons_arm.get("9").whileTrue(new ClawOpen(m_clawMotor));
     // move arm to have a 30 degree with the floor
-    controllerButtons_arm.get("10").onTrue(new PivotAngle(m_pivotMotor, 30));
+    controllerButtons_arm.get("10").onTrue(new ExtenderMoveToZero(m_extensionMotor));
     // move arm to have a 90 degree with the floor
     controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
   }

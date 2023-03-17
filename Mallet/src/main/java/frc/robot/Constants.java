@@ -21,7 +21,7 @@ public final class Constants {
     public static final double K_PLAT_DEGREE_THRESH = 10; //angle at which the robot is considered to be on the platform
     public static final double K_BALANCE_THRESH_DEG = 4.2; //angle at within which the robot is considered to be balanced
     public static final double K_FWD_SPEED = 0.34; //starting speed towards platform
-    public static final double K_ADJUST_SPEED = 0.26;  //speed to adjust angle or brake
+    public static final double K_ADJUST_SPEED = .3;  //speed to adjust angle or brake
     public static final double K_ADJUST_ROTATE = 0.1; //ask brent what this does
 
     // Vision constants 
@@ -35,7 +35,7 @@ public final class Constants {
         public static final double calibrateStartingAngle = 0;
         public static final double calibrateEndingAngle = 9;
         public static final double calibrateAngleEncoderValue = 90.9325180053;
-        public static final double extSpeed = 2.2;
+        public static final double extSpeed = 4.5;
     }
 
     public static final class K_PivotSub {
@@ -51,8 +51,8 @@ public final class Constants {
         public static final double calibrateStartingAngle = 90;
         public static final double calibrateEndingAngle = 180;
         public static final double calibrateAngleEncoderValue = 9.57146931;
-        public static final double clampVoltage = 2.2;
-        public static final double coneMaxCurrent = 15;
-        public static final double cubeMaxCurrent = 15;
+        public static final double clampVoltage = 2;
+        public static final double coneMaxCurrent = .3;
+        public static final double cubeMaxCurrent = .2;
     }
 }
