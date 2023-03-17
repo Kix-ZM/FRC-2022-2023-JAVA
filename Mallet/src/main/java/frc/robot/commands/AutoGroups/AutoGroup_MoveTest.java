@@ -10,6 +10,7 @@ public class AutoGroup_MoveTest extends SequentialCommandGroup {
     //Variables
     private Drivetrain m_Drivetrain;
     public AutoGroup_MoveTest(Drivetrain drivetrain, GyroScope gyro){
+        System.out.println("AutoGroup_MoveTest");
         //Adding a drivetrain
         m_Drivetrain = drivetrain;
         //Adding Order of commands

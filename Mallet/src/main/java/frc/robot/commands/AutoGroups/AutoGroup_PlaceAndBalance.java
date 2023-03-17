@@ -10,6 +10,7 @@ public class AutoGroup_PlaceAndBalance extends SequentialCommandGroup {
     //Variables
     private Drivetrain m_Drivetrain;
     public AutoGroup_PlaceAndBalance(Drivetrain drivetrain, GyroScope gyro){
+        System.out.println("AutoGroup_PlaceAndBalance");
         //Adding a drivetrain
         m_Drivetrain = drivetrain;
         //Adding Order of commands

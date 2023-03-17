@@ -12,6 +12,7 @@ public class AutoGroup_PlaceAndLeave extends SequentialCommandGroup {
     private GyroScope m_gyro;
 
     public AutoGroup_PlaceAndLeave(Drivetrain drivetrain, GyroScope gyro){
+        System.out.println("AutoGroup_PlaceAndLeave");
         //Adding a drivetrain
         m_drivetrain = drivetrain;
         m_gyro = gyro;
