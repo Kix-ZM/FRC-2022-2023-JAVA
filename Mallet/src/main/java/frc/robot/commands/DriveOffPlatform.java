@@ -36,6 +36,8 @@ public class DriveOffPlatform extends CommandBase {
   public void execute() {
     // drive forward until on platform
     m_drivetrain.arcadeDrive(Constants.K_FWD_SPEED, 0);
+    //System.out.println(Math.abs(m_drivetrain.getAverageDistanceInch() - startingEncoderVal));
+    //System.out.println(m_gyro.getAngleX());
   }
 
   // Called once the command ends or is interrupted.
@@ -46,6 +48,6 @@ public class DriveOffPlatform extends CommandBase {
   @Override
   public boolean isFinished() {
     // end when on platform
-    return Math.abs(m_gyro.getAngleY()) < 1.0 && Math.abs(m_drivetrain.getAverageDistanceInch() - startingEncoderVal) > 7 * Constants.K_TICKS_PER_FEET;
+    return (Math.abs(m_gyro.getAngleX()) < 1.0) && (Math.abs(m_drivetrain.getAverageDistanceInch() - startingEncoderVal) > 6.5 * Constants.K_TICKS_PER_FEET);
   }
 }

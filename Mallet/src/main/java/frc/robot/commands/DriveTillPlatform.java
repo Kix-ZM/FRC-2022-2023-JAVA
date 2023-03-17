@@ -45,6 +45,6 @@ public class DriveTillPlatform extends CommandBase {
   @Override
   public boolean isFinished() {
     // end when on platform
-    return Math.abs(m_gyro.getAngleY()) > Constants.K_PLAT_DEGREE_THRESH;
+    return Math.abs(m_gyro.getAngleX()) > Constants.K_PLAT_DEGREE_THRESH;
   }
 }
