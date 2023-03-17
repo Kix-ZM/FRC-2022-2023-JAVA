@@ -85,7 +85,7 @@ public class PivotSub extends SubsystemBase{
         emergencyStop();
       else{
         double calculatedVoltage = (desiredAngle - encoder1.getPosition())/3;
-        System.out.println("Calced Voltage: " + calculatedVoltage);
+        //System.out.println("Calced Voltage: " + calculatedVoltage);
         if (calculatedVoltage > K_PivotSub.pivotSpeed) {calculatedVoltage = K_PivotSub.pivotSpeed;}
         if (calculatedVoltage < -K_PivotSub.pivotSpeed) {calculatedVoltage = -K_PivotSub.pivotSpeed;}
 
