@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class Group_RetractAll extends SequentialCommandGroup {
     
 
-    public Group_RetractAll(Drivetrain m_drivetrain, PivotSub m_pivotMotor, ExtensionSub m_extensionMotor ){
+    public Group_RetractAll(PivotSub m_pivotMotor, ExtensionSub m_extensionMotor ){
         
         addCommands(
             new ExtenderSetPositionWaitForComplete(m_extensionMotor, 0),

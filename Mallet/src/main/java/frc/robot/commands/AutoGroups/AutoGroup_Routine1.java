@@ -1,4 +1,4 @@
-package frc.robot.commands.AutoGroups;
+.package frc.robot.commands.AutoGroups;
 
 import frc.robot.subsystems.ClawSub;
 import frc.robot.subsystems.Drivetrain;
@@ -26,7 +26,6 @@ public class AutoGroup_Routine1 extends SequentialCommandGroup {
             new PivotAngle(m_pivotMotor, 105),
             new ExtenderSetPosition(m_extensionMotor, 9),
             new ClawOpen(m_clawMotor),
-            new 
 
             new MoveDistance(m_Drivetrain, Constants.K_FORWARDS_FEET, false)
         );
