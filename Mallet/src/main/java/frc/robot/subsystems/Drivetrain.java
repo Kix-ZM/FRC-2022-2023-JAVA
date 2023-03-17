@@ -1,85 +1,61 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-// import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-// import frc.robot.sensors.RomiGyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-// import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
-  
-
-  // The Romi has the left and right motors set to
-  // PWM channels 0 and 1 respectively
-  // private final Spark m_leftMotor = new Spark(0);
-  //private final Spark m_rightMotor = new Spark(1);
-
   private final CANSparkMax m_flMotor = new CANSparkMax(3, MotorType.kBrushless);
   private final CANSparkMax m_blMotor = new CANSparkMax(4, MotorType.kBrushless);
   MotorControllerGroup m_left = new MotorControllerGroup(m_flMotor, m_blMotor);
-  
   private final CANSparkMax m_frMotor = new CANSparkMax(1, MotorType.kBrushless);
   private final CANSparkMax m_brMotor = new CANSparkMax(2, MotorType.kBrushless);
   MotorControllerGroup m_right = new MotorControllerGroup(m_frMotor, m_brMotor);
-  
-  // The Romi has onboard encoders that are hardcoded
-  // to use DIO pins 4/5 and 6/7 for the left and right
+
   private final RelativeEncoder m_leftEncoder = m_flMotor.getEncoder();
   private final RelativeEncoder m_rightEncoder = m_frMotor.getEncoder();
   private final RelativeEncoder m_leftBackEncoder = m_blMotor.getEncoder();
   private final RelativeEncoder m_rightBackEncoder = m_brMotor.getEncoder();
 
   // Set up the differential drive controller
-  // private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
-  private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_brMotor, m_frMotor);
-
-
-  // Set up the RomiGyro
-  // private final RomiGyro m_gyro = new RomiGyro();
+  private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_left, m_right);
+ // private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_brMotor, m_frMotor);
 
   // Set up the BuiltInAccelerometer
   private final BuiltInAccelerometer m_accelerometer = new BuiltInAccelerometer();
 
+  private double balancePosition;
+
   /** Creates a new Drivetrain. */
   public Drivetrain() {
-    // We need to invert one side of the drivetrain so that positive voltages
-    // result in both sides moving forward. Depending on how your robot's
-    // gearbox is constructed, you might have to invert the left side instead.
+    m_flMotor.setIdleMode(IdleMode.kBrake);
+    m_blMotor.setIdleMode(IdleMode.kBrake);
+    m_frMotor.setIdleMode(IdleMode.kBrake);
+    m_brMotor.setIdleMode(IdleMode.kBrake);
+    // We need to invert one side of the drivetrain so that positive voltages result in both sides moving forward. Depending on how your robot's gearbox is constructed, you might have to invert the left side instead.
     m_brMotor.setInverted(true);
     m_frMotor.setInverted(true);
-
-    m_brMotor.restoreFactoryDefaults();
-
-    // Use inches as unit for encoder distances
-    // m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    // m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    m_leftEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
-    m_rightEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
-    m_leftBackEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
-    m_rightBackEncoder.setPositionConversionFactor(Constants.kWheelDiameterInch);
+    m_leftEncoder.setPositionConversionFactor(Constants.K_WHEEL_DIAMETER_INCH);
+    m_rightEncoder.setPositionConversionFactor(Constants.K_WHEEL_DIAMETER_INCH);
+    m_leftBackEncoder.setPositionConversionFactor(Constants.K_WHEEL_DIAMETER_INCH);
+    m_rightBackEncoder.setPositionConversionFactor(Constants.K_WHEEL_DIAMETER_INCH);
     
     resetEncoders();
   }
-
   //testing single motor
   public CANSparkMax getTestMotor() {
     return m_brMotor;
   }
 
+  // negative is forward or to the right
   public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-    m_diffDrive.arcadeDrive(xaxisSpeed, zaxisRotate);
+    m_diffDrive.arcadeDrive(xaxisSpeed, .5*zaxisRotate);
   }
 
   public void resetEncoders() {
@@ -92,7 +68,23 @@ public class Drivetrain extends SubsystemBase {
   public void runTest(double speed){
     m_brMotor.set(speed);
   }
-  // FOr when the time calls for it, run this
+
+  public void setBalanceToCurrentPos(boolean backwards) {
+    if (!backwards)
+      balancePosition = getAverageDistanceInch()-30;
+    else 
+      balancePosition = getAverageDistanceInch()+30;
+  }
+
+  public void balance() {
+    double speed = (balancePosition - getAverageDistanceInch())/4;
+    if (Math.abs(speed) > .45) {
+      speed = speed > 0 ? .45 : -.45;
+    }
+    arcadeDrive(speed, 0);
+  }
+
+  // For when the time calls for it, run this
   public void stopMotors(){
     m_diffDrive.arcadeDrive(0, 0);
   }
@@ -130,11 +122,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftAverageDistanceInch(){
-    return (getLeftDistanceInch() + getLeftBackDistanceInch()) / 2.0;
+    return ((getLeftDistanceInch()) + (getLeftBackDistanceInch())) / 2.0;
   }
 
   public double getRightAverageDistanceInch(){
-    return (getRightDistanceInch() + getRightBackDistanceInch()) / 2.0;
+    return ((getRightDistanceInch()) + (getRightBackDistanceInch())) / 2.0;
   }
 
   public double getAverageDistanceInch() {
