@@ -10,6 +10,7 @@ public class AutoGroup_Default extends SequentialCommandGroup {
     //Variables
     private Drivetrain m_Drivetrain;
     public AutoGroup_Default(Drivetrain drivetrain){
+        System.out.println("AutoGroup_Default");
         //Adding a drivetrain
         m_Drivetrain = drivetrain;
         //Adding Order of commands

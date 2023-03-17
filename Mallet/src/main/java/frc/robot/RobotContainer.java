@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -53,8 +54,7 @@ public class RobotContainer {
   public static HashMap<String, Trigger> controllerButtons_drive = new HashMap<String, Trigger>();
 
   //SMARTDASHBOARD
-  private SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
-  private SequentialCommandGroup m_autoGroup = new SequentialCommandGroup();
+  private SendableChooser<String> m_autoChooser = new SendableChooser<String>();
 
   //SHUFFLEBOARD
   private ShuffleboardTab main = Shuffleboard.getTab("Driver's Tab");
@@ -114,6 +114,17 @@ public class RobotContainer {
     entry_LimelightYOffset.setDouble(m_limelight.getYOffset());
   }
 
+  public void initializeAutoChooser() {
+    m_autoChooser.setDefaultOption("Do Nothing", "Do Nothing");
+    //m_autoChooser.addOption("Leave Community", new AutoGroup_LeaveCommunity(m_drivetrain));
+    m_autoChooser.addOption("Place and Leave", "Place and Leave");
+    //m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain, m_gyro));
+    m_autoChooser.addOption("Place and Balance", "Place and Balance");
+    m_autoChooser.addOption("Leave and Balance", "Leave and Balance");
+    //m_autoChooser.addOption("Move Test", new AutoGroup_MoveTest(m_drivetrain, m_gyro));
+    SmartDashboard.putData(m_autoChooser);
+  }
+
   //assign button functions
   private void configureButtonBindings() {
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, m_controller_drive));
@@ -170,20 +181,9 @@ public class RobotContainer {
     controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
   }
 
-  public void initializeAutoChooser() {
-    m_autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
-    //m_autoChooser.addOption("Leave Community", new AutoGroup_LeaveCommunity(m_drivetrain));
-    m_autoChooser.addOption("Place and Leave", new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro));
-    //m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain, m_gyro));
-    m_autoChooser.addOption("Place and Balance", new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro));
-    m_autoChooser.addOption("Leave and Balance", new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro));
-    //m_autoChooser.addOption("Move Test", new AutoGroup_MoveTest(m_drivetrain, m_gyro));
-    main.add(m_autoChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
-  }
-
   public Command getAutoInput(){
-    String autoName = SmartDashboard.getString("Auto Selector", "Default"); //Make "Default" the default option
-    System.out.println("Cal");
+    String autoName = m_autoChooser.getSelected(); //Make "Default" the default option
+    System.out.println(autoName);
     
     Command activeAutoGroup;
     switch(autoName) { //switch between autonomous modes
@@ -218,11 +218,6 @@ public class RobotContainer {
     }
 
     return activeAutoGroup;
-  }
-  
-  // At the beginning of auto
-  public Command getAutoCommand(){
-    return m_autoChooser.getSelected();
   }
 
   public Command resetEncodersCommand(){

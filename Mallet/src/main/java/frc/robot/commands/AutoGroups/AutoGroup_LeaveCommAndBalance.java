@@ -13,6 +13,7 @@ public class AutoGroup_LeaveCommAndBalance extends SequentialCommandGroup {
     private GyroScope m_gyro;
 
     public AutoGroup_LeaveCommAndBalance(Drivetrain drivetrain, GyroScope gyro){
+        System.out.println("AutoGroup_LeaveCommAndBalance");
         m_drivetrain = drivetrain;
         m_gyro = gyro;
 

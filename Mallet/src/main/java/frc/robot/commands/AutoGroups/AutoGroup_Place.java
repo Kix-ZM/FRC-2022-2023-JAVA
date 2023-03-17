@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class AutoGroup_Place extends SequentialCommandGroup {
     //Variables
     public AutoGroup_Place(Drivetrain drivetrain, GyroScope gyro, ClawSub claw, ExtensionSub extend, PivotSub pivot){
+        System.out.println("AutoGroup_Place");
         //Adding a drivetrain
         //Adding Order of commands
 

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class AutoGroup_Balance extends SequentialCommandGroup {
     //Variables
     public AutoGroup_Balance(Drivetrain drivetrain, GyroScope gyro){
+        System.out.println("AutoGroup_Balance");
         //Adding a drivetrain
         //Adding Order of commands
 
