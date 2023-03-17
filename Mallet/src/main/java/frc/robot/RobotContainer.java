@@ -87,6 +87,7 @@ public class RobotContainer {
     configureButtonBindings();
     main.add("Limelight", "CameraServer", "http://10.44.70.11:5800");
     main.add("Webcam", "CameraServer", "http://wpilibpi.local/1181");
+    initializeAutoChooser();
     String[] autoList = {"Leave Community", "Place and Leave", "Balance", "Place and Balance", "Leave and Balance", "Move Test", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
   }
@@ -171,7 +172,7 @@ public class RobotContainer {
     controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
   }
 
-  public void initializeAutoChooer() {
+  public void initializeAutoChooser() {
     m_autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
     m_autoChooser.addOption("Leave Community", new AutoGroup_LeaveCommunity(m_drivetrain));
     m_autoChooser.addOption("Place and Leave", new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro));
