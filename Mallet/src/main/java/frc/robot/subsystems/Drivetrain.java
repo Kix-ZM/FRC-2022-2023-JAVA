@@ -30,6 +30,8 @@ public class Drivetrain extends SubsystemBase {
   // Set up the BuiltInAccelerometer
   private final BuiltInAccelerometer m_accelerometer = new BuiltInAccelerometer();
 
+  private double balancePosition;
+
   /** Creates a new Drivetrain. */
   public Drivetrain() {
     m_flMotor.setIdleMode(IdleMode.kBrake);
@@ -66,6 +68,22 @@ public class Drivetrain extends SubsystemBase {
   public void runTest(double speed){
     m_brMotor.set(speed);
   }
+
+  public void setBalanceToCurrentPos(boolean backwards) {
+    if (!backwards)
+      balancePosition = getAverageDistanceInch()-30;
+    else 
+      balancePosition = getAverageDistanceInch()+30;
+  }
+
+  public void balance() {
+    double speed = (balancePosition - getAverageDistanceInch())/4;
+    if (Math.abs(speed) > .45) {
+      speed = speed > 0 ? .45 : -.45;
+    }
+    arcadeDrive(speed, 0);
+  }
+
   // For when the time calls for it, run this
   public void stopMotors(){
     m_diffDrive.arcadeDrive(0, 0);

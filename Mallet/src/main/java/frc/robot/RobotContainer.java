@@ -85,14 +85,8 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
-<<<<<<< Updated upstream
     main.add("Limelight", "CameraServer", "http://10.44.70.11:5800");
     main.add("Webcam", "CameraServer", "http://wpilibpi.local/1181");
-=======
-    initializeAutoChooer();
-    main.add("Limelight", "limelight", "http://10.44.70.11:5800");
-    main.add("Webcam", "Camera 0", "http://wpilibpi.local/1181");
->>>>>>> Stashed changes
     String[] autoList = {"Leave Community", "Place and Leave", "Balance", "Place and Balance", "Leave and Balance", "Move Test", "Default"};
     SmartDashboard.putStringArray("Auto List", autoList);
   }
