@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoGroups.AutoGroup_Balance;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
+import frc.robot.commands.PositioningGroups.Group_RetractAll;
 import frc.robot.commands.claw.ClawClose;
 import frc.robot.commands.claw.ClawMove;
 import frc.robot.commands.claw.ClawOpen;
@@ -31,6 +32,7 @@ import frc.robot.commands.pivot.PivotMove;
 import frc.robot.commands.pivot.PivotUp;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_Default;
+import frc.robot.commands.AutoGroups.AutoGroup_Kirwan;
 import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommunity;
 import frc.robot.commands.AutoGroups.AutoGroup_MoveTest;
@@ -155,6 +157,7 @@ public class RobotContainer {
     controllerButtons_drive.get("10").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
     // reset encoders
     controllerButtons_drive.get("8").onTrue(resetEncodersCommand());
+    controllerButtons_drive.get("9").onTrue(new AutoGroup_Kirwan(m_pivotMotor, m_extensionMotor, m_clawMotor));
 
     //ARM CONTROLLER
     // toggle claw clamp
@@ -176,10 +179,11 @@ public class RobotContainer {
     controllerButtons_arm.get("8").whileTrue(new ClawClose(m_clawMotor));
     //open claw
     controllerButtons_arm.get("9").whileTrue(new ClawOpen(m_clawMotor));
-    // move arm to have a 30 degree with the floor
-    controllerButtons_arm.get("10").onTrue(new ExtenderMoveToZero(m_extensionMotor));
+
+    controllerButtons_arm.get("10").onTrue(new Group_RetractAll(m_pivotMotor, m_extensionMotor));
     // move arm to have a 90 degree with the floor
-    controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
+    controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 120));
+
   }
 
   public Command getAutoInput(){

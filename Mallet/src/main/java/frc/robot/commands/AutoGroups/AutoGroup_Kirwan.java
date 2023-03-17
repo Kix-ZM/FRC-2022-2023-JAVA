@@ -17,7 +17,7 @@ public class AutoGroup_Kirwan extends SequentialCommandGroup {
         m_clawMotor.setDefaultCommand(new ClawClose(m_clawMotor));
         addCommands(
             new PivotAngle(m_pivotMotor, 100),
-            new ExtenderSetPositionWaitForComplete(m_extensionMotor, 9)
+            new ExtenderSetPositionWaitForComplete(m_extensionMotor, -9)
         );
         m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor));
         addCommands(
