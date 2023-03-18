@@ -207,7 +207,7 @@ public class RobotContainer {
         break;
       //Place a game piece then drive forward and balance
       case "Place and Balance":
-        activeAutoGroup = new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro);
+        activeAutoGroup = new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor);
         break;
       //Leave the community over the Charge station and get back on and balance
       case "Leave and Balance":
