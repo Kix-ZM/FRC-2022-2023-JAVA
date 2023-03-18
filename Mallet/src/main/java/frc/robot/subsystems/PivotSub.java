@@ -57,7 +57,7 @@ public class PivotSub extends SubsystemBase{
       motor1.setIdleMode(IdleMode.kBrake);
 
       // set conversion factor so getPosition returns degrees
-      encoder1.setPositionConversionFactor((K_PivotSub.calibrateEndingAngle-K_PivotSub.calibrateStartingAngle) / K_PivotSub.calibrateAngleEncoderValue);
+      //encoder1.setPositionConversionFactor((K_PivotSub.calibrateEndingAngle-K_PivotSub.calibrateStartingAngle) / K_PivotSub.calibrateAngleEncoderValue);
       // set conversion ratio to 1 ONLY FOR CALIBRATING FOR ANGLE
       // encoder1.setPositionConversionFactor(1);
 
