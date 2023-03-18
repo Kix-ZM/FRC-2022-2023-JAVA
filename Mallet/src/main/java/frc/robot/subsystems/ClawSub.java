@@ -143,7 +143,7 @@ public class ClawSub extends SubsystemBase{
   }
 
   //Return the intended angle of the motor
-  public double getDesiredAngle(){
+  public double getOpenPosition(){
     if(K_ClawSub.isUsingClaw){
       return desiredAngle;
     }
