@@ -183,7 +183,7 @@ public class RobotContainer {
 
     controllerButtons_arm.get("10").onTrue(new Group_RetractAll(m_pivotMotor, m_extensionMotor));
     // move arm to have a 90 degree with the floor
-    controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 125));
+    controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
 
   }
 

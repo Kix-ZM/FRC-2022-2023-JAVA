@@ -26,7 +26,7 @@ public class AutoGroup_PlaceAndBalance extends SequentialCommandGroup {
             new ResetEncoders(this.m_Drivetrain),
             new ClawClose(m_clawMotor),
             new WaitCommand(.5),
-            new PivotAngle(m_pivotMotor, 110),
+            new PivotAngle(m_pivotMotor, 90),
             new ExtenderSetPositionWaitForComplete(m_extensionMotor, -12),
             new ClawOpen(m_clawMotor),
             new WaitCommand(.5),

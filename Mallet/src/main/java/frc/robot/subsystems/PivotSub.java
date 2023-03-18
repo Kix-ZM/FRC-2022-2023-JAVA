@@ -34,7 +34,7 @@ public class PivotSub extends SubsystemBase{
 
   // Determines if we got to stop all movement on the motor
   private boolean isStopped = false;
-  private double desiredAngle = 5;
+  private double desiredAngle = 6;
   private double maxAngle = 175;
   private double minAngle = 0;
   
@@ -57,11 +57,11 @@ public class PivotSub extends SubsystemBase{
       motor1.setIdleMode(IdleMode.kBrake);
 
       // set conversion factor so getPosition returns degrees
-      //encoder1.setPositionConversionFactor((K_PivotSub.calibrateEndingAngle-K_PivotSub.calibrateStartingAngle) / K_PivotSub.calibrateAngleEncoderValue);
+      encoder1.setPositionConversionFactor((K_PivotSub.calibrateEndingAngle-K_PivotSub.calibrateStartingAngle) / K_PivotSub.calibrateAngleEncoderValue);
       // set conversion ratio to 1 ONLY FOR CALIBRATING FOR ANGLE
       // encoder1.setPositionConversionFactor(1);
 
-      encoder1.setPosition(0);
+      encoder1.setPosition(6);
       desiredAngle = encoder1.getPosition();
     }
   }
@@ -80,23 +80,27 @@ public class PivotSub extends SubsystemBase{
   // Adjusts voltage / motor speed based on difference between current and desired angle
   // Maintains 
   public void moveMotors(){
-    // if(K_PivotSub.isUsingPivot){
-    //   if(isStopped)
-    //     emergencyStop();
-    //   else{
-    //     double calculatedVoltage = (desiredAngle - encoder1.getPosition())/3;
-    //     //System.out.println("Calced Voltage: " + calculatedVoltage);
-    //     if (calculatedVoltage > K_PivotSub.pivotSpeed) {calculatedVoltage = K_PivotSub.pivotSpeed;}
-    //     if (calculatedVoltage < -K_PivotSub.pivotSpeed) {calculatedVoltage = -K_PivotSub.pivotSpeed;}
+    if(K_PivotSub.isUsingPivot){
+      if(isStopped)
+        emergencyStop();
+      else{
+        double calculatedVoltage = (desiredAngle - encoder1.getPosition())/3;
+        //System.out.println("Calced Voltage: " + calculatedVoltage);
+        if (calculatedVoltage > K_PivotSub.pivotSpeed) {calculatedVoltage = K_PivotSub.pivotSpeed;}
+        if (calculatedVoltage < -K_PivotSub.pivotSpeed) {calculatedVoltage = -K_PivotSub.pivotSpeed;}
 
-    //     if ((calculatedVoltage > 0 && TopLimit.get()) || (calculatedVoltage < 0 && BtmLimit.get())) {
-    //       (twoMotors ? pivotMotors : motor1).setVoltage(calculatedVoltage);
-    //     } else {
-    //       (twoMotors ? pivotMotors : motor1).setVoltage(0);
-    //       // removed set soft min/maxes on limits
-    //     }
-    //   }
-    // }
+        if ((calculatedVoltage > 0 && TopLimit.get()) || (calculatedVoltage < 0 && BtmLimit.get())) {
+          (twoMotors ? pivotMotors : motor1).setVoltage(calculatedVoltage);
+        } else {
+          (twoMotors ? pivotMotors : motor1).setVoltage(0);
+          // removed set soft min/maxes on limits
+          if (!BtmLimit.get())
+            encoder1.setPosition(6);
+          if (!TopLimit.get())
+            encoder1.setPosition(120);
+        }
+      }
+    }
   }
 
   // sets the desired angle to set angle to
