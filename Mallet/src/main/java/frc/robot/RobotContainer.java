@@ -9,14 +9,11 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoGroups.AutoGroup_Balance;
-import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
 import frc.robot.commands.PositioningGroups.Group_RetractAll;
 import frc.robot.commands.claw.ClawClose;
 import frc.robot.commands.claw.ClawCloseV2;
@@ -37,7 +34,7 @@ import frc.robot.commands.pivot.PivotMove;
 import frc.robot.commands.pivot.PivotUp;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_Default;
-import frc.robot.commands.AutoGroups.AutoGroup_Kirwan;
+import frc.robot.commands.AutoGroups.AutoGroup_TopDrop;
 import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommunity;
 import frc.robot.commands.AutoGroups.AutoGroup_MoveTest;
@@ -169,7 +166,7 @@ public class RobotContainer {
     controllerButtons_drive.get("10").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
     // reset encoders
     controllerButtons_drive.get("8").onTrue(resetEncodersCommand());
-    // controllerButtons_drive.get("9").onTrue(new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor));
+     controllerButtons_drive.get("9").onTrue(new AutoGroup_TopDrop(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
 
 
     //ARM CONTROLLER
@@ -211,7 +208,8 @@ public class RobotContainer {
         break;
       // place a game piece and leave the community
       case "Place and Leave":
-        activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro);
+        // activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor);
+        activeAutoGroup = null;
         break;
       // Drive forward until it reaches the platform then balance
       case "Balance":

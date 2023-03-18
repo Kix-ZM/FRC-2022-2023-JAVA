@@ -51,7 +51,7 @@ public final class Constants {
         public static final double calibrateStartingAngle = 90;
         public static final double calibrateEndingAngle = 180;
         public static final double calibrateAngleEncoderValue = 9.57146931;
-        public static final double clampVoltage = 2;
+        public static final double clampVoltage = 1.5;
         public static final double coneMaxCurrent = .3;
         public static final double cubeMaxCurrent = .2;
     }

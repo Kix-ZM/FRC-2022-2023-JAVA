@@ -3,7 +3,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.K_ClawSub;
 
@@ -19,7 +19,7 @@ public class ClawSubV2 extends SubsystemBase{
 
   // close close to full clamp point
   private boolean isOpen = true;
-  private boolean isStopped = false;
+  //private boolean isStopped = false;
   
   public ClawSubV2(){
     if(K_ClawSub.isUsingClaw){
@@ -34,10 +34,10 @@ public class ClawSubV2 extends SubsystemBase{
 
       // set original position which should represent original position
       encoder.setPosition(0);
-      openPosition = encoder.getPosition();
+      openPosition = 0;
 
       // control grab strength
-      motor.setSmartCurrentLimit(9, 100);
+      motor.setSmartCurrentLimit(8, 100);
     }
   }
 
@@ -63,8 +63,6 @@ public class ClawSubV2 extends SubsystemBase{
           calculatedVoltage = calculatedVoltage > 0 ? K_ClawSub.clampVoltage : -K_ClawSub.clampVoltage;
         motor.setVoltage(calculatedVoltage);
         // if open position is somehow negative past clamp position then set it back so its open
-        if (openPosition < encoder.getPosition() && motor.getOutputCurrent() > 5)
-          openPosition += 100;
       }
       else {
         motor.setVoltage(K_ClawSub.clampVoltage);
@@ -98,6 +96,7 @@ public class ClawSubV2 extends SubsystemBase{
     if(K_ClawSub.isUsingClaw){
       // controller deadzone
         openPosition += increment;
+        SmartDashboard.putBoolean("Incrementing", true);
     }
   }
 
@@ -122,5 +121,7 @@ public class ClawSubV2 extends SubsystemBase{
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
+    SmartDashboard.putNumber("Claw Open Position", openPosition);
   }
 }

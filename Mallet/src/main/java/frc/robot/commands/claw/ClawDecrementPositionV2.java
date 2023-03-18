@@ -24,7 +24,6 @@ public class ClawDecrementPositionV2 extends CommandBase {
     @Override
     public void execute() {
         m_claw.changeOpenPosition(-20/50);
-        m_claw.moveClaw();
     }
 
     // Called once the command ends or is interrupted.

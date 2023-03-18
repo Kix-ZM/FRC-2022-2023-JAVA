@@ -32,7 +32,7 @@ public class PivotAngle extends CommandBase{
     public void execute() {
 
         // 4 degrees per second
-        m_pivot.changeAngle(directionScalar * 30.0/50.0);
+        m_pivot.changeAngle(directionScalar * 20.0/50.0);
         m_pivot.moveMotors();
         m_currentAngle = m_pivot.getCurrentAngle();
     }
