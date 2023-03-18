@@ -61,7 +61,7 @@ public class PivotSub extends SubsystemBase{
       // set conversion ratio to 1 ONLY FOR CALIBRATING FOR ANGLE
       // encoder1.setPositionConversionFactor(1);
 
-      encoder1.setPosition(5);
+      encoder1.setPosition(0);
       desiredAngle = encoder1.getPosition();
     }
   }
@@ -80,23 +80,23 @@ public class PivotSub extends SubsystemBase{
   // Adjusts voltage / motor speed based on difference between current and desired angle
   // Maintains 
   public void moveMotors(){
-    if(K_PivotSub.isUsingPivot){
-      if(isStopped)
-        emergencyStop();
-      else{
-        double calculatedVoltage = (desiredAngle - encoder1.getPosition())/3;
-        //System.out.println("Calced Voltage: " + calculatedVoltage);
-        if (calculatedVoltage > K_PivotSub.pivotSpeed) {calculatedVoltage = K_PivotSub.pivotSpeed;}
-        if (calculatedVoltage < -K_PivotSub.pivotSpeed) {calculatedVoltage = -K_PivotSub.pivotSpeed;}
+    // if(K_PivotSub.isUsingPivot){
+    //   if(isStopped)
+    //     emergencyStop();
+    //   else{
+    //     double calculatedVoltage = (desiredAngle - encoder1.getPosition())/3;
+    //     //System.out.println("Calced Voltage: " + calculatedVoltage);
+    //     if (calculatedVoltage > K_PivotSub.pivotSpeed) {calculatedVoltage = K_PivotSub.pivotSpeed;}
+    //     if (calculatedVoltage < -K_PivotSub.pivotSpeed) {calculatedVoltage = -K_PivotSub.pivotSpeed;}
 
-        if ((calculatedVoltage > 0 && TopLimit.get()) || (calculatedVoltage < 0 && BtmLimit.get())) {
-          (twoMotors ? pivotMotors : motor1).setVoltage(calculatedVoltage);
-        } else {
-          (twoMotors ? pivotMotors : motor1).setVoltage(0);
-          // removed set soft min/maxes on limits
-        }
-      }
-    }
+    //     if ((calculatedVoltage > 0 && TopLimit.get()) || (calculatedVoltage < 0 && BtmLimit.get())) {
+    //       (twoMotors ? pivotMotors : motor1).setVoltage(calculatedVoltage);
+    //     } else {
+    //       (twoMotors ? pivotMotors : motor1).setVoltage(0);
+    //       // removed set soft min/maxes on limits
+    //     }
+    //   }
+    // }
   }
 
   // sets the desired angle to set angle to
@@ -161,7 +161,7 @@ public class PivotSub extends SubsystemBase{
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Bottom Limit", BtmLimit.get());
-
+    SmartDashboard.putNumber("Pivot Encoder", encoder1.getPosition());
     SmartDashboard.putBoolean("Top Limit", TopLimit.get());
   }
 }
