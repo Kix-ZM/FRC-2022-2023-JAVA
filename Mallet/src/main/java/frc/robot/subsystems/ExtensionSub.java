@@ -60,7 +60,7 @@ public class ExtensionSub extends SubsystemBase{
       if(isStopped)
         emergencyStop();
       else{
-        double calculatedVoltage = (desiredPosition - encoder.getPosition());
+        double calculatedVoltage = (desiredPosition - encoder.getPosition()*1.2);
         // Controller (if used) deadzone
         if (Math.abs(calculatedVoltage) < 0.01)
           calculatedVoltage = 0;

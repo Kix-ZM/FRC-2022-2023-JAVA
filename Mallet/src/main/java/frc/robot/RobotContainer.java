@@ -31,7 +31,8 @@ import frc.robot.commands.pivot.PivotMove;
 import frc.robot.commands.pivot.PivotUp;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
-import frc.robot.commands.AutoGroups.AutoGroup_TopDrop;
+import frc.robot.commands.AutoGroups.AutoGroup_MiddleDrop;
+import frc.robot.commands.AutoGroups.AutoGroup_MiddleDropParallel;
 import frc.robot.commands.AutoGroups.AutoGroup_Balance;
 import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommAndBalance;
 import frc.robot.subsystems.*;
@@ -127,7 +128,7 @@ public class RobotContainer {
     // with command chooser
     m_autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
     // m_autoChooser.addOption("Place and Leave", new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor));
-    m_autoChooser.addOption("Place", new AutoGroup_TopDrop(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
+    // m_autoChooser.addOption("Place", new AutoGroup_MiddleDropParallel(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
     m_autoChooser.addOption("Place and Balance", new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor));
     m_autoChooser.addOption("Leave and Balance", new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro));
     m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain, m_gyro));
@@ -173,7 +174,7 @@ public class RobotContainer {
     controllerButtons_drive.get("10").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
     // reset encoders
     controllerButtons_drive.get("8").onTrue(resetEncodersCommand());
-     controllerButtons_drive.get("9").onTrue(new AutoGroup_TopDrop(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
+     controllerButtons_drive.get("9").onTrue(new AutoGroup_MiddleDrop(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
 
 
     //ARM CONTROLLER

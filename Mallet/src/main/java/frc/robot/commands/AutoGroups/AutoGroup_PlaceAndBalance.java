@@ -15,7 +15,7 @@ public class AutoGroup_PlaceAndBalance extends SequentialCommandGroup {
         //Adding a drivetrain
         //Adding Order of commands
         addCommands(
-            new AutoGroup_TopDrop(drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor),
+            new AutoGroup_MiddleDrop(drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor),
             new AutoBalance(drivetrain, gyro, false)
         );
     }
