@@ -9,6 +9,7 @@ import frc.robot.commands.AutoBalance;
 import frc.robot.commands.ResetEncoders;
 import frc.robot.commands.claw.ClawClose;
 import frc.robot.commands.claw.ClawMove;
+import frc.robot.commands.claw.ClawOpen;
 import frc.robot.commands.extend.ExtenderSetPositionWaitForComplete;
 import frc.robot.commands.pivot.PivotAngle;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -25,13 +26,13 @@ public class AutoGroup_PlaceAndBalance extends SequentialCommandGroup {
             new ResetEncoders(this.m_Drivetrain),
             new ClawClose(m_clawMotor),
             new WaitCommand(.5),
-            new PivotAngle(m_pivotMotor, 120),
-            new ExtenderSetPositionWaitForComplete(m_extensionMotor, -9),
-            new ClawMove(m_clawMotor),
+            new PivotAngle(m_pivotMotor, 110),
+            new ExtenderSetPositionWaitForComplete(m_extensionMotor, -12),
+            new ClawOpen(m_clawMotor),
             new WaitCommand(.5),
             new ExtenderSetPositionWaitForComplete(m_extensionMotor, 0),
-            new PivotAngle(m_pivotMotor, 5),
-            new AutoBalance(drivetrain, gyro, false)
+            new PivotAngle(m_pivotMotor, 5)
+           // new AutoBalance(drivetrain, gyro, false)
         );
     }
 }

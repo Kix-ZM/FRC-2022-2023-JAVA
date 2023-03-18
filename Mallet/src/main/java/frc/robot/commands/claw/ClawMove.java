@@ -16,6 +16,7 @@ public class ClawMove extends CommandBase{
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        
         m_claw.moveMotors();
     }
 

@@ -129,6 +129,11 @@ public class ClawSub extends SubsystemBase{
     }
   }
 
+  public void setOpenPosition() {
+    desiredAngle = encoder.getPosition()+90;
+
+  }
+
   //Returns the current angle of the motor
   public double getCurrentAngle(){
     if(K_ClawSub.isUsingClaw){

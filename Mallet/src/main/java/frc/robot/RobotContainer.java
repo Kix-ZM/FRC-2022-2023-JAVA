@@ -159,7 +159,7 @@ public class RobotContainer {
     controllerButtons_drive.get("10").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
     // reset encoders
     controllerButtons_drive.get("8").onTrue(resetEncodersCommand());
-    controllerButtons_drive.get("9").onTrue(new AutoGroup_Kirwan(m_pivotMotor, m_extensionMotor, m_clawMotor));
+    controllerButtons_drive.get("9").onTrue(new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor));
 
     //ARM CONTROLLER
     // toggle claw clamp

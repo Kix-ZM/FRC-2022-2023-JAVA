@@ -43,6 +43,6 @@ public class ExtenderSetPositionWaitForComplete extends CommandBase{
     // may backfire if extender due to voltage cannot reach within range
     @Override
     public boolean isFinished() {
-        return Math.abs(m_extender.getCurrentPosition()-m_extender.getDesiredPosition()) < 1;
+        return Math.abs(m_extender.getCurrentPosition()-m_finalPosition) < 2;
     }
 }

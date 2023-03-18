@@ -16,14 +16,17 @@ public class ClawOpen extends CommandBase{
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+        m_claw.setOpenPosition();
+        m_claw.moveMotors();
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     // Relatively change claw by joystick
     @Override
     public void execute() {
-        m_claw.changeAngle(1);
-        m_claw.moveMotors();
+        // m_claw.changeAngle(1);
+        // m_claw.moveMotors();
     }
 
     // Called once the command ends or is interrupted.
