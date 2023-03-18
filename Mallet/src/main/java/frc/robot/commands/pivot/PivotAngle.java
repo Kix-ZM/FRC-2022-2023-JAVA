@@ -9,6 +9,7 @@ public class PivotAngle extends CommandBase{
     private PivotSub m_pivot;
     private double m_finalAngle;
     private double m_currentAngle;
+    private int directionScalar = 1;
 
     // Creation Function of the Class
     public PivotAngle(PivotSub pivot, double targetAngle){
@@ -21,14 +22,17 @@ public class PivotAngle extends CommandBase{
     @Override
     public void initialize() {
         m_currentAngle = m_pivot.getCurrentAngle();
+        if (m_finalAngle - m_currentAngle < 0 )
+            directionScalar = -1;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     // Tells the Pivot Motor to turn in a direction designated by the 3rd Axis of the Controller
     @Override
     public void execute() {
+
         // 4 degrees per second
-        m_pivot.changeAngle(4.0/50.0);
+        m_pivot.changeAngle(directionScalar * 25.0/50.0);
         m_pivot.moveMotors();
         m_currentAngle = m_pivot.getCurrentAngle();
     }
