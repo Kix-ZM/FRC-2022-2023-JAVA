@@ -29,7 +29,6 @@ public class AutoGroup_TopDrop extends SequentialCommandGroup {
             // Commands.race(new PivotMove(m_pivotMotor), )
             
             new ClawOpenV2(m_clawMotor),
-            new WaitCommand(.5),
             new PivotAngle(m_pivotMotor, 20)
             // new WaitCommand(.5),
             // new ExtenderSetPositionWaitForComplete(m_extensionMotor, 0),

@@ -16,10 +16,10 @@ import frc.robot.subsystems.ClawSubV2;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class AutoGroup_ParallelPart extends SequentialCommandGroup {
+public class AutoGroup_TopDropParallel extends SequentialCommandGroup {
     //Variables
 
-    public AutoGroup_ParallelPart(Drivetrain m_Drivetrain, PivotSub m_pivotMotor, ExtensionSub m_extensionMotor, ClawSubV2 m_clawMotor){
+    public AutoGroup_TopDropParallel(Drivetrain m_Drivetrain, PivotSub m_pivotMotor, ExtensionSub m_extensionMotor, ClawSubV2 m_clawMotor){
         //Adding Order of commands
         addCommands(
             Commands.race(new MotorsMove(m_clawMotor, m_extensionMotor, m_pivotMotor), new AutoGroup_TopDrop(m_Drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor))
