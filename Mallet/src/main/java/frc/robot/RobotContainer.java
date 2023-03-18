@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
@@ -141,6 +142,11 @@ public class RobotContainer {
     //DRIVE CONTROLLER
     // rotate to target
     controllerButtons_drive.get("trigger").onTrue(new TurnToTarget(m_drivetrain, m_gyro, m_limelight));
+    // middle platform
+    // top platform
+
+    // neutral 
+
     // turn to 180 degrees
     controllerButtons_drive.get("7").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
     // turn to 0 degrees
@@ -154,16 +160,15 @@ public class RobotContainer {
 
     //ARM CONTROLLER
     // toggle claw clamp
-    // controllerButtons_arm.get("1").onTrue(new ClawClampToggle(m_clawMotor));
     controllerButtons_arm.get("1").toggleOnTrue(Commands.startEnd(m_clawMotor::clamp2, m_clawMotor::moveMotors, m_clawMotor));
-    // retracts arm
-    controllerButtons_arm.get("4").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
-    // extends arm
-    controllerButtons_arm.get("5").whileTrue(new MoveExtenderForward(m_extensionMotor));
     // moves pivot down
     controllerButtons_arm.get("2").whileTrue(new PivotDown(m_pivotMotor));
     // moves pivot up
     controllerButtons_arm.get("3").whileTrue(new PivotUp(m_pivotMotor));
+    // retracts arm
+    controllerButtons_arm.get("4").whileTrue(new MoveExtenderBackwards(m_extensionMotor));
+    // extends arm
+    controllerButtons_arm.get("5").whileTrue(new MoveExtenderForward(m_extensionMotor));
     // select cube mode
     controllerButtons_arm.get("6").onTrue(new SetConeMode(m_limelight, m_clawMotor));
     // select cube mode
@@ -210,7 +215,7 @@ public class RobotContainer {
       //Default auto
       case "Do Nothing":
       default:
-        activeAutoGroup = new AutoGroup_Default(m_drivetrain);  
+        activeAutoGroup = new WaitCommand(0); 
         break;
     }
 
