@@ -108,7 +108,7 @@ public class PivotSub extends SubsystemBase{
   }
 
   //Returns the current angle of the pivot
-  public double getCurentAngle(){
+  public double getCurrentAngle(){
     if(K_PivotSub.isUsingPivot){
       if(twoMotors){
         return (encoder1.getPosition() + encoder2.getPosition())/2;

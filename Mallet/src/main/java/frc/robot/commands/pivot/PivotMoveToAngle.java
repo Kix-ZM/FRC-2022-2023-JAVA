@@ -44,6 +44,6 @@ public class PivotMoveToAngle extends CommandBase{
     @Override
     public boolean isFinished() {
         //Checks to see if the motor is close to the desired angle
-        return Math.abs(m_pivot.getCurentAngle() - m_pivot.getDesiredAngle()) < 2;
+        return Math.abs(m_pivot.getCurrentAngle() - m_pivot.getDesiredAngle()) < 2;
     }
 }

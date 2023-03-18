@@ -14,13 +14,11 @@ public class AutoGroup_Kirwan extends SequentialCommandGroup {
 
     public AutoGroup_Kirwan(PivotSub m_pivotMotor, ExtensionSub m_extensionMotor, ClawSub m_clawMotor){
         //Adding Order of commands
-        m_clawMotor.setDefaultCommand(new ClawClose(m_clawMotor));
         addCommands(
+            new ClawClose(m_clawMotor),
             new PivotAngle(m_pivotMotor, 100),
-            new ExtenderSetPositionWaitForComplete(m_extensionMotor, -9)
-        );
-        m_clawMotor.setDefaultCommand(new ClawMove(m_clawMotor));
-        addCommands(
+            new ExtenderSetPositionWaitForComplete(m_extensionMotor, -9),
+            new ClawMove(m_clawMotor),
             new ExtenderSetPositionWaitForComplete(m_extensionMotor, 0),
             new PivotAngle(m_pivotMotor, 5)
         );

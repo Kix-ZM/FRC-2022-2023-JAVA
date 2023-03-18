@@ -15,13 +15,14 @@ public class ClawMove extends CommandBase{
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+        m_claw.moveMotors();
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     // Relatively change claw by joystick
     @Override
     public void execute() {
-        m_claw.moveMotors();
     }
 
     // Called once the command ends or is interrupted.
@@ -32,6 +33,6 @@ public class ClawMove extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }

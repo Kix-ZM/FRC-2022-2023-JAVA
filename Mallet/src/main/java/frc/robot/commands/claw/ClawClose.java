@@ -16,13 +16,14 @@ public class ClawClose extends CommandBase{
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+        m_claw.clamp2();
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     // Relatively change claw by joystick
     @Override
     public void execute() {
-        m_claw.clamp2();
     }
 
     // Called once the command ends or is interrupted.
@@ -33,6 +34,6 @@ public class ClawClose extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }
