@@ -34,7 +34,7 @@ public class PivotSub extends SubsystemBase{
 
   // Determines if we got to stop all movement on the motor
   private boolean isStopped = false;
-  private double desiredAngle = 5;
+  private double desiredAngle = 6;
   private double maxAngle = 175;
   private double minAngle = 0;
   
@@ -61,7 +61,7 @@ public class PivotSub extends SubsystemBase{
       // set conversion ratio to 1 ONLY FOR CALIBRATING FOR ANGLE
       // encoder1.setPositionConversionFactor(1);
 
-      encoder1.setPosition(5);
+      encoder1.setPosition(6);
       desiredAngle = encoder1.getPosition();
     }
   }
@@ -94,6 +94,10 @@ public class PivotSub extends SubsystemBase{
         } else {
           (twoMotors ? pivotMotors : motor1).setVoltage(0);
           // removed set soft min/maxes on limits
+          if (!BtmLimit.get())
+            encoder1.setPosition(6);
+          if (!TopLimit.get())
+            encoder1.setPosition(120);
         }
       }
     }
@@ -161,7 +165,7 @@ public class PivotSub extends SubsystemBase{
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Bottom Limit", BtmLimit.get());
-
+    SmartDashboard.putNumber("Pivot Encoder", encoder1.getPosition());
     SmartDashboard.putBoolean("Top Limit", TopLimit.get());
   }
 }
