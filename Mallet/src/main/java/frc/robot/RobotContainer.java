@@ -118,6 +118,7 @@ public class RobotContainer {
     // //LIMELIGHT INFO
     entry_LimelightXOffset.setDouble(m_limelight.getXOffset());
     entry_LimelightYOffset.setDouble(m_limelight.getYOffset());
+    SmartDashboard.putData(m_clawMotor);
   }
 
   public void initializeAutoChooser() {
