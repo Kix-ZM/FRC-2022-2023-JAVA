@@ -13,7 +13,7 @@ public class Group_RetractAll extends SequentialCommandGroup {
         
         addCommands(
             new ExtenderSetPositionWaitForComplete(m_extensionMotor, 0),
-            new PivotMoveToAngle(m_pivotMotor, 5)
+            new PivotMoveToAngle(m_pivotMotor, 20)
          );
     }
 }
