@@ -23,7 +23,8 @@ public class ClawIncrementPositionV2 extends CommandBase {
     // Sets open position closer to clamped position
     @Override
     public void execute() {
-        m_claw.changeOpenPosition(20/50);
+        m_claw.changeOpenPosition(20.0/50.0);
+        m_claw.moveClaw();
     }
 
     // Called once the command ends or is interrupted.

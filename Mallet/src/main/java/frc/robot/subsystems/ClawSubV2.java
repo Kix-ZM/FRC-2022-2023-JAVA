@@ -70,7 +70,7 @@ public class ClawSubV2 extends SubsystemBase{
       
   }
 
-  //Returns the current angle of the motor
+  // Returns the current angle of the motor
   public double getCurrentAngle(){
     if(K_ClawSub.isUsingClaw){
       return encoder.getPosition();
@@ -96,8 +96,9 @@ public class ClawSubV2 extends SubsystemBase{
     if(K_ClawSub.isUsingClaw){
       // controller deadzone
         openPosition += increment;
-        SmartDashboard.putBoolean("Incrementing", true);
     }
+    SmartDashboard.putNumber("Open Position", openPosition);
+    SmartDashboard.putNumber("Open Position Increment", increment);
   }
 
   // returns current through motor

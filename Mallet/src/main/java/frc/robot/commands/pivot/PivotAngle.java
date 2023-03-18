@@ -40,11 +40,13 @@ public class PivotAngle extends CommandBase{
     // Called once the command ends or is interrupted.
     // Nothing is called here as it is covered already in the subsystem to stop the motor.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        m_pivot.setAngle(m_finalAngle);
+    }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return Math.abs(m_finalAngle - m_currentAngle) < 2;
+        return Math.abs(m_finalAngle - m_currentAngle) < 8;
     }
 }

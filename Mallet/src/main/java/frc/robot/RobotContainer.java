@@ -13,19 +13,16 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.*;
-import frc.robot.commands.AutoGroups.AutoGroup_Balance;
+import frc.robot.commands.PositioningGroups.Group_Angle40;
+import frc.robot.commands.PositioningGroups.Group_Angle60;
+import frc.robot.commands.PositioningGroups.Group_Angle90;
 import frc.robot.commands.PositioningGroups.Group_RetractAll;
-import frc.robot.commands.claw.ClawClose;
-import frc.robot.commands.claw.ClawCloseV2;
 import frc.robot.commands.claw.ClawDecrementPositionV2;
 import frc.robot.commands.claw.ClawIncrementPositionV2;
-import frc.robot.commands.claw.ClawMove;
 import frc.robot.commands.claw.ClawMoveV2;
-import frc.robot.commands.claw.ClawOpen;
-import frc.robot.commands.claw.ClawOpenV2;
 import frc.robot.commands.claw.ClawToggleV2;
 import frc.robot.commands.extend.ExtenderMove;
-import frc.robot.commands.extend.ExtenderMoveToZero;
+import frc.robot.commands.extend.ExtenderSetPositionWaitForComplete;
 import frc.robot.commands.extend.MoveExtenderBackwards;
 import frc.robot.commands.extend.MoveExtenderForward;
 import frc.robot.commands.pivot.PivotAngle;
@@ -33,11 +30,10 @@ import frc.robot.commands.pivot.PivotDown;
 import frc.robot.commands.pivot.PivotMove;
 import frc.robot.commands.pivot.PivotUp;
 import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndBalance;
-import frc.robot.commands.AutoGroups.AutoGroup_Default;
+import frc.robot.commands.AutoGroups.AutoGroup_PlaceAndLeave;
 import frc.robot.commands.AutoGroups.AutoGroup_TopDrop;
+import frc.robot.commands.AutoGroups.AutoGroup_Balance;
 import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommAndBalance;
-import frc.robot.commands.AutoGroups.AutoGroup_LeaveCommunity;
-import frc.robot.commands.AutoGroups.AutoGroup_MoveTest;
 import frc.robot.subsystems.*;
 import java.util.HashMap;
 
@@ -59,7 +55,8 @@ public class RobotContainer {
   public static HashMap<String, Trigger> controllerButtons_drive = new HashMap<String, Trigger>();
 
   // SMARTDASHBOARD
-  private SendableChooser<String> m_autoChooser = new SendableChooser<String>();
+  // private SendableChooser<String> m_autoChooser = new SendableChooser<String>();
+  private SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
 
   // SHUFFLEBOARD
   private ShuffleboardTab main = Shuffleboard.getTab("Driver's Tab");
@@ -84,6 +81,7 @@ public class RobotContainer {
       .getEntry();
   private GenericEntry entry_LimelightYOffset = main.add("LimelightYOffset", 0).withWidget(BuiltInWidgets.kTextView)
       .getEntry();
+  private GenericEntry entry_ClawClosed = main.add("Is Claw Closed", false).withWidget(BuiltInWidgets.kBooleanBox).getEntry();
 
   public RobotContainer() {
     configureButtonBindings();
@@ -115,21 +113,29 @@ public class RobotContainer {
     // //LIMELIGHT INFO
     entry_LimelightXOffset.setDouble(m_limelight.getXOffset());
     entry_LimelightYOffset.setDouble(m_limelight.getYOffset());
+    entry_ClawClosed.setBoolean(m_clawMotor.getIsOpen());
     SmartDashboard.putData(m_clawMotor);
   }
 
   public void initializeAutoChooser() {
-    m_autoChooser.setDefaultOption("Do Nothing", "Do Nothing");
-    // m_autoChooser.addOption("Leave Community", new
-    // AutoGroup_LeaveCommunity(m_drivetrain));
-    m_autoChooser.addOption("Place and Leave", "Place and Leave");
-    // m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain,
-    // m_gyro));
-    m_autoChooser.addOption("Place and Balance", "Place and Balance");
-    m_autoChooser.addOption("Leave and Balance", "Leave and Balance");
-    // m_autoChooser.addOption("Move Test", new AutoGroup_MoveTest(m_drivetrain,
-    // m_gyro));
-    SmartDashboard.putData(m_autoChooser);
+    // with string chooser
+    // m_autoChooser.setDefaultOption("Do Nothing", "Do Nothing");
+    // m_autoChooser.addOption("Place and Leave", "Place and Leave");
+    // m_autoChooser.addOption("Place and Balance", "Place and Balance");
+    // m_autoChooser.addOption("Leave and Balance", "Leave and Balance");
+    
+    // with command chooser
+    m_autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
+    // m_autoChooser.addOption("Place and Leave", new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor));
+    m_autoChooser.addOption("Place", new AutoGroup_TopDrop(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
+    m_autoChooser.addOption("Place and Balance", new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor));
+    m_autoChooser.addOption("Leave and Balance", new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro));
+    m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain, m_gyro));
+    m_autoChooser.addOption("Leave ", new MoveDistance(m_drivetrain, 4, false));
+    m_autoChooser.addOption("Set Extender DIstance", new ExtenderSetPositionWaitForComplete(m_extensionMotor, 4));
+    main.add("Auto Routine", m_autoChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+    // SmartDashboard.putData(m_autoChooser);
+
   }
 
   // assign button functions
@@ -152,10 +158,11 @@ public class RobotContainer {
     // rotate to target
     controllerButtons_drive.get("trigger").onTrue(new TurnToTarget(m_drivetrain, m_gyro, m_limelight));
     // middle platform
-    // top platform
-
-    // neutral 
-
+    controllerButtons_drive.get("2").onTrue(new Group_Angle60(m_extensionMotor, m_pivotMotor));
+    // high platform
+    controllerButtons_drive.get("3").onTrue(new Group_Angle90(m_extensionMotor, m_pivotMotor));
+    // floor pickup position 
+    controllerButtons_drive.get("2").onTrue(new Group_Angle40(m_extensionMotor, m_pivotMotor));
     // turn to 180 degrees
     controllerButtons_drive.get("7").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
     // turn to 0 degrees
@@ -172,7 +179,7 @@ public class RobotContainer {
     //ARM CONTROLLER
     // toggle claw clamp
     // controllerButtons_arm.get("1").toggleOnTrue(Commands.startEnd(m_clawMotor::clamp2, m_clawMotor::moveMotors, m_clawMotor));
-    controllerButtons_arm.get("1").onTrue(new ClawToggleV2(m_clawMotor));
+    controllerButtons_arm.get("trigger").onTrue(new ClawToggleV2(m_clawMotor));
     // moves pivot down
     controllerButtons_arm.get("2").whileTrue(new PivotDown(m_pivotMotor));
     // moves pivot up
@@ -193,49 +200,45 @@ public class RobotContainer {
     controllerButtons_arm.get("10").onTrue(new Group_RetractAll(m_pivotMotor, m_extensionMotor));
     // move arm to have a 90 degree with the floor
     controllerButtons_arm.get("11").onTrue(new PivotAngle(m_pivotMotor, 90));
-
   }
 
   public Command getAutoInput() {
-    String autoName = m_autoChooser.getSelected(); // Make "Default" the default option
-    System.out.println(autoName);
-
-    Command activeAutoGroup;
-    switch (autoName) { // switch between autonomous modes
-      // drive forwards and leave the community
-      case "Leave Community":
-        activeAutoGroup = new AutoGroup_LeaveCommunity(m_drivetrain);
-        break;
-      // place a game piece and leave the community
-      case "Place and Leave":
-        // activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor);
-        activeAutoGroup = null;
-        break;
-      // Drive forward until it reaches the platform then balance
-      case "Balance":
-        activeAutoGroup = new AutoGroup_Balance(m_drivetrain, m_gyro);
-        break;
-      // Place a game piece then drive forward and balance
-      case "Place and Balance":
-        // activeAutoGroup = new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor,
-        //     m_clawMotor);
-        activeAutoGroup = null;
-        break;
-      // Leave the community over the Charge station and get back on and balance
-      case "Leave and Balance":
-        activeAutoGroup = new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro);
-        break;
-      case "Move Test":
-        activeAutoGroup = new AutoGroup_MoveTest(m_drivetrain, m_gyro);
-        break;
-      // Default auto
-      case "Do Nothing":
-      default:
-        activeAutoGroup = new WaitCommand(0);
-        break;
-    }
-
-    return activeAutoGroup;
+    // String autoName = SmartDashboard.getString("Auto Selector", "Do Nothing");
+    // String autoName = m_autoChooser.getSelected(); // Make "Default" the default option
+    // System.out.println(autoName);
+    // Command activeAutoGroup;
+    // switch (autoName) { // switch between autonomous modes
+    //   // drive forwards and leave the community
+    //   case "Leave Community":
+    //     activeAutoGroup = new AutoGroup_LeaveCommunity(m_drivetrain);
+    //     break;
+    //   // place a game piece and leave the community
+    //   case "Place and Leave":
+    //     activeAutoGroup = new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor);
+    //     break;
+    //   // Drive forward until it reaches the platform then balance
+    //   case "Balance":
+    //     activeAutoGroup = new AutoGroup_Balance(m_drivetrain, m_gyro);
+    //     break;
+    //   // Place a game piece then drive forward and balance
+    //   case "Place and Balance":
+    //     activeAutoGroup = new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor,
+    //         m_clawMotor);
+    //     break;
+    //   // Leave the community over the Charge station and get back on and balance
+    //   case "Leave and Balance":
+    //     activeAutoGroup = new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro);
+    //     break;
+    //   case "Move Test":
+    //     activeAutoGroup = new AutoGroup_MoveTest(m_drivetrain, m_gyro);
+    //     break;
+    //   // Default auto
+    //   default:
+    //     activeAutoGroup = new WaitCommand(0);
+    //     break;
+    // }
+    // return activeAutoGroup;
+    return m_autoChooser.getSelected();
   }
 
   public Command resetEncodersCommand() {

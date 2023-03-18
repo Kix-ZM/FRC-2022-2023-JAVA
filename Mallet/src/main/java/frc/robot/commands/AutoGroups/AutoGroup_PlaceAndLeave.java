@@ -23,8 +23,7 @@ public class AutoGroup_PlaceAndLeave extends SequentialCommandGroup {
         addCommands(
             new AutoGroup_TopDrop(drivetrain, m_pivot, m_extender, claw),
             new TurnBy(m_drivetrain, m_gyro, 180),
-            new MoveDistance(drivetrain, 10, false),
-            new MoveDistance(drivetrain, 10, true)
+            new MoveDistance(drivetrain, 15, false)
             /*move back into community and center with AprilTag*/
             /*place piece*/
         );

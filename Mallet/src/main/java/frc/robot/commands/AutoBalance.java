@@ -47,7 +47,7 @@ public class AutoBalance extends CommandBase {
     double pitchAngleDegrees = m_gyro.getAngleX();
     if (!startBalancing)
     {
-      m_drivetrain.arcadeDrive(backwardsScaler*Constants.K_FWD_SPEED, 0);
+      m_drivetrain.arcadeDrive(backwardsScaler*.34, 0);
       // if at high enough angle so we know it is on the platform
       if (Math.abs(pitchAngleDegrees) > Constants.K_PLAT_DEGREE_THRESH)
         onPlatform = true;

@@ -22,7 +22,7 @@ public class MoveExtenderBackwards extends CommandBase{
     // Tells the Extension Motor to go Backwards
     @Override
     public void execute() {
-        m_extender.changePosition(.3);
+        m_extender.changePosition(.22);
         m_extender.moveMotors();
     }
 

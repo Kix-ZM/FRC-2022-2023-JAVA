@@ -28,7 +28,7 @@ public class SetCubeMode extends CommandBase {
     @Override
     public void execute() {
         // sets limelight to look for april tags
-        m_limelight.setPipeline(1);
+        m_limelight.setPipeline(4);
         // sets claw target type to cube
         m_claw.setTargetType(0);
 

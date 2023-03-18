@@ -1,6 +1,7 @@
 package frc.robot.commands.AutoGroups;
 import frc.robot.subsystems.ExtensionSub;
 import frc.robot.subsystems.PivotSub;
+import frc.robot.commands.MotorsMove;
 import frc.robot.commands.ResetEncoders;
 import frc.robot.commands.claw.ClawCloseV2;
 import frc.robot.commands.claw.ClawMoveV2;
@@ -15,24 +16,13 @@ import frc.robot.subsystems.ClawSubV2;
 import frc.robot.subsystems.Drivetrain;
 
 
-public class AutoGroup_TopDrop extends SequentialCommandGroup {
+public class AutoGroup_ParallelPart extends SequentialCommandGroup {
     //Variables
 
-    public AutoGroup_TopDrop(Drivetrain m_Drivetrain, PivotSub m_pivotMotor, ExtensionSub m_extensionMotor, ClawSubV2 m_clawMotor){
+    public AutoGroup_ParallelPart(Drivetrain m_Drivetrain, PivotSub m_pivotMotor, ExtensionSub m_extensionMotor, ClawSubV2 m_clawMotor){
         //Adding Order of commands
         addCommands(
-            new ResetEncoders(m_Drivetrain),
-            new ClawCloseV2(m_clawMotor),
-            new PivotAngle(m_pivotMotor, 90),
-
-            // new ExtenderSetPositionWaitForComplete(m_extensionMotor, -12),
-            // Commands.race(new PivotMove(m_pivotMotor), )
-            
-            new ClawOpenV2(m_clawMotor),
-            new WaitCommand(.5),
-            new PivotAngle(m_pivotMotor, 20)
-            // new WaitCommand(.5),
-            // new ExtenderSetPositionWaitForComplete(m_extensionMotor, 0),
+            Commands.race(new MotorsMove(m_clawMotor, m_extensionMotor, m_pivotMotor), new AutoGroup_TopDrop(m_Drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor))
         );
     }
 }

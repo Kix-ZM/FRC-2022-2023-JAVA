@@ -12,13 +12,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    addPeriodic(m_robotContainer::updateShuffleboard, .04, .005);
   }
 
   //called periodically regardless of mode
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    m_robotContainer.updateShuffleboard();
+    // m_robotContainer.updateShuffleboard();
   }
 
   //called when the robot is disabled
@@ -39,7 +40,9 @@ public class Robot extends TimedRobot {
 
   //called periodically when robot is in auto
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    // System.out.println(m_robotContainer.getAutoInput().toString());
+  }
 
   //called when teleop is selected
   @Override
