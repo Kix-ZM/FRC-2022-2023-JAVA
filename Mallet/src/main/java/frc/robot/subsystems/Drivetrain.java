@@ -71,9 +71,9 @@ public class Drivetrain extends SubsystemBase {
 
   public void setBalanceToCurrentPos(boolean backwards) {
     if (!backwards)
-      balancePosition = getAverageDistanceInch()-42;
+      balancePosition = getAverageDistanceInch()-42.5;
     else 
-      balancePosition = getAverageDistanceInch()+42;
+      balancePosition = getAverageDistanceInch()+42.5;
   }
 
   public void balance() {
