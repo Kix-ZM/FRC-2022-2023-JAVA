@@ -45,8 +45,8 @@ public class Limelight extends SubsystemBase {
     pipelineIndex = table.getEntry("pipeline");
     
     //set pipeline to cone and cube
-    setPipeline(pipelineMap.get("coneAndCube"));
-    curIndex = pipelineMap.get("coneAndCube");
+    setPipeline(5);
+    curIndex = 5;
   }
 
   // get x angle offset in degrees

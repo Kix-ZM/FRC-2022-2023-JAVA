@@ -1,25 +1,25 @@
 package frc.robot.commands.schedulers;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.pivot.PivotMove;
-import frc.robot.subsystems.PivotSub;
+import frc.robot.commands.extend.ExtenderMove;
+import frc.robot.subsystems.ExtensionSub;
 
 
-public class PivotMoveScheduler extends CommandBase{
+public class ExtendMoveScheduler extends CommandBase{
     // Required Subsystems
-    private PivotSub m_pivot;
+    private ExtensionSub m_extend;
 
     // Creation Function of the Class
-    public PivotMoveScheduler(PivotSub pivot){
-        m_pivot = pivot;
+    public ExtendMoveScheduler(ExtensionSub extend){
+        m_extend = extend;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        new PivotMove(m_pivot).schedule();
+        new ExtenderMove(m_extend).schedule();
     }
 
-    // Schedules pivot default movement
+    // Schedules extension default movement
     @Override
     public void execute() {
     }

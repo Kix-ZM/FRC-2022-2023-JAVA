@@ -1,6 +1,6 @@
 package frc.robot.commands.schedulers;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.claw.ClawMoveV2;
+import frc.robot.commands.claw.ClawMove;
 import frc.robot.subsystems.ClawSub;
 
 
@@ -9,19 +9,19 @@ public class ClawMoveScheduler extends CommandBase{
     private ClawSub m_claw;
 
     // Creation Function of the Class
-    public ClawMoveScheduler(){
+    public ClawMoveScheduler(ClawSub claw){
+        m_claw = claw;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        new ClawMove(m_claw).schedule();
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    // Relatively change claw by joystick
+    // Schedules claw default movement
     @Override
     public void execute() {
-        new ClawMoveV2(m_claw).schedule();
     }
 
     // Called once the command ends or is interrupted.
@@ -32,6 +32,6 @@ public class ClawMoveScheduler extends CommandBase{
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }
