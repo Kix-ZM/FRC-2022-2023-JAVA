@@ -3,16 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.ClawSub;
 import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SetConeMode extends CommandBase {
     private final Limelight m_limelight;
-    private final ClawSub m_claw;
-    public SetConeMode(Limelight limelight, ClawSub claw) {
+    public SetConeMode(Limelight limelight) {
         m_limelight = limelight;
-        m_claw = claw;
         addRequirements(limelight);
     }
 
@@ -29,11 +26,7 @@ public class SetConeMode extends CommandBase {
     public void execute() {
         // sets limelight to look for retroreflective tape
         m_limelight.setPipeline(0);
-        // sets claw target type to cone
-        m_claw.setTargetType(1);
-
-        //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
-    }
+        }
 
 
 

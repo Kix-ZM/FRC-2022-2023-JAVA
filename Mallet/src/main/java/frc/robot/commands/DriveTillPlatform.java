@@ -34,7 +34,7 @@ public class DriveTillPlatform extends CommandBase {
   @Override
   public void execute() {
     // drive forward until on platform
-    m_drivetrain.arcadeDrive(Constants.K_FWD_SPEED, 0);
+    m_drivetrain.arcadeDrive(-Constants.K_FWD_SPEED, 0);
   }
 
   // Called once the command ends or is interrupted.

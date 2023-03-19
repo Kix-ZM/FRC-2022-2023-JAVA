@@ -3,16 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
-import frc.robot.subsystems.ClawSub;
 import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SetCubeMode extends CommandBase {
     private final Limelight m_limelight;
-    private final ClawSub m_claw;
-    public SetCubeMode(Limelight limelight, ClawSub claw) {
+    public SetCubeMode(Limelight limelight) {
         m_limelight = limelight;
-        m_claw = claw;
         addRequirements(limelight);
     }
 
@@ -29,10 +26,6 @@ public class SetCubeMode extends CommandBase {
     public void execute() {
         // sets limelight to look for april tags
         m_limelight.setPipeline(4);
-        // sets claw target type to cube
-        m_claw.setTargetType(0);
-
-        //m_drivetrain.runTest(RobotContainer.m_controller.getRawAxis(2));
     }
 
 

@@ -1,14 +1,14 @@
 package frc.robot.commands.claw;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClawSubV2;
+import frc.robot.subsystems.ClawSub;
 
-public class ClawDecrementPositionV2 extends CommandBase {
+public class ClawDecrementPosition extends CommandBase {
     // Required Subsystems
-    private ClawSubV2 m_claw;
+    private ClawSub m_claw;
 
     // Creation Function of the Class
-    public ClawDecrementPositionV2(ClawSubV2 claw) {
+    public ClawDecrementPosition(ClawSub claw) {
         m_claw = claw;
         addRequirements(m_claw);
     }

@@ -17,7 +17,7 @@ import frc.robot.commands.PositioningGroups.Group_Angle40;
 import frc.robot.commands.PositioningGroups.Group_Angle60;
 import frc.robot.commands.PositioningGroups.Group_Angle90;
 import frc.robot.commands.PositioningGroups.Group_RetractAll;
-import frc.robot.commands.claw.ClawDecrementPositionV2;
+import frc.robot.commands.claw.ClawDecrementPosition;
 import frc.robot.commands.claw.ClawIncrementPositionV2;
 import frc.robot.commands.claw.ClawMoveV2;
 import frc.robot.commands.claw.ClawToggleV2;
@@ -44,7 +44,7 @@ public class RobotContainer {
   private static final Limelight m_limelight = new Limelight();
   private static final GyroScope m_gyro = new GyroScope();
   private static final PivotSub m_pivotMotor = new PivotSub();
-  private static final ClawSubV2 m_clawMotor = new ClawSubV2();
+  private static final ClawSub m_clawMotor = new ClawSub();
   private static final ExtensionSub m_extensionMotor = new ExtensionSub();
 
   // INIT JOYSTICKS (NOTE: PLEASE RENAME TO LEFT/RIGHT)
@@ -128,7 +128,7 @@ public class RobotContainer {
     // with command chooser
     m_autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
     // m_autoChooser.addOption("Place and Leave", new AutoGroup_PlaceAndLeave(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor));
-    // m_autoChooser.addOption("Place", new AutoGroup_MiddleDropParallel(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
+    m_autoChooser.addOption("Place", new AutoGroup_MiddleDrop(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
     m_autoChooser.addOption("Place and Balance", new AutoGroup_PlaceAndBalance(m_drivetrain, m_gyro, m_pivotMotor, m_extensionMotor, m_clawMotor));
     m_autoChooser.addOption("Leave and Balance", new AutoGroup_LeaveCommAndBalance(m_drivetrain, m_gyro));
     m_autoChooser.addOption("Balance", new AutoGroup_Balance(m_drivetrain, m_gyro));
@@ -163,7 +163,7 @@ public class RobotContainer {
     // high platform
     controllerButtons_drive.get("3").onTrue(new Group_Angle90(m_extensionMotor, m_pivotMotor));
     // floor pickup position 
-    controllerButtons_drive.get("2").onTrue(new Group_Angle40(m_extensionMotor, m_pivotMotor));
+    controllerButtons_drive.get("4").onTrue(new Group_Angle40(m_extensionMotor, m_pivotMotor));
     // turn to 180 degrees
     controllerButtons_drive.get("7").onTrue(new TurnToMatch(m_drivetrain, m_gyro, 180));
     // turn to 0 degrees
@@ -174,7 +174,7 @@ public class RobotContainer {
     controllerButtons_drive.get("10").onTrue(new TurnBy(m_drivetrain, m_gyro, 90));
     // reset encoders
     controllerButtons_drive.get("8").onTrue(resetEncodersCommand());
-     controllerButtons_drive.get("9").onTrue(new AutoGroup_MiddleDrop(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
+    //  controllerButtons_drive.get("9").onTrue(new AutoGroup_MiddleDrop(m_drivetrain, m_pivotMotor, m_extensionMotor, m_clawMotor));
 
 
     //ARM CONTROLLER
@@ -194,7 +194,7 @@ public class RobotContainer {
     // // select cube mode
     // controllerButtons_arm.get("7").onTrue(new SetCubeMode(m_limelight, m_clawMotor));
     //close claw
-    controllerButtons_arm.get("8").whileTrue(new ClawDecrementPositionV2(m_clawMotor));
+    controllerButtons_arm.get("8").whileTrue(new ClawDecrementPosition(m_clawMotor));
     //open claw
     controllerButtons_arm.get("9").whileTrue(new ClawIncrementPositionV2(m_clawMotor));
 

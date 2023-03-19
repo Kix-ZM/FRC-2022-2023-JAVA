@@ -5,7 +5,6 @@ import frc.robot.commands.ResetEncoders;
 import frc.robot.commands.AutoBalance;
 import frc.robot.commands.DriveTillPlatform;
 import frc.robot.commands.MoveDistance;
-import frc.robot.commands.DriveOffPlatform;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 
@@ -22,8 +21,8 @@ public class AutoGroup_LeaveCommAndBalance extends SequentialCommandGroup {
              new ResetEncoders(m_drivetrain),
              new DriveTillPlatform(m_drivetrain, m_gyro),
             //  new DriveOffPlatform(m_drivetrain, m_gyro),
-            new MoveDistance(drivetrain, 6, false),
-             new AutoBalance(m_drivetrain, m_gyro, true)
+            new MoveDistance(drivetrain, 7, true),
+             new AutoBalance(m_drivetrain, m_gyro, false)
          );
     }
 }

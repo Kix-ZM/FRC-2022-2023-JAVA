@@ -1,32 +1,27 @@
-package frc.robot.commands.claw;
-
+package frc.robot.commands.schedulers;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.commands.claw.ClawMoveV2;
 import frc.robot.subsystems.ClawSub;
 
 
-public class ClawOpen extends CommandBase{
+public class ClawMoveScheduler extends CommandBase{
     // Required Subsystems
     private ClawSub m_claw;
 
     // Creation Function of the Class
-    public ClawOpen(ClawSub claw){
-        m_claw = claw;
-        addRequirements(m_claw);
+    public ClawMoveScheduler(){
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_claw.setOpenPosition();
-        m_claw.moveMotors();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     // Relatively change claw by joystick
     @Override
     public void execute() {
-        // m_claw.changeAngle(1);
-        // m_claw.moveMotors();
+        new ClawMoveV2(m_claw).schedule();
     }
 
     // Called once the command ends or is interrupted.

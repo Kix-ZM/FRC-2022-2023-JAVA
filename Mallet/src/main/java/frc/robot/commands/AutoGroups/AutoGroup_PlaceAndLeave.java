@@ -1,6 +1,6 @@
 package frc.robot.commands.AutoGroups;
 
-import frc.robot.subsystems.ClawSubV2;
+import frc.robot.subsystems.ClawSub;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExtensionSub;
 import frc.robot.subsystems.GyroScope;
@@ -14,7 +14,7 @@ public class AutoGroup_PlaceAndLeave extends SequentialCommandGroup {
     private Drivetrain m_drivetrain;
     private GyroScope m_gyro;
 
-    public AutoGroup_PlaceAndLeave(Drivetrain drivetrain, GyroScope gyro, PivotSub m_pivot, ExtensionSub m_extender, ClawSubV2 claw){
+    public AutoGroup_PlaceAndLeave(Drivetrain drivetrain, GyroScope gyro, PivotSub m_pivot, ExtensionSub m_extender, ClawSub claw){
         System.out.println("AutoGroup_PlaceAndLeave");
         //Adding a drivetrain
         m_drivetrain = drivetrain;
