@@ -16,14 +16,14 @@ public class Group_Angle40 extends SequentialCommandGroup {
         if (pivot.getEncoder1().getPosition() < 50) {
             addCommands(
                 new PivotAngle(pivot, 35),
-                new ExtenderSetPositionWaitForComplete(extend, -9.5)
+                new ExtenderSetPositionWaitForComplete(extend, -8)
             );
         }
         else {
             addCommands(
                 new ExtenderSetPositionWaitForComplete(extend, 0),
                 new PivotAngle(pivot, 35),
-                new ExtenderSetPositionWaitForComplete(extend, -9.5)
+                new ExtenderSetPositionWaitForComplete(extend, -8)
             );
         }
     }

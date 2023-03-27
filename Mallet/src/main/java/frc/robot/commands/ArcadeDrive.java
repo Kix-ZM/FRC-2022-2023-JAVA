@@ -21,13 +21,7 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     //Checks if the joystick is not active in order to update startTime
-    if (Math.abs(m_joystick.getRawAxis(1)) < 0.1){
-      startTime = System.currentTimeMillis();
-      currentTime = startTime;
-    }else{
-      currentTime = System.currentTimeMillis();
-    }
-    m_drivetrain.arcadeDrive(getSpeed(-m_joystick.getRawAxis(1)), -m_joystick.getRawAxis(0));
+    m_drivetrain.arcadeDrive(-m_joystick.getRawAxis(1), -m_joystick.getRawAxis(0));
   }
 
   @Override
