@@ -45,7 +45,7 @@ public class Limelight extends SubsystemBase {
     pipelineIndex = table.getEntry("pipeline");
     
     //set pipeline to cone and cube
-    setPipeline(5);
+    pipelineIndex.setDouble(5);
     curIndex = 5;
   }
 
@@ -90,13 +90,13 @@ public class Limelight extends SubsystemBase {
   }
 
   public void nextPipeline() {
-    if (curIndex < pipelineMap.size()) {
-      setPipeline(curIndex + 1);
-      curIndex++;
-    } else {
-      setPipeline(0);
-      curIndex=0;
-    }
+    // if (curIndex < pipelineMap.size()) {
+    //   setPipeline(curIndex + 1);
+    //   curIndex++;
+    // } else {
+    //   setPipeline(0);
+    //   curIndex=0;
+    // }
   }
 
   // returns true if target present and area is over the threshold

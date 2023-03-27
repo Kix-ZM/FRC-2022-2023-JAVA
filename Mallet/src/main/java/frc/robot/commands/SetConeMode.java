@@ -25,7 +25,7 @@ public class SetConeMode extends CommandBase {
     @Override
     public void execute() {
         // sets limelight to look for retroreflective tape
-        m_limelight.setPipeline(0);
+        // m_limelight.setPipeline(0);
         }
 
 

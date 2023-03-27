@@ -1,11 +1,14 @@
 package frc.robot.commands.AutoGroups;
 import frc.robot.subsystems.ExtensionSub;
 import frc.robot.subsystems.PivotSub;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.claw.ClawClose;
+import frc.robot.commands.claw.ClawMove;
 import frc.robot.commands.claw.ClawOpen;
 import frc.robot.commands.pivot.PivotAngle;
+import frc.robot.commands.pivot.PivotMove;
 import frc.robot.commands.schedulers.ClawMoveScheduler;
 import frc.robot.commands.schedulers.PivotMoveScheduler;
 import frc.robot.subsystems.ClawSub;
@@ -20,11 +23,9 @@ public class AutoGroup_MiddleDrop extends SequentialCommandGroup {
         addCommands(
             new ClawClose(m_clawMotor),
             new PivotAngle(m_pivotMotor, 90),
-            new PivotMoveScheduler(m_pivotMotor),
-            new ClawOpen(m_clawMotor),
-            new ClawMoveScheduler(m_clawMotor),
-            new PivotAngle(m_pivotMotor, 20),
-            new PivotMoveScheduler(m_pivotMotor)
+            Commands.race(new PivotMove(m_pivotMotor), new ClawOpen(m_clawMotor)),
+            Commands.race(new ClawMove(m_clawMotor), new PivotAngle(m_pivotMotor, 20)),
+            new PivotMove(m_pivotMotor)
         );
     }
 }
