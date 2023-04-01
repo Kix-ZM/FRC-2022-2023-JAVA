@@ -45,6 +45,10 @@ public class ExtensionSub extends SubsystemBase{
       motor.setInverted(true);
       // motor.setSmartCurrentLimit(10, 100);
       motor.setSmartCurrentLimit(30, 100);
+    } else {
+      motor = null;
+      encoder = null;
+      clampLimit = null;
     }
   }
 
@@ -134,6 +138,7 @@ public class ExtensionSub extends SubsystemBase{
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Extend Current", motor.getOutputCurrent());
+    if (K_ExtSub.isUsingExt)
+      SmartDashboard.putNumber("Extend Current", motor.getOutputCurrent());
   }
 }

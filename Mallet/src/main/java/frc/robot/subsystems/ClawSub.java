@@ -38,6 +38,9 @@ public class ClawSub extends SubsystemBase{
 
       // control grab strength
       motor.setSmartCurrentLimit(8, 100);
+    } else {
+      motor = null;
+      encoder = null;
     }
   }
 
@@ -122,7 +125,8 @@ public class ClawSub extends SubsystemBase{
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
+    if (K_ClawSub.isUsingClaw)
+      SmartDashboard.putNumber("Claw Encoder", encoder.getPosition());
     SmartDashboard.putNumber("Claw Open Position", openPosition);
   }
 }
