@@ -22,7 +22,7 @@ public class PivotUp extends CommandBase{
     // Tells the pivot motor to go up
     @Override
     public void execute() {
-        m_pivot.changeAngle(1);
+        m_pivot.changeAngle(.5);
         m_pivot.moveMotors();
     }
 

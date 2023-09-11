@@ -44,6 +44,9 @@ public final class Constants {
         public static final double calibrateEndingAngle = 90;
         public static final double calibrateAngleEncoderValue = 14.75;
         public static final double pivotSpeed = 4.3;
+
+        public static final int tickPerRev = 42;
+        public static final int gearRatio = 60;
     }   
     
     public static final class K_ClawSub {
